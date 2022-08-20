@@ -112,7 +112,6 @@ onBeforeMount(async () => {
                         <div class="my-4">
                           <strong><kbd>{{ event.id }}</kbd>
                             {{ event.eventCategoryName }}</strong>
-
                         </div>
                       </div>
                     </div>

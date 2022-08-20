@@ -1,10 +1,4 @@
 <script setup>
-import { onBeforeMount } from "vue";
-import { useUsers } from "../stores/users.js";
-
-const userStore = useUsers();
-
-
 </script>
 <template>
   <div>
