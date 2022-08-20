@@ -84,38 +84,41 @@ onBeforeMount(async () => {
             </div>
           </div>
           <!-- eventList -->
-          <div class="panel panel-primary">
-            <div class="panel-body my-5 text-center">
-              <ul class="border list-group">
-                <li class="list-group-item p-4" v-for="(event, index) in eventList" :key="index">
-                  <div class="row row-cols-2 row-cols-md-4">
-                    <div class="col">
-                      <div class="my-4">
-                        <strong><kbd>{{ event.id }}</kbd> {{ event.eventCategoryName }}</strong>
-                        <p class="vrtext-muted card-subtitle mb-2 text-muted">{{ new
-                            Date(event.eventStartTime).toDateString()
-                        }}
-                        </p>
+          <div class="
+           border rounded border-1 p-3">
+            <div class="panel panel-primary">
+              <div class="panel-body my-5 text-center">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item" v-for="(event, index) in eventList" :key="index" >
+                    <div class="row row-cols-2 row-cols-md-3">
+                      <div class="col">
+                        <div class="my-4">
+                          <img src="../assets/testimg.png" class="rounded img-fluid rounded-circle float-start w-25">
+                          <strong>{{ event.bookingName }}</strong>
+                          <p class="text-muted">ตำแหน่ง</p>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="my-4">
+                          <p class="vrtext-muted card-subtitle mb-2 text-muted">{{ new
+                              Date(event.eventStartTime).toDateString()
+                          }}
+                          </p>
+                          <strong></strong>
+                          <p class="text-muted my">เวลา {{ event.eventStartTime }}</p>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="my-4">
+                          <strong><kbd>{{ event.id }}</kbd>
+                            {{ event.eventCategoryName }}</strong>
+
+                        </div>
                       </div>
                     </div>
-                    <div class="col">
-                      <div class="my-4">
-                        <strong>ผู้นัดหมาย</strong>
-                        <p class="text-muted">{{ event.bookingName }}</p>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="my-4">
-                        <strong>เวลา</strong>
-                        <p class="text-muted my">{{ event.eventStartTime }}</p>
-                      </div>
-                    </div>
-                    <div class="col text-center">
-                      <button type="button" class="btn btn-danger my-4">รายละเอียดเพิ่มเติม</button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           <!-- eventList -->
@@ -126,7 +129,7 @@ onBeforeMount(async () => {
 
 </template>
 
-<style scoped>
+<style>
 .list-group {
   max-height: 600px;
   margin-bottom: 10px;

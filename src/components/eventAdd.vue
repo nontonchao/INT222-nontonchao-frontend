@@ -91,7 +91,7 @@ const numberFormat = function (number, width) {
                     <div class="col-md-6 p-5">
                         <div class="form-check" v-for="(cateList, index) in clinic_list" :key="cateList.id">
                             <input v-model="clinicX" @change="getClinic(clinicX)" class="form-check-input" type="radio"
-                                name="flexRadioDefault" checked :value="cateList.eventCategoryName">
+                                name="flexRadioDefault" :value="cateList.eventCategoryName">
                             <label class="form-check-label">
                                 {{ cateList.eventCategoryName }} <small class="text-muted">({{ cateList.eventDuration
                                 }} นาที)</small>
@@ -106,7 +106,7 @@ const numberFormat = function (number, width) {
                     </div>
                 </div>
             </div>
-            <div class="container py-4 py-xl-5">
+            <div class="container py-4 py-xl-5 " v-show="clinicX">
                 <div class="row gy-4 gy-md-0">
                     <div
                         class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center">
@@ -134,7 +134,7 @@ const numberFormat = function (number, width) {
                     </div>
                 </div>
             </div>
-            <div class="container py-4 py-xl-5" style="background: #f5f5f7;">
+            <div class="container py-4 py-xl-5" style="background: #f5f5f7;" v-show="clinicX&&firstname&&lastname&&email" >
                 <div class="row gy-4 gy-md-0">
                     <div class="col-md-6">
                         <input type="datetime-local" v-model="startTime" required :min="getCurrDate()" />

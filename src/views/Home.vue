@@ -11,7 +11,7 @@
                         for<br>Integrated Project Clinics (OASIP)<br></h1>
                     <figure style="margin: 0px;padding: 45px;">
                         <blockquote class="blockquote">
-                            <p class="mb-0 display-6">มีปัญหาปรึกษาใครดี?</p>
+                            <p class="mb-5 display-6">มีปัญหาปรึกษาใครดี?</p>
                         </blockquote>
                         <figcaption class="blockquote-footer" style="font-size: 20px;">ให้ OASIP ช่วยคุณ</figcaption>
                     </figure><button class="btn btn-danger fs-5 me-2 py-2 px-4" type="button"
@@ -33,8 +33,8 @@
                 </div>
                 <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
                     <div class="col">
-                        <div class="text-center d-flex flex-column align-items-center align-items-xl-center"
-                            style="padding: 30px;background: #f5f5f7;">
+                        <div class="text-center d-flex flex-column align-items-center align-items-xl-center border-bottom "
+                            style="padding: 30px;">
                             <div
                                 class="bs-icon-lg bs-icon-rounded bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-3 bs-icon lg">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="text-center d-flex flex-column align-items-center align-items-xl-center"
+                        <div class="text-center d-flex flex-column align-items-center align-items-xl-center border-bottom "
                             style="padding: 30px;">
                             <div
                                 class="bs-icon-lg bs-icon-rounded bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-3 bs-icon lg">
@@ -75,12 +75,12 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="text-center d-flex flex-column align-items-center align-items-xl-center"
-                            style="padding: 30px;background: #f5f5f7;">
+                        <div class="text-center d-flex flex-column align-items-center align-items-xl-center border-bottom "
+                            style="padding: 30px;">
                             <div
                                 class="bs-icon-lg bs-icon-rounded bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-3 bs-icon lg">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
-                                    viewBox="0 0 1 20">
+                                    viewBox="8 1 1 20">
                                     <path
                                         d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z">
                                     </path>
@@ -90,7 +90,7 @@
                                 <h4>แก้ไขนัดหมาย</h4><a href="#">แก้ไขตอนนี้ &gt;</a>
                                 <p
                                     style="padding: 35px;padding-top: 35px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
-                                    หากต้องการแก้ไขการนัดหมายก็สามารถทำได้เองโดยไม่ต้องยุ่งยาก<br></p>
+                                    หากต้องการแก้ไขการนัดหมายก็สามารถทำได้เองโดยไม่ต้องยุ่งยาก<br></p><br>
                             </div>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="col">
                         <div class="text-center d-flex flex-column align-items-center align-items-xl-center"
-                            style="padding: 30px;background: #f5f5f7;">
+                            style="padding: 30px;">
                             <div
                                 class="bs-icon-lg bs-icon-rounded bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-3 bs-icon lg">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
