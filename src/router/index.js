@@ -11,10 +11,11 @@ import AboutUs from "../views/AboutUS.vue";
 import CheckEvent from "../views/CheckEvent.vue";
 import EventCategoryList from "../views/EventCategoryList.vue";
 import ShowUser from "../views/ShowUser.vue";
-import Info from "../views/Info.vue";
+import EventInfo from "../views/EventInfo.vue";
 import AddUser from "../views/AddUser.vue";
 import Login from "../views/Login.vue";
-
+import UserInfo from "../views/UserInfo.vue";
+import EditEvent from "../views/EditEvent.vue";
 
 
 
@@ -57,9 +58,9 @@ const routes = [{
     component: ShowUser,
 },
 {
-    path: "/Info",
-    name: "Info",
-    component: Info,
+    path: "/EventInfo/:event_id",
+    name: "EventInfo",
+    component: EventInfo,
 },
 {
     path: "/add-user",
@@ -71,6 +72,22 @@ const routes = [{
     name: "Login",
     component: Login,
 },
+{
+    path: "/login",
+    name: "Login",
+    component: Login,
+},
+{
+    path: "/UserInfo/:user_id",
+    name: "UserInfo",
+    component: UserInfo,
+},
+{
+    path: "/edit-event",
+    name: "EditEvent",
+    component: EditEvent,
+},
+
 ];
 
 

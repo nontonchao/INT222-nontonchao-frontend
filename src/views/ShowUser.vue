@@ -1,9 +1,11 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import { useUsers } from "../stores/users.js";
+import { useRouter } from "vue-router";
 
 const users = ref([]);
 const userStore = useUsers();
+const router = useRouter();
 
 onBeforeMount(async () => {
   users.value = await userStore.fetchUsers();
@@ -22,23 +24,60 @@ onBeforeMount(async () => {
             <a class="navbar-brand d-flex align-items-center" href="#"
               ><span class="fw-bold">ผู้ใช้ทั้งหมด</span></a
             >
-            <div class="collapse navbar-collapse" id="navcol-2">
-              <ul class="navbar-nav ms-auto">
-                <!-- <li class="nav-item"><a class="nav-link active" href="#">กำลังจะมาถึง</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">กำลังดำเนินอยู่</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">ที่ผ่านมา</a></li> -->
-              </ul>
-            </div>
           </div>
         </nav>
       </section>
-      <h1>Ny TEST</h1>
-      <ul v-for="(user, index) in users" :key="user.user_id">
-        <li>{{ user.user_id }}</li>
-        <li>{{ user.name }}</li>
-        <li>{{ user.email }}</li>
-        <li>{{ user.role }}</li>
-      </ul>
+      <div class="container pt-5">
+        <div>
+          <!-- userList -->
+          <div class="border rounded border-1 p-3">
+            <div class="panel panel-primary">
+              <div class="panel-body my-5 text-center">
+                <ul class="list-group list-group-flush">
+                  <a>
+                    <li
+                      class="list-group-item"
+                      v-for="(user, index) in users"
+                      :key="user.user_id"
+                      @click="router.push(`/UserInfo/${user.id}`)"
+                    >
+                      <div class="row row-cols-2 row-cols-md-3">
+                        <div class="col">
+                          <div class="my-4">
+                            <img
+                              src="../assets/testimg.png"
+                              class="rounded img-fluid rounded-circle float-start w-25"
+                            />
+                            <strong> {{ user.name }} </strong>
+                            <p class="text-muted"></p>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="my-4">
+                            <p
+                              class="vrtext-muted card-subtitle mb-2 text-muted"
+                            >
+                              {{}}
+                            </p>
+                            <strong>อีเมล{{ user.user_id }}</strong>
+                            <p class="text-muted my">{{ user.email }}</p>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="my-4">
+                            <strong>{{ user.role }}</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </li></a
+                  >
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- eventList -->
+        </div>
+      </div>
     </section>
   </div>
 </template>

@@ -30,9 +30,38 @@ export const useUsers = defineStore("users", () => {
     }
   };
 
+  const getUserById =  async (id) => {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}users/${id}`, {
+      method: "GET",
+    });
+    return await res.json();
+  };
+
+  const validateName = (firstname, lastname) => {
+    let name = firstname + " " + lastname
+    if(name.length!=0&&name.length<100){
+      return true;
+    } else {
+      return false;
+    }
+    return false;
+  };
+
+  const validateEmail = (email) => {
+    if(email.trim().length!=0&&email.trim().length<100&&/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(email.trim()) ) {
+      return true;
+    } else {
+      return false;
+    }
+    return false;
+  };
+
   return {
     fetchUsers,
     userRegister,
+    getUserById,
+    validateName,
+    validateEmail
   };
 });
 

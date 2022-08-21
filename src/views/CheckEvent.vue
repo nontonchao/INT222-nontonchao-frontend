@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
+import { useRouter } from 'vue-router'
 import { useEvents } from "../stores/events.js";
 import { useEventCategory } from "../stores/eventCategory.js";
 
@@ -7,6 +8,8 @@ const eventCateStore = useEventCategory();
 const eventStore = useEvents();
 const eventList = ref({});
 const eventCateList = ref([]);
+const router = useRouter();
+
 
 onBeforeMount(async () => {
   eventList.value = await eventStore.fetchEvents();
@@ -89,7 +92,7 @@ onBeforeMount(async () => {
             <div class="panel panel-primary">
               <div class="panel-body my-5 text-center">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item" v-for="(event, index) in eventList" :key="index" >
+                  <li class="list-group-item" v-for="(event, index) in eventList" :key="index" @click="router.push(`/Eventinfo/${event.id}`)" >
                     <div class="row row-cols-2 row-cols-md-3">
                       <div class="col">
                         <div class="my-4">
@@ -136,4 +139,5 @@ onBeforeMount(async () => {
   -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
 }
+
 </style>

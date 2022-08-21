@@ -1,4 +1,19 @@
 <script setup>
+import { onBeforeMount, ref } from 'vue';
+import { useUsers } from '../stores/users.js';
+import { useRoute } from 'vue-router';
+
+const userStore = useUsers();
+const route = useRoute();
+const thisUser = ref({});
+
+
+onBeforeMount(async () => {
+  thisUser.value = await userStore.getUserById(route.params.user_id);
+});
+
+
+
 </script>
 <template>
   <div>
@@ -10,7 +25,7 @@
         >
           <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#"
-              ><span class="fw-bold">ข้อมูลการนัดหมาย</span></a
+              ><span class="fw-bold">ข้อมูลผู้ใช้งาน</span></a
             >
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto"></ul>
@@ -20,7 +35,7 @@
       </section>
       <div class="container">
         <h1 class="fw-bold mb-4 display-10" style="margin: 100px">
-          ข้อมูลส่วนตัว
+          OASIP ID
         </h1>
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
@@ -36,18 +51,18 @@
                 </div>
                 <div>
                   <p class="px-4 fw-bold text-primary mb-0">ชื่อ</p>
-                  <p class="px-4 text-muted mb-5">ไดโนมู่</p>
+                  <p class="px-4 text-muted mb-5">{{thisUser.name}}</p>
                   <p class="px-4 fw-bold text-primary mb-0">อีเมล</p>
-                  <p class="px-4 text-muted mb-0">ไดโนมู่แอดจีเมลดอดคอม</p>
+                  <p class="px-4 text-muted mb-0">{{thisUser.email}}</p>
                 </div>
               </div>
             </div>
             <div class="col-md-6 col-lg-5 col-xl-4 m-5 p-5">
               <div>
-                <p class="px-4 fw-bold text-primary mb-0">คลินิก</p>
-                <p class="px-4 text-muted mb-5">โอฬารคลินิก</p>
-                <p class="px-4 fw-bold text-primary mb-0">วันที่</p>
-                <p class="px-4 text-muted mb-0">13 มิถุนา 2566</p>
+                <p class="px-4 fw-bold text-primary mb-0">วันที่สร้างไอดี</p>
+                <p class="px-4 text-muted mb-5">{{thisUser.onCreated}}</p>
+                <p class="px-4 fw-bold text-primary mb-0">อัพเดทล่าสุดเมื่อ</p>
+                <p class="px-4 text-muted mb-0">{{thisUser.onUpdated}}</p>
               </div>
             </div>
           </div>

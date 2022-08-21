@@ -45,7 +45,9 @@
                                 </svg>
                             </div>
                             <div class="px-3">
-                                <h4>จองการนัดหมาย</h4><a href="#">จองตอนนี้ &gt;</a>
+                                <h4>จองการนัดหมาย</h4><router-link :to="{
+                                    name: 'AddEvent',
+                                }">จองตอนนี้ &gt;</router-link>
                                 <p
                                     style="padding: 35px;padding-top: 35px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                     สามารถจองการนัดหมายได้อย่างสะดวก และง่ายดาย
@@ -66,7 +68,9 @@
                                 </svg>
                             </div>
                             <div class="px-3">
-                                <h4>ตรวจสอบนัดหมาย</h4><a href="#">ตรวจสอบตอนนี้ &gt;</a>
+                                <h4>ตรวจสอบนัดหมาย</h4><router-link :to="{
+                                    name: 'CheckEvent',
+                                }">ตรวจสอบตอนนี้ &gt;</router-link>
                                 <p
                                     style="padding: 35px;padding-top: 35px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                     สามารถตรวจสอบการนัดหมายได้ ไม่ว่าจะเป็นการตรวจสอบทั้งหมด การตรวจสอบ / ค้นหาจาก
@@ -149,7 +153,9 @@
                                 </svg>
                             </div>
                             <div class="px-3">
-                                <h4>แก้ไขหมวดหมู่</h4><a href="#">แก้ไขตอนนี้ &gt;</a>
+                                <h4>แก้ไขหมวดหมู่</h4><router-link :to="{
+                                    name: 'EventCategoryList',
+                                }">แก้ไขตอนนี้ &gt;</router-link>
                                 <p
                                     style="--bs-primary: #dc3545;--bs-primary-rgb: 220,53,69;padding: 35px;padding-top: 35px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;">
                                     สามารถแก้ไขชื่อหมวดหมู่ และระยะเวลาในการนัดหมายได้ตามที่ต้องการ<br></p>

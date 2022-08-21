@@ -60,8 +60,8 @@ const hello = () => {
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <router-link class="routerLink" :to="{
-                                    name: 'Info',
-                                }">Info</router-link>
+                                    name: 'EditEvent',
+                                }">EditEvent</router-link>
                             </a>
                         </li>
                         <li class="nav-item d-none d-xs-block d-md-block">

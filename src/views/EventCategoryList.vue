@@ -1,14 +1,18 @@
 <script setup>
 import { onBeforeMount, ref } from "vue";
 import { useEventCategory } from "../stores/eventCategory.js";
+import { useRouter } from "vue-router";
 
 const EventCateStore = useEventCategory();
 const cateList = ref([]);
+const selectedCate = ref({});
 
 onBeforeMount(async () => {
   await EventCateStore.getEventCategoryList();
   cateList.value = EventCateStore.eventCategoryList;
 });
+
+
 </script>
 
 <template>
@@ -40,7 +44,7 @@ onBeforeMount(async () => {
       <section class="position-relative py-4 py-xl-5">
         <div class="container py-4 py-xl-5">
           <div class="row gy-4 row-cols-2 row-cols-md-5">
-            <div class="col " v-for="(cate, index) in cateList" :key="index">
+            <div class="col" v-for="(cate, index) in cateList" :key="index" >
               <div
                 class="text-center d-flex flex-column justify-content-center align-items-center py-4"
               >
@@ -50,59 +54,111 @@ onBeforeMount(async () => {
                   <img
                     class="card-img-top w-auto d-block fit-cover rounded"
                     style="height: 200px"
-                    src="../assets/testimg.png" 
+                    src="../assets/testimg.png"
                   />
                 </div>
                 <div class="px-3 py-5">
-                  <p class="fw-bold mb-0">{{ cate.eventCategoryName }}</p>
-                  <hr>                  
+                  <p class="fw-bold mb-0" >{{ cate.eventCategoryName }}</p>
+                  <hr />
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <section class="position-relative py-4 py-xl-5"></section>
+        <!-- ก่อนกดแก้ไข -->
+        <section class="position-relative"></section>
         <div class="container position-relative">
-          <div class="row d-flex justify-content-center">
-            <div class="col-md-6 col-lg-5 col-xl-4">
-              <div></div>
+          <div class="row d-flex justify-content-left">
+            <div class="m-4 col-md-5 col-lg-2 col-xl-2">
+              <h4 class="fw-bold">ชื่อคลินิก</h4>
+              <p>อาจารย์ที่ปรึกษา: {{}}</p>
+              <p>ระยะเวลา: {{}}</p>
+              <p>คำอธิบาย: {{}}</p>
             </div>
           </div>
+        </div>
+        <div class="d-flex flex-row-reverse bd-highlight">
+          <button
+            class="btn btn-danger btn-sm"
+            type="button"
+            style="--bs-btn-border-radius: 1rem"
+          >
+            แก้ไข
+          </button>
         </div>
       </section>
+      <!-- ก่อนกดแก้ไข -->
 
-      <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
-        <div class="col" v-for="(cate, index) in cateList" :key="index">
-          <div class="card">
-            <img
-              class="card-img-top w-100 d-block fit-cover"
-              style="height: 200px"
-              src="../assets/testimg.png"
-            />
-            <div class="card-body p-4">
-              <p class="text-primary card-text mb-0">
-                {{ cate.eventDuration }} นาที
-              </p>
-              <h4 class="card-title">{{ cate.eventCategoryName }}</h4>
-              <p class="card-text">{{ cate.eventCategoryDescription }}</p>
-              <div class="d-flex">
-                <img
-                  class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                  width="50"
-                  height="50"
-                  src="../assets/testimg.png"
-                />
-                <div>
-                  <p class="fw-bold mb-0">อาจารย์ที่ปรึกษา</p>
-                  <p class="text-muted mb-0">มานพ งบน้อย</p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <!-- หลังกดแก้ไข -->
+      <div class="row row-cols-2">
+        <div class="form-floating mb-3 col">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingInput"
+            placeholder="ชื่อคลินิก"
+          />
+          <label for="floatingInput">ชื่อคลินิก</label>
+        </div>
+        <!-- div col เปล่าหลอก ๆ -->
+        <div class="col"></div>
+        <div class="form-floating mb-3">
+          <p>อาจารย์ที่ปรึกษา: {{}}</p>
+          <!-- div col เปล่าหลอก ๆ -->
+        </div>
+        <div class="col"></div>
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingInput"
+            placeholder="ระยะเวลา"
+          />
+          <label for="floatingInput">ระยะเวลา</label>
+          <!-- div col เปล่าหลอก ๆ -->
+        </div>
+        <div class="col"></div>
+        <div class="form-floating mb-3">
+          <textarea
+            class="form-control"
+            placeholder="คำอธิบาย"
+            id="floatingTextarea"
+            style="height: 100px"
+          ></textarea>
+          <label for="floatingTextarea">คำอธิบาย</label>
         </div>
       </div>
+      <div class="d-flex flex-row-reverse bd-highlight">
+        <button
+          class="btn btn-danger btn-sm"
+          type="button"
+          style="--bs-btn-border-radius: 1rem"
+        >
+          ยกเลิก
+        </button>
+        <button
+          class="btn btn-primary btn-sm mx-4"
+          type="button"
+          style="--bs-btn-border-radius: 1rem"
+        >
+          ยืนยัน
+        </button>
+      </div>
+      <!-- หลังกดแก้ไข -->
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.form-select,
+.form-control {
+  border: none;
+  border-bottom: 1px solid #000000;
+  border-radius: 5;
+}
+.form-select:focus,
+.form-control:focus {
+  box-shadow: none;
+  border-bottom-color: #2196f3;
+}
+</style>

@@ -1,76 +1,4 @@
-<script setup>
-import { onBeforeMount, ref } from "vue";
-import { useEvents } from "../stores/events.js";
-import { useUsers } from "../stores/users";
-
-const props = defineProps({
-  clinic_list: {
-    type: Object,
-    require: true,
-    default: {},
-  },
-});
-
-const eventStore = useEvents();
-const userStore = useUsers();
-const name = ref("");
-const firstname = ref("");
-const lastname = ref("");
-const email = ref("");
-const clinicX = ref("");
-const note = ref("");
-const startTime = ref("");
-const toSend = ref("");
-const selectClinic = ref({});
-
-const getCurrDate = () => {
-  const today = new Date();
-  return `${today.getFullYear()}-${numberFormat(
-    new Date(today.toString()).getMonth() + 1,
-    2
-  )}-${numberFormat(new Date(today.toString()).getDate(), 2)}T${today
-    .toLocaleTimeString("it-IT")
-    .substring(0, 5)}`;
-};
-
-const getClinic = (clinicName) => {
-  selectClinic.value = props.clinic_list.filter(
-    (x) => x.eventCategoryName == clinicName
-  )[0];
-  console.log(selectClinic.value);
-};
-
-const addEvent = async () => {
-  toSend.value = {
-    // bookingName: name.value,
-    bookingName: firstname.value.trim() + " " + lastname.value.trim(),
-    bookingEmail: email.value.trim(),
-    eventStartTime: new Date(startTime.value)
-      .toISOString()
-      .replace(".000Z", "Z"),
-    eventDuration: JSON.stringify(
-      props.clinic_list.filter((x) => x.eventCategoryName === clinicX.value)[0]
-        .eventDuration
-    ),
-    eventNotes: note.value,
-    eventCategory: {
-      id: JSON.stringify(
-        props.clinic_list.filter(
-          (x) => x.eventCategoryName === clinicX.value
-        )[0].id
-      ),
-    },
-  };
-  eventStore.addEvent(toSend.value);
-  if (eventStore.statusCode == 200) {
-    console.log("event added :)");
-  }
-};
-
-const numberFormat = function (number, width) {
-  return new Array(+width + 1 - (number + "").length).join("0") + number;
-};
-</script>
+<script setup></script>
 
 <template>
   <div>
@@ -82,12 +10,11 @@ const numberFormat = function (number, width) {
             style="margin: 60px"
           >
             <div style="max-width: 350px">
-              <h2 class="text-uppercase fw-bold">จองนัดหมาย</h2>
+              <h2 class="text-uppercase fw-bold">แก้ไขการนัดหมาย</h2>
               <p class="my-3">
-                คุณสามารถจองนัดหมายตามขั้นตอนดังนี้<br />1.
-                เลือกคลินิกที่ต้องการ<br />2. กรอกข้อมูลผู้นัดหมาย<br />3.
-                เลือกวันและเวลาที่สะดวก<br />4.
-                ยินดีด้วยการนัดหมายของคุณสำเร็จแล้ว!
+                คุณสามารถแก้นัดหมายของคุณได้ เพียงแค่ 1 ขั้นตอน เลือกวัน
+                และช่วงเวลาที่ต้องการนัดหมายใหม่
+                หากคุณต้องการแก้ไขรายละเอียดก็สามารถทำได้เช่นกัน
               </p>
             </div>
           </div>
@@ -96,24 +23,15 @@ const numberFormat = function (number, width) {
       <div class="container py-4 py-xl-5" style="background: #f5f5f7">
         <div class="row gy-4 gy-md-0">
           <div class="col-md-6 p-5">
-            <div
-              class="form-check"
-              v-for="(cateList, index) in clinic_list"
-              :key="cateList.id"
-            >
+            <div class="form-check">
               <input
-                v-model="clinicX"
-                @change="getClinic(clinicX)"
                 class="form-check-input"
                 type="radio"
                 name="flexRadioDefault"
-                :value="cateList.eventCategoryName"
               />
               <label class="form-check-label">
-                {{ cateList.eventCategoryName }}
-                <small class="text-muted"
-                  >({{ cateList.eventDuration }} นาที)</small
-                >
+                {{}}
+                <small class="text-muted">{{}} นาที)</small>
               </label>
             </div>
           </div>
@@ -125,7 +43,7 @@ const numberFormat = function (number, width) {
           </div>
         </div>
       </div>
-      <div class="container py-4 py-xl-5" v-show="clinicX">
+      <div class="container py-4 py-xl-5" >
         <div class="row gy-4 gy-md-0">
           <div
             class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center"
@@ -172,25 +90,11 @@ const numberFormat = function (number, width) {
           </div>
         </div>
       </div>
-      <div
-        class="container py-4 py-xl-5"
-        style="background: #f5f5f7"
-        v-show="
-          clinicX &&
-          userStore.validateName(firstname.trim(), lastname.trim()) &&
-          userStore.validateName(email.trim())
-        "
-      >
+      <div class="container py-4 py-xl-5" style="background: #f5f5f7">
         <div class="row gy-4 gy-md-0">
           <div class="col-md-6">
             <div class="m-5">
-              <input
-                type="datetime-local"
-                class="form-control"
-                v-model="startTime"
-                required
-                :min="getCurrDate()"
-              />
+              <input type="datetime-local" class="form-control" />
             </div>
             <div>
               <div class="container text-center">
@@ -237,12 +141,11 @@ const numberFormat = function (number, width) {
             </div>
           </div>
         </div>
-        <button class="btn btn-danger" type="button" @click="addEvent()">
-          ยืนยันการจอง
-        </button>
+        <button class="btn btn-danger" type="button">ยืนยันการจอง</button>
       </div>
     </section>
   </div>
+  >
 </template>
 
 <style scoped></style>
