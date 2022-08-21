@@ -17,10 +17,6 @@ import Login from "../views/Login.vue";
 import UserInfo from "../views/UserInfo.vue";
 import EditEvent from "../views/EditEvent.vue";
 
-
-
-
-
 const history = createWebHistory('/sy1/');
 const routes = [{
     path: "/",
@@ -83,7 +79,7 @@ const routes = [{
     component: UserInfo,
 },
 {
-    path: "/edit-event",
+    path: "/EditEvent/:event_id",
     name: "EditEvent",
     component: EditEvent,
 },

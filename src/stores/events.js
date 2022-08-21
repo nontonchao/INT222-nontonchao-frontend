@@ -3,8 +3,7 @@ import { ref } from "vue";
 
 export const useEvents = defineStore("events", () => {
   const events = ref([]);
-  const addCode = ref(0);
-  const editCode = ref(0);
+
   const addEvent = async (event) => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}events`, {
       method: "POST",
@@ -14,12 +13,12 @@ export const useEvents = defineStore("events", () => {
       body: JSON.stringify(event),
     });
     if (res.status == 201) {
-      addCode.value = res.status;
+      alert("event added");
       await fetchEvents();
     } else if (res.status == 400) {
-      addCode.value = res.status;
+      alert("error while adding 400");
     } else {
-      console.log("error while adding");
+      alert("error while adding");
     }
   };
 
@@ -30,7 +29,7 @@ export const useEvents = defineStore("events", () => {
     return await res.json();
   };
 
-  const removeEvent = async (eventId, obj) => {
+  const removeEvent = async (eventId) => {
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL}events/delete/${eventId}`,
       {
@@ -38,37 +37,28 @@ export const useEvents = defineStore("events", () => {
       }
     );
     if (res.status === 200) {
-      const eventIndex = obj.findIndex((event) => event.id === eventId);
-      obj.splice(eventIndex, 1);
-      return obj;
+      alert("event removed");
     } else {
-      console.log("error while delete || error :" + statusMessage.value);
+      alert("error while delete || error :" + statusMessage.value);
     }
   };
 
-  const editEvent = async (editEvent, obj) => {
+  const editEvent = async (eventId, editEvent) => {
     const res = await fetch(
-      `${import.meta.env.VITE_BASE_URL}events/${editEvent.eventId}`,
+      `${import.meta.env.VITE_BASE_URL}events/${eventId}`,
       {
         method: "PUT",
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify(editEvent.toUpdate),
+        body: JSON.stringify(editEvent),
       }
     );
     if (res.status == 200) {
-      editCode.value = res.status;
-      const eventIndex = obj.findIndex(
-        (event) => event.id === editEvent.eventId
-      );
-      obj[eventIndex].eventStartTime = editEvent.toUpdate.eventStartTime;
-      obj[eventIndex].eventNotes = editEvent.toUpdate.eventNotes;
-      return obj;
+      alert("event edited");
     } else if (res.status == 400) {
-      editCode.value = res.status;
     } else {
-      console.log("error while editing");
+      alert("error while editing");
     }
   };
 
@@ -95,8 +85,6 @@ export const useEvents = defineStore("events", () => {
     getEventById,
     addEvent,
     editEvent,
-    addCode,
-    editCode,
   };
 });
 

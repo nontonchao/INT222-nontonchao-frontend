@@ -11,6 +11,42 @@ const props = defineProps({
   },
 });
 
+var d = new Date();
+d.setHours(0, 0, 0, 0);
+
+const getTime = (time) => {
+  return (
+    String(time.getHours()).padStart(2, "0") +
+    ":" +
+    String(time.getMinutes()).padStart(2, "0")
+  );
+};
+
+function addMinutes(date, minutes) {
+  return new Date(date.getTime() + minutes * 60000);
+}
+
+const timeTable = ref([]);
+
+const generateTimeSlot = (eventDuration) => {
+  timeTable.value.length = 0;
+  d.setHours(0, 0, 0, 0);
+  for (let i = 0; i < 1440 / (eventDuration + 5); i++) {
+    timeTable.value.push(
+      getTime(d) + " - " + getTime((d = addMinutes(d, eventDuration)))
+    );
+    d = addMinutes(d, 5);
+  }
+};
+
+const activeClick = (id) => {
+  if (id === activeIndex.value) {
+    return "btn btn-outline-danger btn-sm m-2 active";
+  } else {
+    return "btn btn-outline-danger btn-sm m-2";
+  }
+};
+
 const eventStore = useEvents();
 const userStore = useUsers();
 const name = ref("");
@@ -20,8 +56,10 @@ const email = ref("");
 const clinicX = ref("");
 const note = ref("");
 const startTime = ref("");
+const time = ref("");
 const toSend = ref("");
 const selectClinic = ref({});
+const activeIndex = ref();
 
 const getCurrDate = () => {
   const today = new Date();
@@ -37,7 +75,6 @@ const getClinic = (clinicName) => {
   selectClinic.value = props.clinic_list.filter(
     (x) => x.eventCategoryName == clinicName
   )[0];
-  console.log(selectClinic.value);
 };
 
 const addEvent = async () => {
@@ -45,9 +82,14 @@ const addEvent = async () => {
     // bookingName: name.value,
     bookingName: firstname.value.trim() + " " + lastname.value.trim(),
     bookingEmail: email.value.trim(),
-    eventStartTime: new Date(startTime.value)
-      .toISOString()
-      .replace(".000Z", "Z"),
+    eventStartTime:
+      new Date(startTime.value)
+        .toISOString()
+        .replace(".000Z", "Z")
+        .split("T")[0] +
+      "T" +
+      time.value +
+      ":00Z",
     eventDuration: JSON.stringify(
       props.clinic_list.filter((x) => x.eventCategoryName === clinicX.value)[0]
         .eventDuration
@@ -69,6 +111,17 @@ const addEvent = async () => {
 
 const numberFormat = function (number, width) {
   return new Array(+width + 1 - (number + "").length).join("0") + number;
+};
+
+const emailErr = ref(0);
+const ValidateEmail = (mail) => {
+  return mail == ""
+    ? (emailErr.value = 0)
+    : /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(
+        mail
+      )
+    ? (emailErr.value = 1)
+    : (emailErr.value = 2);
 };
 </script>
 
@@ -103,9 +156,13 @@ const numberFormat = function (number, width) {
             >
               <input
                 v-model="clinicX"
-                @change="getClinic(clinicX)"
+                @change="
+                  getClinic(clinicX);
+                  generateTimeSlot(cateList.eventDuration);
+                "
                 class="form-check-input"
                 type="radio"
+                required
                 name="flexRadioDefault"
                 :value="cateList.eventCategoryName"
               />
@@ -143,13 +200,24 @@ const numberFormat = function (number, width) {
                     type="text"
                     class="form-control"
                     placeholder="ชื่อ"
-                    maxlength="50"
+                    maxlength="100"
+                    required
                     v-model="firstname"
                   />
+                  <div class="text-wrap">
+                    <p
+                      class="fs-6 text-danger text-right"
+                      v-show="firstname.length == 100"
+                    >
+                      ชื่อไม่เกิน 100 ตัวอักษร
+                    </p>
+                  </div>
                 </div>
+
                 <div class="col">
                   <input
                     type="text"
+                    required
                     class="form-control"
                     placeholder="นามสกุล"
                     maxlength="50"
@@ -161,11 +229,17 @@ const numberFormat = function (number, width) {
                 <div class="col">
                   <input
                     type="text"
+                    required
+                    minlength="1"
+                    maxlength="100"
+                    @keyup="ValidateEmail(email)"
                     class="form-control mt-3"
                     placeholder="อีเมล"
-                    maxlength="50"
                     v-model="email"
                   />
+                  <p class="fs-6 text-danger text-right" v-if="emailErr == 2">
+                    กรุณาใส่อีเมลให้ถูกต้อง
+                  </p>
                 </div>
               </div>
             </form>
@@ -175,17 +249,13 @@ const numberFormat = function (number, width) {
       <div
         class="container py-4 py-xl-5"
         style="background: #f5f5f7"
-        v-show="
-          clinicX &&
-          userStore.validateName(firstname.trim(), lastname.trim()) &&
-          userStore.validateName(email.trim())
-        "
+        v-show="clinicX && firstname != 0 && lastname != 0 && emailErr == 1"
       >
         <div class="row gy-4 gy-md-0">
           <div class="col-md-6">
             <div class="m-5">
               <input
-                type="datetime-local"
+                type="date"
                 class="form-control"
                 v-model="startTime"
                 required
@@ -193,39 +263,35 @@ const numberFormat = function (number, width) {
               />
             </div>
             <div>
-              <div class="container text-center">
-                <div class="row row-cols-6">
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger btn-sm m-2"
-                  >
-                    00:00-00:15
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger btn-sm m-2"
-                  >
-                    Column
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger btn-sm m-2"
-                  >
-                    Column
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger btn-sm m-2"
-                  >
-                    Column
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger btn-sm m-2"
-                  >
-                    Column
-                  </button>
+              <!-- 1440 = นาทีใน 1 วัน ต้องเอา duration ของ category นั้นๆมา + 5 นาทีแล้วหาร จะได้สลอตเวลามา -->
+              <div class="container text-center" v-show="startTime.length > 0">
+                <div class="panel-body my-5 text-center">
+                  <div class="row row-cols-4 list-group list-group-item">
+                    <button
+                      type="button"
+                      v-for="(x, index) in timeTable"
+                      :key="index"
+                      @click="
+                        time = timeTable[index].split('-')[0].trim();
+                        activeIndex = index;
+                        activeClick(index);
+                      "
+                      :class="activeClick(index)"
+                      :activeIndex="index"
+                    >
+                      {{ x }}
+                    </button>
+                  </div>
                 </div>
+              </div>
+              <div class="col m-5">
+                <textarea
+                  rows="4"
+                  class="form-control mt-3"
+                  placeholder="อยากบอกอะไรกับที่ปรึกษาไหม?"
+                  maxlength="300"
+                  v-model="note"
+                />
               </div>
             </div>
             <div class="p-xl-5 m-xl-5"></div>
@@ -237,9 +303,16 @@ const numberFormat = function (number, width) {
             </div>
           </div>
         </div>
-        <button class="btn btn-danger" type="button" @click="addEvent()">
-          ยืนยันการจอง
-        </button>
+        <div class="d-flex flex-row-reverse bd-highlight px-5">
+          <button
+            class="btn btn-danger btn-sm"
+            type="button"
+            style="--bs-btn-border-radius: 1rem"
+            @click="addEvent()"
+          >
+            ยืนยันการจอง
+          </button>
+        </div>
       </div>
     </section>
   </div>

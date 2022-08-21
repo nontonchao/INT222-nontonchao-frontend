@@ -10,6 +10,11 @@ const router = useRouter();
 onBeforeMount(async () => {
   users.value = await userStore.fetchUsers();
 });
+
+
+console.log(userStore.validateEmail('poom@example.com'))
+
+
 </script>
 
 <template>
@@ -36,7 +41,7 @@ onBeforeMount(async () => {
                 <ul class="list-group list-group-flush">
                   <a>
                     <li
-                      class="list-group-item"
+                      class="list-group-item hover"
                       v-for="(user, index) in users"
                       :key="user.user_id"
                       @click="router.push(`/UserInfo/${user.id}`)"
@@ -82,4 +87,9 @@ onBeforeMount(async () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.hover:hover {
+  background-color: darkgray;
+  cursor: pointer;
+}
+</style>

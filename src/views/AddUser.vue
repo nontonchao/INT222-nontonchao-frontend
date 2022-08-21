@@ -11,11 +11,39 @@ const role_ = ref("นักศึกษา");
 
 const register = async () => {
   await userStore.userRegister({
-    name: firstname.value + " " + lastname.value,
-    email: email_.value,
+    name: firstname.value.trim() + " " + lastname.value.trim(),
+    email: email_.value.trim(),
     role: role_.value == "นักศึกษา" ? "student" : "lecturer",
   });
 };
+
+const emailStatus = ref(2);
+const validateEmail = (email) => {
+  if (
+    email.length != 0 &&
+    email.length < 100 &&
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(
+      email
+    )
+  ) {
+    emailStatus.value = 1
+    return true;
+  } else {
+    emailStatus.value = 0
+    return false;
+  }
+  emailStatus.value = 0
+  return false;
+};
+
+const clearForm = () => {
+  firstname.value = "";
+  lastname.value = "";
+  email_.value = "";
+  role_.value = "นักศึกษา";
+  emailStatus.value = 2
+}
+
 </script>
 
 <template>
@@ -56,6 +84,26 @@ const register = async () => {
             </div>
           </div>
         </nav>
+
+        <!-- modal noti -->
+        <section class="border bottom-dark" style="background: #0071e3">
+          <nav class="navbar navbar-light" style="margin: 2px">
+            <div class="px-5 container align-items-center">
+              <h6 class="fw-bold px-5" style="color: #ffffff">
+                สร้าง OASIP ID ของคุณเรียบร้อยแล้ว
+              </h6>
+              <ul class="navbar-nav ms-auto">
+                <button
+                  type="button"
+                  class="btn-close px-5"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </ul>
+            </div>
+          </nav>
+        </section>
+        <!-- modal noti -->
       </section>
       <section class="container py-4 py-xl-5">
         <div class="row mb-5 p-4 p-lg-5">
@@ -89,9 +137,12 @@ const register = async () => {
                             <input
                               v-model="firstname"
                               class="form-control"
+                              required
                               type="text"
                               id="fname"
                               name="name"
+                              minlength="1"
+                              maxlength="50"
                               placeholder="ชื่อ"
                             />
                           </div>
@@ -99,9 +150,12 @@ const register = async () => {
                             <input
                               v-model="lastname"
                               class="form-control"
+                              required
                               type="text"
                               id="lname"
                               name="lastname"
+                              minlength="1"
+                              maxlength="50"
                               placeholder="นามสกุล"
                             />
                           </div>
@@ -111,17 +165,22 @@ const register = async () => {
                         <input
                           v-model="email_"
                           class="form-control"
+                          required
                           type="email"
                           id="email-2"
                           name="email"
+                          minlength="1"
+                          maxlength="50"
                           placeholder="อีเมล"
+                          @change="validateEmail(email_)"
                         />
+                        <small class="text-danger" v-if="emailStatus==0">*โปรดใส่ Email ที่ถูกต้อง</small>
                       </div>
 
                       <hr />
                       <div class="mt-5 mb-3">
                         <input
-                          class="form-control"
+                          class="form-control "
                           type="text"
                           id="password"
                           name="password"
@@ -130,7 +189,7 @@ const register = async () => {
                       </div>
                       <div class="mb-5">
                         <input
-                          class="form-control"
+                          class="form-control "
                           type="text"
                           id="Cpassword"
                           name="Cpassword"
@@ -143,6 +202,7 @@ const register = async () => {
                           class="btn btn-danger btn-sm mx-4"
                           type="button"
                           style="--bs-btn-border-radius: 1rem"
+                          :disabled="!(firstname!=0&&lastname!=0&&email_!=0&&validateEmail(email_))"
                         >
                           สร้าง ID
                         </button>

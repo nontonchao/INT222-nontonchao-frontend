@@ -23,47 +23,47 @@ const hello = () => {
                                 </svg></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="javascript:;">
                                 <router-link class="routerLink" :to="{
                                     name: 'Home',
                                 }">หน้าหลัก</router-link>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="javascript:;">
                                 <router-link class="routerLink" :to="{
                                     name: 'CheckEvent',
                                 }">ตรวจสอบนัดหมาย</router-link>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="javascript:;">
                                 <router-link class="routerLink" :to="{
                                     name: 'EventCategoryList',
                                 }">คลินิก</router-link>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="javascript:;">
                                 <router-link class="routerLink" :to="{
                                     name: 'AboutUs',
                                 }">เกี่ยวกับเรา</router-link>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <router-link class="routerLink" :to="{
+                              <a class="nav-link" href="javascript:;">
+                              <router-link class="routerLink" :to="{
                                     name: 'ShowUser',
-                                }">show user</router-link>
-                            </a>
+                                }">show user
+                            </router-link></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="javascript:;">
                                 <router-link class="routerLink" :to="{
                                     name: 'EditEvent',
                                 }">EditEvent</router-link>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item d-none d-xs-block d-md-block">
                             <router-link class="routerLink" :to="{
                                 name: 'Login',
