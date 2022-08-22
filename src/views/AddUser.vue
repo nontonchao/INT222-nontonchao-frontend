@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from "vue";
 import { useUsers } from "../stores/users.js";
+import { useRouter } from "vue-router";
 
 const userStore = useUsers();
+const router = useRouter();
 
 const firstname = ref("");
 const lastname = ref("");
@@ -26,13 +28,13 @@ const validateEmail = (email) => {
       email
     )
   ) {
-    emailStatus.value = 1
+    emailStatus.value = 1;
     return true;
   } else {
-    emailStatus.value = 0
+    emailStatus.value = 0;
     return false;
   }
-  emailStatus.value = 0
+  emailStatus.value = 0;
   return false;
 };
 
@@ -41,9 +43,8 @@ const clearForm = () => {
   lastname.value = "";
   email_.value = "";
   role_.value = "นักศึกษา";
-  emailStatus.value = 2
-}
-
+  emailStatus.value = 2;
+};
 </script>
 
 <template>
@@ -174,13 +175,15 @@ const clearForm = () => {
                           placeholder="อีเมล"
                           @change="validateEmail(email_)"
                         />
-                        <small class="text-danger" v-if="emailStatus==0">*โปรดใส่ Email ที่ถูกต้อง</small>
+                        <small class="text-danger" v-if="emailStatus == 0"
+                          >*โปรดใส่ Email ที่ถูกต้อง</small
+                        >
                       </div>
 
                       <hr />
                       <div class="mt-5 mb-3">
                         <input
-                          class="form-control "
+                          class="form-control"
                           type="text"
                           id="password"
                           name="password"
@@ -189,7 +192,7 @@ const clearForm = () => {
                       </div>
                       <div class="mb-5">
                         <input
-                          class="form-control "
+                          class="form-control"
                           type="text"
                           id="Cpassword"
                           name="Cpassword"
@@ -198,11 +201,19 @@ const clearForm = () => {
                       </div>
                       <div class="text-center">
                         <button
-                          @click="register()"
                           class="btn btn-danger btn-sm mx-4"
                           type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#myModal"
                           style="--bs-btn-border-radius: 1rem"
-                          :disabled="!(firstname!=0&&lastname!=0&&email_!=0&&validateEmail(email_))"
+                          :disabled="
+                            !(
+                              firstname != 0 &&
+                              lastname != 0 &&
+                              email_ != 0 &&
+                              validateEmail(email_)
+                            )
+                          "
                         >
                           สร้าง ID
                         </button>
@@ -217,6 +228,163 @@ const clearForm = () => {
       </section>
     </section>
   </div>
+
+  <!-- modal -->
+  <div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header flex-column">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <div class="icon-box">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="70"
+              height="70"
+              fill="#6E6E73"
+              class="bi bi-check-lg"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
+              />
+            </svg>
+          </div>
+
+          <h4 class="modal-title w-100">คุณต้องการสร้าง OASIP ID ของคุณ ?</h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            คุณจะสามารถเข้าถึงบริการ OASIP-SY1 by NTC ได้ทั้งหมดด้วย OASIP ID
+            และรหัสผ่านเดียว ลงชื่อเข้าเพื่อจัดการบัญชีของคุณ
+          </p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button
+            data-bs-dismiss="modal"
+            @click="register();router.push(`/login`)"
+            type="button"
+            class="btn btn-primary rounded-pill"
+            data-dismiss="modal"
+          >
+            ยืนยัน
+          </button>
+          <button type="button" data-bs-dismiss="modal" class="btn btn-danger  rounded-pill">
+            ยกเลิก
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+body {
+  font-family: "Varela Round", sans-serif;
+}
+
+.modal-confirm {
+  color: #636363;
+  width: 500px;
+}
+
+.modal-confirm .modal-content {
+  padding: 20px;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  font-size: 14px;
+}
+
+.modal-confirm .modal-header {
+  border-bottom: none;
+  position: relative;
+}
+
+.modal-confirm h4 {
+  text-align: center;
+  font-size: 26px;
+  margin: 30px 500px -20px;
+}
+
+.modal-confirm .close {
+  position: absolute;
+  top: -5px;
+  right: -2px;
+}
+
+.modal-confirm .modal-body {
+  color: #999;
+}
+
+.modal-confirm .modal-footer {
+  border: none;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 13px;
+  padding: 10px 15px 25px;
+}
+
+.modal-confirm .modal-footer a {
+  color: #999;
+}
+
+.modal-confirm .icon-box {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  border-radius: 50%;
+  z-index: 9;
+  text-align: center;
+  border: 4px solid #68CC45;
+}
+
+.modal-confirm .icon-box i {
+  color: #f15e5e;
+  font-size: 46px;
+  display: inline-block;
+  margin-top: 13px;
+}
+
+.modal-confirm .btn,
+.modal-confirm .btn:active {
+  color: #fff;
+  border-radius: 4px;
+  background: #0071e3;
+  text-decoration: none;
+  transition: all 0.4s;
+  line-height: normal;
+  min-width: 120px;
+  border: none;
+  min-height: 40px;
+  border-radius: 3px;
+  margin: 0 5px;
+}
+
+.modal-confirm .btn-secondary {
+  background: #f5f5f7;
+}
+
+.modal-confirm .btn-secondary:hover,
+.modal-confirm .btn-secondary:focus {
+  background: #a8a8a8;
+}
+
+.modal-confirm .btn-danger {
+  background: #f15e5e;
+}
+
+.modal-confirm .btn-danger:hover,
+.modal-confirm .btn-danger:focus {
+  background: #ee3535;
+}
+
+.trigger-btn {
+  display: inline-block;
+  margin: 100px auto;
+}
+</style>

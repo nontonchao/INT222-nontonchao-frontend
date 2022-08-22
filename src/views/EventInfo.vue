@@ -81,7 +81,11 @@ const removeEvent = async () => {
                 </p>
                 <p class="px-4 fw-bold text-primary mb-0">วันที่</p>
                 <p class="px-4 text-muted mb-5">
-                  {{ thisEvent.eventStartTime }}
+                  {{
+                    new Date(thisEvent.eventStartTime).toLocaleDateString() +
+                    " " +
+                    new Date(thisEvent.eventStartTime).toLocaleTimeString()
+                  }}
                 </p>
                 <p class="px-4 fw-bold text-primary mb-0">รายละเอียด</p>
                 <p class="px-4 text-muted mb-0">

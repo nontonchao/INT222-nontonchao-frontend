@@ -59,6 +59,8 @@ onBeforeMount(async () => {
             </div>
             <div class="col-md-6 col-lg-5 col-xl-4 m-5 p-5">
               <div>
+                <p class="px-4 fw-bold text-primary mb-0">สถานะภาพ</p>
+                <p class="px-4 text-muted mb-5">{{thisUser.role}}</p>
                 <p class="px-4 fw-bold text-primary mb-0">วันที่สร้างไอดี</p>
                 <p class="px-4 text-muted mb-5">{{thisUser.onCreated}}</p>
                 <p class="px-4 fw-bold text-primary mb-0">อัพเดทล่าสุดเมื่อ</p>
@@ -68,13 +70,13 @@ onBeforeMount(async () => {
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight">
-          <button
+          <!-- <button
             class="btn btn-danger btn-sm"
             type="button"
             style="--bs-btn-border-radius: 1rem"
           >
             ยกเลิกนัดหมาย
-          </button>
+          </button> -->
           <button
             class="btn btn-primary btn-sm mx-4"
             type="button"

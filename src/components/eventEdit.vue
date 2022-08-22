@@ -146,7 +146,7 @@ const editEvent = async () => {
           </div>
         </div>
       </div>
-      <div class="container py-4 py-xl-5" style="background: #f5f5f7">
+      <div class="container py-3 py-xl-4" style="background: #f5f5f7">
         <div class="row gy-4 gy-md-0">
           <div class="col-md-6">
             <div class="m-5">
@@ -154,7 +154,7 @@ const editEvent = async () => {
             </div>
             <div>
               <div class="container text-center" v-show="startTime.length > 0">
-                <div class="row row-cols-6 list-group list-group-item">
+                <div class="row row-cols-5 list-group list-group-item">
                   <button
                     type="button"
                     v-for="(x, index) in timeTable"
@@ -166,6 +166,7 @@ const editEvent = async () => {
                     "
                     :class="activeClick(index)"
                     :activeIndex="index"
+                    class="btn-sm"
                   >
                     {{ x }}
                   </button>
@@ -181,7 +182,6 @@ const editEvent = async () => {
                 />
               </div>
             </div>
-            <div class="p-xl-5 m-xl-5"></div>
           </div>
           <div class="col-md-6 d-md-flex align-items-md-center">
             <div style="max-width: 350px">
@@ -215,4 +215,8 @@ const editEvent = async () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.list-group {
+  max-height: 300px;
+}
+</style>

@@ -89,7 +89,7 @@ const addEvent = async () => {
         .split("T")[0] +
       "T" +
       time.value +
-      ":00Z",
+      ":00.000+07:00",
     eventDuration: JSON.stringify(
       props.clinic_list.filter((x) => x.eventCategoryName === clinicX.value)[0]
         .eventDuration
@@ -266,7 +266,7 @@ const ValidateEmail = (mail) => {
               <!-- 1440 = นาทีใน 1 วัน ต้องเอา duration ของ category นั้นๆมา + 5 นาทีแล้วหาร จะได้สลอตเวลามา -->
               <div class="container text-center" v-show="startTime.length > 0">
                 <div class="panel-body my-5 text-center">
-                  <div class="row row-cols-4 list-group list-group-item">
+                  <div class="row row-cols-5 list-group list-group-item">
                     <button
                       type="button"
                       v-for="(x, index) in timeTable"
@@ -278,6 +278,7 @@ const ValidateEmail = (mail) => {
                       "
                       :class="activeClick(index)"
                       :activeIndex="index"
+                      class="btn-sm"
                     >
                       {{ x }}
                     </button>
@@ -294,7 +295,6 @@ const ValidateEmail = (mail) => {
                 />
               </div>
             </div>
-            <div class="p-xl-5 m-xl-5"></div>
           </div>
           <div class="col-md-6 d-md-flex align-items-md-center">
             <div style="max-width: 350px">
@@ -318,4 +318,8 @@ const ValidateEmail = (mail) => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.list-group {
+  max-height: 300px;
+}
+</style>

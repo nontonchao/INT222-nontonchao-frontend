@@ -24,7 +24,7 @@ export const useUsers = defineStore("users", () => {
       body: JSON.stringify(new_user),
     });
     if (res.status == 201) {
-      alert("user created!");
+      // alert("user created!");
     } else {
       console.log("error while registering");
     }

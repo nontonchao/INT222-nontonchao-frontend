@@ -127,58 +127,59 @@ onBeforeMount(async () => {
             </div>
           </div>
           <!-- eventList -->
-        
-            <div class="border rounded border-1 p-3">
-              <div class="panel panel-primary">
-                <div class="panel-body my-5 text-center">
-                  <ul class="list-group list-group-flush">
-                    <li
-                      class="list-group-item hover"
-                      v-for="(event, index) in eventList"
-                      :key="index"
-                      @click="router.push(`/Eventinfo/${event.id}`)"
-                    >
-                      <div class="row row-cols-2 row-cols-md-3">
-                        <div class="col">
-                          <div class="my-4">
-                            <img
-                              src="../assets/testimg.png"
-                              class="rounded img-fluid rounded-circle float-start w-25"
-                            />
-                            <strong>{{ event.bookingName }}</strong>
-                            <p class="text-muted">ตำแหน่ง</p>
-                          </div>
-                        </div>
-                        <div class="col">
-                          <div class="my-4">
-                            <p
-                              class="vrtext-muted card-subtitle mb-2 text-muted"
-                            >
-                              {{
-                                new Date(event.eventStartTime).toDateString()
-                              }}
-                            </p>
-                            <strong></strong>
-                            <p class="text-muted my">
-                              เวลา {{ event.eventStartTime }}
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col">
-                          <div class="my-4">
-                            <strong
-                              ><kbd>{{ event.id }}</kbd>
-                              {{ event.eventCategoryName }}</strong
-                            >
-                          </div>
+
+          <div class="border rounded border-1 p-3">
+            <div class="panel panel-primary">
+              <div class="panel-body my-5 text-center">
+                <ul class="list-group list-group-flush">
+                  <li
+                    class="list-group-item hover"
+                    v-for="(event, index) in eventList"
+                    :key="index"
+                    @click="router.push(`/Eventinfo/${event.id}`)"
+                  >
+                    <div class="row row-cols-2 row-cols-md-3">
+                      <div class="col">
+                        <div class="my-4">
+                          <img
+                            src="../assets/testimg.png"
+                            class="rounded img-fluid rounded-circle float-start w-25"
+                          />
+                          <strong>{{ event.bookingName }}</strong>
+                          <p class="text-muted">ตำแหน่ง</p>
                         </div>
                       </div>
-                    </li>
-                  </ul>
-                </div>
+                      <div class="col">
+                        <div class="my-4">
+                          <p class="vrtext-muted card-subtitle mb-2 text-muted">
+                            {{ new Date(event.eventStartTime).toDateString() }}
+                          </p>
+                          <strong></strong>
+                          <p class="text-muted my">
+                            เวลา
+                            {{
+                              new Date(
+                                event.eventStartTime
+                              ).toLocaleTimeString()
+                            }}
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="my-4">
+                          <strong
+                            ><kbd>{{ event.id }}</kbd>
+                            {{ event.eventCategoryName }}</strong
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
-      
+          </div>
+
           <!-- eventList -->
         </div>
       </div>
