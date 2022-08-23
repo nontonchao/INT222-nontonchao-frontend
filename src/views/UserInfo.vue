@@ -62,9 +62,9 @@ onBeforeMount(async () => {
                 <p class="px-4 fw-bold text-primary mb-0">สถานะภาพ</p>
                 <p class="px-4 text-muted mb-5">{{thisUser.role}}</p>
                 <p class="px-4 fw-bold text-primary mb-0">วันที่สร้างไอดี</p>
-                <p class="px-4 text-muted mb-5">{{thisUser.onCreated}}</p>
+                <p class="px-4 text-muted mb-5">{{new Date(thisUser.onCreated).toLocaleString()}}</p>
                 <p class="px-4 fw-bold text-primary mb-0">อัพเดทล่าสุดเมื่อ</p>
-                <p class="px-4 text-muted mb-0">{{thisUser.onUpdated}}</p>
+                <p class="px-4 text-muted mb-0">{{new Date(thisUser.onUpdated).toLocaleString()}}</p>
               </div>
             </div>
           </div>
