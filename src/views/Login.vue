@@ -1,36 +1,37 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+import { useLogin } from '../stores/login.js';
+
+const loginStore = useLogin();
+
+const email = ref("");
+const password = ref("");
+
+const login = async () => {
+  await loginStore.login(email.value, password.value);
+};
+</script>
 
 <template>
   <div>
     <section class="py-4 py-xl-5">
       <section class="border bottom-dark" style="background: #ffffff">
-        <nav
-          class="navbar navbar-light navbar-expand-md py-3"
-          style="margin: 2px"
-        >
+        <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
           <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#"
-              ><span class="fw-bold">OASIP ID</span></a
-            >
+            <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">OASIP ID</span></a>
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item px-4">
-                  <router-link
-                    class="nav-link"
-                    :to="{
-                      name: 'Login',
-                    }"
-                  >
+                  <router-link class="nav-link" :to="{
+                    name: 'Login',
+                  }">
                     ลงชื่อเข้าใช้
                   </router-link>
                 </li>
                 <li class="nav-item">
-                  <router-link
-                    class="nav-link"
-                    :to="{
-                      name: 'AddUser',
-                    }"
-                  >
+                  <router-link class="nav-link" :to="{
+                    name: 'AddUser',
+                  }">
                     สร้าง OASIP ID ของคุณ
                   </router-link>
                 </li>
@@ -54,46 +55,27 @@
                 <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-5">
                   <div class="card mb-5 border-0">
                     <div class="card-body p-sm-5">
-                    
+
                       <div class="mb-3">
-                        <input
-                          v-model="email_"
-                          class="form-control"
-                          type="email"
-                          id="email-2"
-                          name="email"
-                          placeholder="อีเมล"
-                        />
+                        <input v-model="email" class="form-control" type="email" id="email-2" name="email"
+                          placeholder="อีเมล" />
                       </div>
                       <div class="mb-5">
-                        <input
-                          v-model="email_"
-                          class="form-control"
-                          type="text"
-                          id="password"
-                          name="password"
-                          placeholder="รหัสผ่าน"
-                        />
+                        <input v-model="password" class="form-control" type="password" id="password" name="password"
+                          placeholder="รหัสผ่าน" />
                       </div>
                       <div class="text-center">
-                        <button
-                          @click="register()"
-                          class="btn btn-danger btn-sm mx-4"
-                          type="button"
-                          style="--bs-btn-border-radius: 1rem"
-                        >
+                        <button @click="login()" class="btn btn-danger btn-sm mx-4" type="button"
+                          style="--bs-btn-border-radius: 1rem">
                           ลงชื่อเข้าใช้
                         </button>
                       </div>
                     </div>
                   </div>
                   <div class="text-center">
-                    <router-link
-                     
-                      :to="{
-                        name: 'AddUser',
-                      }"
-                    >
+                    <router-link :to="{
+                      name: 'AddUser',
+                    }">
                       ไม่มี OASIP ID ใช่ไหม? สร้างของคุณเองตอนนี้ >
                     </router-link>
                   </div>
@@ -107,4 +89,5 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
