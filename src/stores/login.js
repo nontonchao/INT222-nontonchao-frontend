@@ -9,9 +9,9 @@ export const useLogin = defineStore("login", () => {
     );
     if (res.status == 200) {
       alert("Password Matched.");
-    } else if (res.status == 400) {
+    } else if (res.status == 401) {
       alert("Password NOT Matched.");
-    } else {
+    } else if (res.status == 404) {
       alert("A user with the specified email DOES NOT exist.");
     }
   };
