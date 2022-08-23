@@ -50,24 +50,24 @@ import { ref } from "vue";
             <div class="icon-box">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="70"
-                height="70"
-                fill="#6E6E73"
-                class="bi bi-check-lg"
+                width="55"
+                height="55"
+                fill="currentColor"
+                class="bi bi-x-lg"
                 viewBox="0 0 16 16"
               >
                 <path
-                  d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
+                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
                 />
               </svg>
             </div>
 
-            <h4 class="modal-title w-100">คุณต้องการสร้าง OASIP ID ของคุณ ?</h4>
+            <h4 class="modal-title w-100">คุณต้องการจะยกเลิกนัดหมาย ?</h4>
           </div>
           <div class="modal-body">
             <p>
-              คุณจะสามารถเข้าถึงบริการ OASIP-SY1 by NTC ได้ทั้งหมดด้วย OASIP ID
-              และรหัสผ่านเดียว ลงชื่อเข้าเพื่อจัดการบัญชีของคุณ
+              หากคุณยกเลิกนัดหมายแล้วคุณจะไม่สามารถกู้คืนข้อมูลได้<br>
+              คุณต้องการที่จะยกเลิกนัดหมายใช่หรือไม่
             </p>
           </div>
           <div class="modal-footer justify-content-center">
@@ -146,7 +146,7 @@ body {
   border-radius: 50%;
   z-index: 9;
   text-align: center;
-  border: 4px solid #68CC45;
+  border: 4px solid #f15e5e;
 }
 
 .modal-confirm .icon-box i {
@@ -188,7 +188,4 @@ body {
 .modal-confirm .btn-danger:focus {
   background: #ee3535;
 }
-
-
-
 </style>

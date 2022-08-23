@@ -2,6 +2,8 @@
 import { onBeforeMount, ref } from "vue";
 import { useEvents } from "../stores/events.js";
 import { useUsers } from "../stores/users";
+import { useRouter } from "vue-router";
+
 
 const props = defineProps({
   clinic_list: {
@@ -49,6 +51,8 @@ const activeClick = (id) => {
 
 const eventStore = useEvents();
 const userStore = useUsers();
+const router = useRouter();
+
 const name = ref("");
 const firstname = ref("");
 const lastname = ref("");
@@ -305,11 +309,68 @@ const ValidateEmail = (mail) => {
           <button
             class="btn btn-danger btn-sm"
             type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#myModal"
             style="--bs-btn-border-radius: 1rem"
             @click="addEvent()"
           >
             ยืนยันการจอง
           </button>
+        </div>
+      </div>
+
+      <!-- Modal HTML -->
+      <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header flex-column">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-hidden="true"
+              ></button>
+              <div class="icon-box">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="70"
+                  height="70"
+                  fill="#6E6E73"
+                  class="bi bi-check-lg"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
+                  />
+                </svg>
+              </div>
+
+              <h4 class="modal-title w-100">คุณต้องการสร้างนัดหมายของคุณ ?</h4>
+            </div>
+            <div class="modal-body">
+              <p>
+                คุณต้องการที่จะนัดหมายเพื่อขอคำปรึกษาคลินิก....เวลา....ใช่หรือไม่
+              </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+              <button
+                type="button"
+                data-bs-dismiss="modal"
+                class="btn btn-primary rounded-pill"
+                data-dismiss="modal"
+                @click="router.push(`/`)"
+              >
+                ยืนยัน
+              </button>
+              <button
+                type="button"
+                data-bs-dismiss="modal"
+                class="btn btn-danger rounded-pill"
+              >
+                ยกเลิก
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
