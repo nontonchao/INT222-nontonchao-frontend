@@ -19,14 +19,9 @@ onBeforeMount(async () => {
   <div>
     <section class="position-relative py-4 py-xl-5" style="background: #f5f5f7">
       <section class="border bottom-dark" style="background: #ffffff">
-        <nav
-          class="navbar navbar-light navbar-expand-md py-3"
-          style="margin: 2px"
-        >
+        <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
           <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#"
-              ><span class="fw-bold">ข้อมูลผู้ใช้งาน</span></a
-            >
+            <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">ข้อมูลผู้ใช้งาน</span></a>
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto"></ul>
             </div>
@@ -40,31 +35,28 @@ onBeforeMount(async () => {
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
             <div class="col-md-6 col-lg-4 col-xl-4">
-              <div
-                class="d-flex flex-column justify-content-center align-items-start h-100"
-              >
+              <div class="d-flex flex-column justify-content-center align-items-start h-100">
                 <div class="d-flex align-items-center p-3">
-                  <img
-                    src="../assets/testimg.png"
-                    class="rounded img-fluid rounded-circle float-start w-100"
-                  />
+                  <img src="../assets/testimg.png" class="rounded img-fluid rounded-circle float-start w-100" />
                 </div>
                 <div>
                   <p class="px-4 fw-bold text-primary mb-0">ชื่อ</p>
-                  <p class="px-4 text-muted mb-5">{{thisUser.name}}</p>
+                  <p class="px-4 text-muted mb-5">{{ thisUser.name }}</p>
                   <p class="px-4 fw-bold text-primary mb-0">อีเมล</p>
-                  <p class="px-4 text-muted mb-0">{{thisUser.email}}</p>
+                  <p class="px-4 text-muted mb-0">{{ thisUser.email }}</p>
                 </div>
               </div>
             </div>
             <div class="col-md-6 col-lg-5 col-xl-4 m-5 p-5">
               <div>
                 <p class="px-4 fw-bold text-primary mb-0">สถานะภาพ</p>
-                <p class="px-4 text-muted mb-5">{{thisUser.role}}</p>
+                <p class="px-4 text-muted mb-5">{{ thisUser.role }}</p>
                 <p class="px-4 fw-bold text-primary mb-0">วันที่สร้างไอดี</p>
-                <p class="px-4 text-muted mb-5">{{new Date(thisUser.onCreated).toLocaleString()}}</p>
-                <p class="px-4 fw-bold text-primary mb-0">อัพเดทล่าสุดเมื่อ</p>
-                <p class="px-4 text-muted mb-0">{{new Date(thisUser.onUpdated).toLocaleString()}}</p>
+                <p class="px-4 text-muted mb-5"></p>
+                <p class="px-4 fw-bold text-primary mb-0">อัพเดท{{ new
+                    Date(thisUser.onCreated).toLocaleString()
+                }}ล่าสุดเมื่อ</p>
+                <p class="px-4 text-muted mb-0">{{ new Date(thisUser.onUpdated).toLocaleString() }}</p>
               </div>
             </div>
           </div>
@@ -77,11 +69,7 @@ onBeforeMount(async () => {
           >
             ยกเลิกนัดหมาย
           </button> -->
-          <button
-            class="btn btn-primary btn-sm mx-4"
-            type="button"
-            style="--bs-btn-border-radius: 1rem"
-          >
+          <button class="btn btn-primary btn-sm mx-4" type="button" style="--bs-btn-border-radius: 1rem">
             แก้ไข
           </button>
         </div>
@@ -90,4 +78,5 @@ onBeforeMount(async () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
