@@ -189,9 +189,6 @@ body {
   background: #ee3535;
 }
 
-.trigger-btn {
-  display: inline-block;
-  margin: 100px auto;
-}
+
 
 </style>
