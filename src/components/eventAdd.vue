@@ -1,7 +1,6 @@
 <script setup>
 import { onBeforeMount, ref } from "vue";
 import { useEvents } from "../stores/events.js";
-import { useUsers } from "../stores/users";
 import { useRouter } from "vue-router";
 
 
@@ -50,7 +49,6 @@ const activeClick = (id) => {
 };
 
 const eventStore = useEvents();
-const userStore = useUsers();
 const router = useRouter();
 
 const name = ref("");
@@ -312,7 +310,6 @@ const ValidateEmail = (mail) => {
             data-bs-toggle="modal"
             data-bs-target="#myModal"
             style="--bs-btn-border-radius: 1rem"
-            @click="addEvent()"
           >
             ยืนยันการจอง
           </button>
@@ -358,7 +355,7 @@ const ValidateEmail = (mail) => {
                 data-bs-dismiss="modal"
                 class="btn btn-primary rounded-pill"
                 data-dismiss="modal"
-                @click="router.push(`/`)"
+                @click="addEvent();router.push(`/check-event`)"
               >
                 ยืนยัน
               </button>
