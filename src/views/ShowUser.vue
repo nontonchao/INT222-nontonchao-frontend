@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, onMounted } from "vue";
 import { useUsers } from "../stores/users.js";
 import { useRouter } from "vue-router";
 
@@ -11,8 +11,9 @@ onBeforeMount(async () => {
   users.value = await userStore.fetchUsers();
 });
 
-
-console.log(userStore.validateEmail('poom@example.com'))
+onMounted(async () => {
+  users.value = await userStore.fetchUsers();
+})
 
 
 </script>

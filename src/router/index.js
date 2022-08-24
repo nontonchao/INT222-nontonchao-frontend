@@ -16,6 +16,8 @@ import AddUser from "../views/AddUser.vue";
 import Login from "../views/Login.vue";
 import UserInfo from "../views/UserInfo.vue";
 import EditEvent from "../views/EditEvent.vue";
+import EditUser from "../views/EditUser.vue";
+
 
 const history = createWebHistory('/sy1/');
 const routes = [{
@@ -82,6 +84,11 @@ const routes = [{
     path: "/EditEvent/:event_id",
     name: "EditEvent",
     component: EditEvent,
+},
+{
+    path: "/EditUser/:user_id",
+    name: "EditUser",
+    component: EditUser,
 },
 
 ];

@@ -3,7 +3,6 @@ import { onBeforeMount, ref } from "vue";
 import { useEvents } from "../stores/events.js";
 import { useRouter } from "vue-router";
 
-
 const props = defineProps({
   clinic_list: {
     type: Object,
@@ -237,8 +236,8 @@ const ValidateEmail = (mail) => {
                     placeholder="อีเมล"
                     v-model="email"
                   />
-                  <p class="fs-6 text-danger text-right" v-if="emailErr == 2">
-                    กรุณาใส่อีเมลให้ถูกต้อง
+                  <p class="text-danger text-end fs-6" v-if="emailErr == 2">
+                    *กรุณาใส่อีเมลให้ถูกต้อง
                   </p>
                 </div>
               </div>
@@ -310,6 +309,7 @@ const ValidateEmail = (mail) => {
             data-bs-toggle="modal"
             data-bs-target="#myModal"
             style="--bs-btn-border-radius: 1rem"
+            :disabled="!(time != 0 && startTime != 0)"
           >
             ยืนยันการจอง
           </button>
@@ -355,7 +355,10 @@ const ValidateEmail = (mail) => {
                 data-bs-dismiss="modal"
                 class="btn btn-primary rounded-pill"
                 data-dismiss="modal"
-                @click="addEvent();router.push(`/check-event`)"
+                @click="
+                  addEvent();
+                  router.push(`/check-event`);
+                "
               >
                 ยืนยัน
               </button>

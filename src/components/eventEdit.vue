@@ -150,7 +150,12 @@ const editEvent = async () => {
         <div class="row gy-4 gy-md-0">
           <div class="col-md-6">
             <div class="m-5">
-              <input type="date" class="form-control" v-model="startTime" />
+              <input
+                type="date"
+                class="form-control"
+                v-model="startTime"
+                required
+              />
             </div>
             <div>
               <div class="container text-center" v-show="startTime.length > 0">
@@ -207,6 +212,7 @@ const editEvent = async () => {
             data-bs-toggle="modal"
             data-bs-target="#myModal"
             style="--bs-btn-border-radius: 1rem"
+            :disabled="!(time != 0 && startTime != 0)"
             @click="editEvent()"
           >
             ยืนยัน
@@ -269,8 +275,6 @@ const editEvent = async () => {
         </div>
       </div>
     </div>
-
-   
   </div>
 </template>
 

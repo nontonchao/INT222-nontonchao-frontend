@@ -15,6 +15,17 @@ export const useEventCategory = defineStore("eventCategory", () => {
     }
   };
 
+  const getEventCategoryById = async (id) => {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}events-category/${id}`, {
+      method: "GET",
+    });
+    if (res.status == 200) {
+      eventCategoryList.value = await res.json();
+    } else {
+      console.log("error while fetching");
+    }
+  };
+
   const editEventCategory = async (updatedEventCat) => {
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL}events-category/${updatedEventCat.id}`,
@@ -27,7 +38,7 @@ export const useEventCategory = defineStore("eventCategory", () => {
       }
     );
     if (res.status == 200) {
-      alert(`${updatedEventCat.id} edit แล้ว`);
+      // alert(`${updatedEventCat.id} edit แล้ว`);
       resEditText.value = await res.json();
       console.log(resEditText.value);
       return getEventCategoryList();

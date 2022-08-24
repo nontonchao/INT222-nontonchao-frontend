@@ -11,6 +11,7 @@ const lastname = ref("");
 const email_ = ref("");
 const role_ = ref("นักศึกษา");
 const passwordX = ref("");
+const ConfirmPassword = ref("");
 
 const register = async () => {
   await userStore.userRegister({
@@ -47,28 +48,55 @@ const clearForm = () => {
   role_.value = "นักศึกษา";
   emailStatus.value = 2;
 };
+
+const validatePass = () => {
+  if (
+    passwordX.value.length != 0 &&
+    ConfirmPassword.value.length != 0 &&
+    passwordX.value.length >= 8 &&
+    passwordX.value.length <= 14 &&
+    ConfirmPassword.value.length >= 8 &&
+    ConfirmPassword.value.length <= 14 &&
+    passwordX.value.length == ConfirmPassword.value.length &&
+    passwordX.value == ConfirmPassword.value
+  ) {
+    return true;
+  }
+  return false;
+};
 </script>
 
 <template>
   <div>
     <section class="py-4 py-xl-5">
       <section class="border bottom-dark" style="background: #ffffff">
-        <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
+        <nav
+          class="navbar navbar-light navbar-expand-md py-3"
+          style="margin: 2px"
+        >
           <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">OASIP ID</span></a>
+            <a class="navbar-brand d-flex align-items-center" href="#"
+              ><span class="fw-bold">OASIP ID</span></a
+            >
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item px-4">
-                  <router-link class="nav-link" :to="{
-                    name: 'Login',
-                  }">
+                  <router-link
+                    class="nav-link"
+                    :to="{
+                      name: 'Login',
+                    }"
+                  >
                     ลงชื่อเข้าใช้
                   </router-link>
                 </li>
                 <li class="nav-item">
-                  <router-link class="nav-link" :to="{
-                    name: 'AddUser',
-                  }">
+                  <router-link
+                    class="nav-link"
+                    :to="{
+                      name: 'AddUser',
+                    }"
+                  >
                     สร้าง OASIP ID ของคุณ
                   </router-link>
                 </li>
@@ -85,7 +113,12 @@ const clearForm = () => {
                 สร้าง OASIP ID ของคุณเรียบร้อยแล้ว
               </h6>
               <ul class="navbar-nav ms-auto">
-                <button type="button" class="btn-close px-5" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button
+                  type="button"
+                  class="btn-close px-5"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
               </ul>
             </div>
           </nav>
@@ -110,7 +143,10 @@ const clearForm = () => {
                     <div class="card-body p-sm-5">
                       <p>คุณเป็นใคร ?</p>
                       <div class="mb-4">
-                        <select v-model="role_" class="form-select form-select mt-1">
+                        <select
+                          v-model="role_"
+                          class="form-select form-select mt-1"
+                        >
                           <option selected>นักศึกษา</option>
                           <option>อาจารย์</option>
                         </select>
@@ -118,40 +154,113 @@ const clearForm = () => {
                       <div>
                         <div class="row mb-3">
                           <div class="col-md-6">
-                            <input v-model="firstname" class="form-control" required type="text" id="fname" name="name"
-                              minlength="1" maxlength="50" placeholder="ชื่อ" />
+                            <input
+                              v-model="firstname"
+                              class="form-control"
+                              required
+                              type="text"
+                              id="fname"
+                              name="name"
+                              minlength="1"
+                              maxlength="50"
+                              placeholder="ชื่อ"
+                            />
                           </div>
                           <div class="col-md-6">
-                            <input v-model="lastname" class="form-control" required type="text" id="lname"
-                              name="lastname" minlength="1" maxlength="50" placeholder="นามสกุล" />
+                            <input
+                              v-model="lastname"
+                              class="form-control"
+                              required
+                              type="text"
+                              id="lname"
+                              name="lastname"
+                              minlength="1"
+                              maxlength="50"
+                              placeholder="นามสกุล"
+                            />
                           </div>
                         </div>
                       </div>
                       <div class="mb-5">
-                        <input v-model="email_" class="form-control" required type="email" id="email-2" name="email"
-                          minlength="1" maxlength="50" placeholder="อีเมล" @change="validateEmail(email_)" />
-                        <small class="text-danger" v-if="emailStatus == 0">*โปรดใส่ Email ที่ถูกต้อง</small>
+                        <input
+                          v-model="email_"
+                          class="form-control"
+                          required
+                          type="email"
+                          id="email-2"
+                          name="email"
+                          minlength="1"
+                          maxlength="50"
+                          placeholder="อีเมล"
+                          @change="validateEmail(email_)"
+                        />
+                        <p
+                          class="text-danger text-end fs-6"
+                          v-if="emailStatus == 0"
+                        >
+                          *กรุณาใส่อีเมลให้ถูกต้อง
+                        </p>
                       </div>
 
                       <hr />
+
                       <div class="mt-5 mb-3">
-                        <input class="form-control" v-model="passwordX" type="password" id="password" name="password"
-                          placeholder="รหัสผ่าน" />
+                        <input
+                          class="form-control"
+                          v-model="passwordX"
+                          type="password"
+                          id="password"
+                          name="password"
+                          minlength="8"
+                          maxlength="14"
+                          required
+                          placeholder="รหัสผ่านต้องมีความยาว 8-14 ตัวอักษร"
+                          @change="validatePass()"
+                        />
                       </div>
+
                       <div class="mb-5">
-                        <input class="form-control" type="password" id="Cpassword" name="Cpassword"
-                          placeholder="ยืนยันรหัสผ่าน" />
+                        <input
+                          class="form-control"
+                          v-model="ConfirmPassword"
+                          type="password"
+                          id="Cpassword"
+                          name="Cpassword"
+                          minlength="8"
+                          maxlength="14"
+                          required
+                          placeholder="ยืนยันรหัสผ่าน"
+                          @change="validatePass()"
+                        />
+                        <p
+                          v-show="
+                            !passwordX == 0 &&
+                            !ConfirmPassword == 0 &&
+                            !validatePass()
+                          "
+                          class="text-danger text-end fs-6"
+                        >
+                          *รหัสผ่านไม่ถูกต้อง
+                        </p>
                       </div>
+
                       <div class="text-center">
-                        <button class="btn btn-danger btn-sm mx-4" type="button" data-bs-toggle="modal"
-                          data-bs-target="#myModal" style="--bs-btn-border-radius: 1rem" :disabled="
+                        <button
+                          class="btn btn-danger btn-sm mx-4"
+                          type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#myModal"
+                          style="--bs-btn-border-radius: 1rem"
+                          :disabled="
                             !(
                               firstname != 0 &&
                               lastname != 0 &&
                               email_ != 0 &&
-                              validateEmail(email_)
+                              validateEmail(email_) &&
+                              validatePass()
                             )
-                          ">
+                          "
+                        >
                           สร้าง ID
                         </button>
                       </div>
@@ -171,12 +280,24 @@ const clearForm = () => {
     <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header flex-column">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-hidden="true"
+          ></button>
           <div class="icon-box">
-            <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="#6E6E73" class="bi bi-check-lg"
-              viewBox="0 0 16 16">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="70"
+              height="70"
+              fill="#6E6E73"
+              class="bi bi-check-lg"
+              viewBox="0 0 16 16"
+            >
               <path
-                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
+              />
             </svg>
           </div>
 
@@ -189,11 +310,23 @@ const clearForm = () => {
           </p>
         </div>
         <div class="modal-footer justify-content-center">
-          <button data-bs-dismiss="modal" @click="register(); router.push(`/login`)" type="button"
-            class="btn btn-primary rounded-pill" data-dismiss="modal">
+          <button
+            data-bs-dismiss="modal"
+            @click="
+              register();
+              router.push(`/login`);
+            "
+            type="button"
+            class="btn btn-primary rounded-pill"
+            data-dismiss="modal"
+          >
             ยืนยัน
           </button>
-          <button type="button" data-bs-dismiss="modal" class="btn btn-danger  rounded-pill">
+          <button
+            type="button"
+            data-bs-dismiss="modal"
+            class="btn btn-danger rounded-pill"
+          >
             ยกเลิก
           </button>
         </div>
@@ -260,7 +393,7 @@ body {
   border-radius: 50%;
   z-index: 9;
   text-align: center;
-  border: 4px solid #68CC45;
+  border: 4px solid #68cc45;
 }
 
 .modal-confirm .icon-box i {
