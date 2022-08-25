@@ -20,7 +20,21 @@ const props = defineProps({
 
 let toEdit = props.eventz;
 
-var d = new Date();
+const numberFormat = function (number, width) {
+  return new Array(+width + 1 - (number + "").length).join("0") + number;
+};
+
+const getCurrDate = () => {
+  const today = new Date();
+  return `${today.getFullYear()}-${numberFormat(
+    new Date(today.toString()).getMonth() + 1,
+    2
+  )}-${numberFormat(new Date(today.toString()).getDate(), 2)}`;
+};
+
+console.log()
+
+var d = new Date(getCurrDate());
 d.setHours(0, 0, 0, 0);
 
 const getTime = (time) => {
@@ -153,12 +167,17 @@ const editEvent = async () => {
               <input
                 type="date"
                 class="form-control"
+                :min="getCurrDate()"
                 v-model="startTime"
                 required
               />
             </div>
             <div>
-              <div class="container text-center" v-show="startTime.length > 0">
+
+              <div
+                class="container text-center"
+                v-show="startTime.length > 0 && getCurrDate() <= startTime"
+              >
                 <div class="row row-cols-5 list-group list-group-item">
                   <button
                     type="button"

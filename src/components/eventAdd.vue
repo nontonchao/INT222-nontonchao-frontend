@@ -56,11 +56,17 @@ const lastname = ref("");
 const email = ref("");
 const clinicX = ref("");
 const note = ref("");
-const startTime = ref("");
+
 const time = ref("");
 const toSend = ref("");
 const selectClinic = ref({});
 const activeIndex = ref();
+
+
+
+const numberFormat = function (number, width) {
+  return new Array(+width + 1 - (number + "").length).join("0") + number;
+};
 
 const getCurrDate = () => {
   const today = new Date();
@@ -69,6 +75,8 @@ const getCurrDate = () => {
     2
   )}-${numberFormat(new Date(today.toString()).getDate(), 2)}`;
 };
+const startTime = ref(getCurrDate());
+console.log(getCurrDate())
 
 const getClinic = (clinicName) => {
   selectClinic.value = props.clinic_list.filter(
@@ -108,9 +116,6 @@ const addEvent = async () => {
   }
 };
 
-const numberFormat = function (number, width) {
-  return new Array(+width + 1 - (number + "").length).join("0") + number;
-};
 
 const emailErr = ref(0);
 const ValidateEmail = (mail) => {
@@ -263,7 +268,7 @@ const ValidateEmail = (mail) => {
             </div>
             <div>
               <!-- 1440 = นาทีใน 1 วัน ต้องเอา duration ของ category นั้นๆมา + 5 นาทีแล้วหาร จะได้สลอตเวลามา -->
-              <div class="container text-center" v-show="startTime.length > 0">
+              <div class="container text-center" v-show="startTime.length > 0 && getCurrDate() <= startTime">
                 <div class="panel-body my-5 text-center">
                   <div class="row row-cols-5 list-group list-group-item">
                     <button
