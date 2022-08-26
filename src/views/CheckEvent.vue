@@ -80,6 +80,7 @@ onBeforeMount(async () => {
   eventCateList.value = eventCateStore.eventCategoryList;
   eventNum();
 });
+
 </script>
 
 <template>
@@ -91,18 +92,6 @@ onBeforeMount(async () => {
             <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">นัดหมายทั้งหมด</span></a>
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto" v-show="eventList.length > 0">
-                <li class="nav-item">
-                  <a class="nav-link active" href="#" @click="status = 'ทั้งหมด'">ทั้งหมด</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#" @click="status = 'กำลังจะมาถึง'">กำลังจะมาถึง</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#" @click="status = 'กำลังดำเนินอยู่'">กำลังดำเนินอยู่</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#" @click="status = 'ที่ผ่านมา'">ที่ผ่านมา</a>
-                </li>
                 <li class="nav-item">
                   <input type="text" placeholder="ชื่อหรืออีเมลล์" v-model="search" />
                 </li>
@@ -152,36 +141,44 @@ onBeforeMount(async () => {
         <div v-else>
           <div class="text-center text-white-50 bg-danger border rounded border-0 p-3 my-5">
             <div class="row row-cols-2 row-cols-md-4">
-              <div class="col">
-                <div class="p-3">
-                  <h4 class="display-5 fw-bold text-white mb-0">
-                    {{ eAll }}
-                  </h4>
-                  <p class="mb-0 text-white">นัดหมายทั้งหมด</p>
+              <div @click="status = 'ทั้งหมด'; filterEvent(search)" style="cursor:pointer">
+                <div class="col">
+                  <div class="p-3">
+                    <h4 class="display-5 fw-bold text-white mb-0">
+                      {{ eAll }}
+                    </h4>
+                    <p class="mb-0 text-white">นัดหมายทั้งหมด</p>
+                  </div>
                 </div>
               </div>
-              <div class="col">
-                <div class="p-3">
-                  <h4 class="display-5 fw-bold text-white mb-0">
-                    {{ eComing }}
-                  </h4>
-                  <p class="mb-0 text-white">กำลังจะมาถึง</p>
+              <div @click="status = 'กำลังจะมาถึง'; filterEvent(search)" style="cursor:pointer">
+                <div class="col">
+                  <div class="p-3">
+                    <h4 class="display-5 fw-bold text-white mb-0">
+                      {{ eComing }}
+                    </h4>
+                    <p class="mb-0 text-white">กำลังจะมาถึง</p>
+                  </div>
                 </div>
               </div>
-              <div class="col">
-                <div class="p-3">
-                  <h4 class="display-5 fw-bold text-white mb-0">
-                    {{ eOngoing }}
-                  </h4>
-                  <p class="mb-0 text-white">กำลังดำเนินอยู่</p>
+              <div @click="status = 'กำลังดำเนินอยู่'; filterEvent(search)" style="cursor:pointer">
+                <div class="col">
+                  <div class="p-3">
+                    <h4 class="display-5 fw-bold text-white mb-0">
+                      {{ eOngoing }}
+                    </h4>
+                    <p class="mb-0 text-white">กำลังดำเนินอยู่</p>
+                  </div>
                 </div>
               </div>
-              <div class="col">
-                <div class="p-3">
-                  <h4 class="display-5 fw-bold text-white mb-0">
-                    {{ ePast }}
-                  </h4>
-                  <p class="mb-0 text-white">ที่ผ่านมา</p>
+              <div @click="status = 'ที่ผ่านมา'; filterEvent(search)" style="cursor:pointer">
+                <div class="col">
+                  <div class="p-3">
+                    <h4 class="display-5 fw-bold text-white mb-0">
+                      {{ ePast }}
+                    </h4>
+                    <p class="mb-0 text-white">ที่ผ่านมา</p>
+                  </div>
                 </div>
               </div>
             </div>
