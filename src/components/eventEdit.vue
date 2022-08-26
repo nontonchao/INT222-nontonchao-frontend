@@ -32,7 +32,7 @@ const getCurrDate = () => {
   )}-${numberFormat(new Date(today.toString()).getDate(), 2)}`;
 };
 
-console.log()
+console.log();
 
 var d = new Date(getCurrDate());
 d.setHours(0, 0, 0, 0);
@@ -173,7 +173,6 @@ const editEvent = async () => {
               />
             </div>
             <div>
-
               <div
                 class="container text-center"
                 v-show="startTime.length > 0 && getCurrDate() <= startTime"
@@ -240,10 +239,10 @@ const editEvent = async () => {
       </div>
     </section>
 
-    <!-- Modal edit HTML -->
+    <!-- 400 Modal edit HTML -->
     <div id="myModal" class="modal fade">
       <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content" v-show="useEvents.resStatus == 400">
           <div class="modal-header flex-column">
             <button
               type="button"
@@ -266,34 +265,55 @@ const editEvent = async () => {
               </svg>
             </div>
 
-            <h4 class="modal-title w-100">คุณต้องการจะแก้ไขนัดหมาย ?</h4>
+            <h4 class="modal-title w-100">คุณอีเมลนี้ถูกใช้ไปแล้ว !</h4>
           </div>
           <div class="modal-body">
             <p>
-              คุณต้องการที่จะนัดหมายแก้ไขนัดหมายเพื่อขอคำปรึกษาคลินิก....เวลา....ใช่หรือไม่
+              หากคุณต้องการจะแก้ไขข้อมูล OASIP ID กรุณาใช้ชื่อและอีเมลให้ถูกต้อง
             </p>
-          </div>
-          <div class="modal-footer justify-content-center">
-            <button
-              type="button"
-              data-bs-dismiss="modal"
-              class="btn btn-primary rounded-pill"
-              data-dismiss="modal"
-              @click="router.push(`/Eventinfo/${props.eventz.id}`)"
-            >
-              ยืนยัน
-            </button>
-            <button
-              type="button"
-              data-bs-dismiss="modal"
-              class="btn btn-danger rounded-pill"
-            >
-              ยกเลิก
-            </button>
           </div>
         </div>
       </div>
     </div>
+    <!-- 400 Modal edit HTML -->
+
+    <!-- 401 Modal edit HTML -->
+    <div id="myModal" class="modal fade">
+      <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
+        <div class="modal-content" v-show="useEvents.resStatus == 401">
+          <div class="modal-header flex-column">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-hidden="true"
+            ></button>
+            <div class="icon-box">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="70"
+                height="70"
+                fill="currentColor"
+                class="bi bi-exclamation"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z"
+                />
+              </svg>
+            </div>
+
+            <h4 class="modal-title w-100">คุณชื่อนี้ถูกใช้ไปแล้ว !</h4>
+          </div>
+          <div class="modal-body">
+            <p>
+              หากคุณต้องการจะแก้ไขข้อมูล OASIP ID กรุณาใช้ชื่อและอีเมลให้ถูกต้อง
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 401 Modal edit HTML -->
   </div>
 </template>
 

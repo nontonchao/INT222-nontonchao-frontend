@@ -133,7 +133,6 @@ const ValidateEmail = (mail) => {
       </section>
     </section>
 
-    <!--200  Modal HTML -->
     <div id="loginModal" class="modal fade">
       <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
         <!--401,404  Modal HTML -->
