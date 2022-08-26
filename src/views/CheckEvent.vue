@@ -10,9 +10,46 @@ const eventList = ref({});
 const eventCateList = ref([]);
 const router = useRouter();
 
+// filter
+const filter_list = ref({});
+const fStatus = ref("ทั้งหมด");
+const status = ref("ทั้งหมด");
+const selectedClinic = ref("ทั้งหมด");
+const selectDate = ref("");
+const search = ref("");
+
+const endtime = (startTime, add) => {
+  return new Date(new Date(startTime).setMinutes(new Date(startTime).getMinutes(), add * 60))
+}
+
+const filterEvent = async (search) => {
+  eventList.value = await eventStore.fetchEvents();
+  const currentDateTime = new Date();
+  if (status.value != "ทั้งหมด") {
+    selectDate.value = "";
+  }
+  filter_list.value = eventList.value.filter(
+    (x) =>
+      (x.bookingName.includes(search) || x.bookingEmail == search) &&
+      x.eventCategoryName.includes(
+        selectedClinic.value == "ทั้งหมด" ? "" : selectedClinic.value
+      ) &&
+      (status.value == "ทั้งหมด" && selectDate.value == ""
+        ? x
+        : status.value == "ทั้งหมด" && selectDate.value != ""
+          ? new Date(x.eventStartTime).toDateString() == new Date(selectDate.value).toDateString()
+          : status.value == "กำลังจะมาถึง"
+            ? (new Date(x.eventStartTime) > currentDateTime) : status.value == "กำลังดำเนินอยู่" ?
+              (new Date(x.eventStartTime).getDate() == currentDateTime.getDate() && currentDateTime.getTime() > new Date(x.eventStartTime).getTime() && currentDateTime < endtime(x.eventStartTime, x.eventDuration))
+              : endtime(x.eventStartTime, x.eventDuration) < currentDateTime)
+  );
+  fStatus.value = status.value;
+};
+//
+
 onBeforeMount(async () => {
   eventList.value = await eventStore.fetchEvents();
-  //filter_list.value = eventList.value;
+  filter_list.value = eventList.value;
   eventCateList.value = eventCateStore.eventCategoryList;
 });
 </script>
@@ -21,35 +58,39 @@ onBeforeMount(async () => {
   <div>
     <section class="py-4 py-xl-5" style="background: #f5f5f7">
       <section class="border bottom-dark" style="background: #ffffff">
-        <nav
-          class="navbar navbar-light navbar-expand-md py-3"
-          style="margin: 2px"
-        >
+        <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
           <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#"
-              ><span class="fw-bold">นัดหมายทั้งหมด</span></a
-            >
+            <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">นัดหมายทั้งหมด</span></a>
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto" v-show="eventList.length > 0">
                 <li class="nav-item">
-                  <a class="nav-link active" href="#">กำลังจะมาถึง</a>
+                  <a class="nav-link active" href="#" @click="status = 'ทั้งหมด'">ทั้งหมด</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">กำลังดำเนินอยู่</a>
+                  <a class="nav-link" href="#" @click="status = 'กำลังจะมาถึง'">กำลังจะมาถึง</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">ที่ผ่านมา</a>
+                  <a class="nav-link" href="#" @click="status = 'กำลังดำเนินอยู่'">กำลังดำเนินอยู่</a>
                 </li>
                 <li class="nav-item">
-                  <select class="form-select form-select-sm mt-1">
+                  <a class="nav-link" href="#" @click="status = 'ที่ผ่านมา'">ที่ผ่านมา</a>
+                </li>
+                <li class="nav-item">
+                  <input type="text" placeholder="ชื่อหรืออีเมลล์" v-model="search" />
+                </li>
+                <li class="nav-item">
+                  <input type="date" v-model="selectDate" />
+                </li>
+                <li class="nav-item">
+                  <select v-model="selectedClinic" class="form-select form-select-sm mt-1">
                     <option selected>ทั้งหมด</option>
-                    <option
-                      v-for="(eCatelist, index) in eventCateList"
-                      :key="index"
-                    >
+                    <option v-for="(eCatelist, index) in eventCateList" :key="index">
                       {{ eCatelist.eventCategoryName }}
                     </option>
                   </select>
+                </li>
+                <li class="nav-item">
+                  <button @click="filterEvent(search)">Filter</button>
                 </li>
               </ul>
             </div>
@@ -70,27 +111,18 @@ onBeforeMount(async () => {
                 จองนัดหมายแล้วไปกันเลย!
               </figcaption>
             </figure>
-            <button
-              class="btn btn-danger fs-5 me-2 py-2 px-4"
-              type="button"
-              style="
+            <button class="btn btn-danger fs-5 me-2 py-2 px-4" type="button" style="
                 margin: -57px 0px;
                 --bs-primary-rgb: 220, 53, 69;
                 padding: 0px 24px;
-              "
-            >
-              <router-link
-                :to="{ name: 'AddEvent' }"
-                style="text-decoration: none; color: #ffffff"
-                >จองนัดหมายเลย
+              ">
+              <router-link :to="{ name: 'AddEvent' }" style="text-decoration: none; color: #ffffff">จองนัดหมายเลย
               </router-link>
             </button>
           </div>
         </div>
         <div v-else>
-          <div
-            class="text-center text-white-50 bg-danger border rounded border-0 p-3 my-5"
-          >
+          <div class="text-center text-white-50 bg-danger border rounded border-0 p-3 my-5">
             <div class="row row-cols-2 row-cols-md-4">
               <div class="col">
                 <div class="p-3">
@@ -129,22 +161,29 @@ onBeforeMount(async () => {
           <!-- eventList -->
 
           <div class="border rounded border-1 p-3">
+            <div v-if="filter_list.length <= 0">
+              <h1 v-if="fStatus == 'ที่ผ่านมา'">
+                No Past Events
+              </h1>
+              <h1 v-else-if="fStatus == 'กำลังจะมาถึง'">
+                No Upcoming Events
+              </h1>
+              <h1 v-else-if="fStatus == 'กำลังดำเนินอยู่'">
+                No Ongoing Events
+              </h1>
+              <h1 v-else>
+                No Scheduled Events
+              </h1>
+            </div>
             <div class="panel panel-primary">
               <div class="panel-body my-5 text-center">
                 <ul class="list-group list-group-flush">
-                  <li
-                    class="list-group-item hover"
-                    v-for="(event, index) in eventList"
-                    :key="index"
-                    @click="router.push(`/Eventinfo/${event.id}`)"
-                  >
+                  <li class="list-group-item hover" v-for="(event, index) in filter_list" :key="index"
+                    @click="router.push(`/Eventinfo/${event.id}`)">
                     <div class="row row-cols-2 row-cols-md-3">
                       <div class="col">
                         <div class="my-4">
-                          <img
-                            src="../assets/testimg.png"
-                            class="rounded img-fluid rounded-circle float-start w-25"
-                          />
+                          <img src="../assets/testimg.png" class="rounded img-fluid rounded-circle float-start w-25" />
                           <strong>{{ event.bookingName }}</strong>
                           <p class="text-muted">ตำแหน่ง</p>
                         </div>
@@ -158,19 +197,17 @@ onBeforeMount(async () => {
                           <p class="text-muted my">
                             เวลา
                             {{
-                              new Date(
-                                event.eventStartTime
-                              ).toLocaleTimeString()
+                                new Date(
+                                  event.eventStartTime
+                                ).toLocaleTimeString()
                             }}
                           </p>
                         </div>
                       </div>
                       <div class="col">
                         <div class="my-4">
-                          <strong
-                            ><kbd>{{ event.id }}</kbd>
-                            {{ event.eventCategoryName }}</strong
-                          >
+                          <strong><kbd>{{ event.id }}</kbd>
+                            {{ event.eventCategoryName }}</strong>
                         </div>
                       </div>
                     </div>
@@ -195,10 +232,12 @@ onBeforeMount(async () => {
   -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
 }
+
 .scale:hover {
   transform: scale(1.2);
   filter: drop-shadow(0 0 0.15rem rgb(129, 128, 128));
 }
+
 .hover:hover {
   background-color: darkgray;
   cursor: pointer;
