@@ -102,7 +102,8 @@ export const useUsers = defineStore("users", () => {
     getUserById,
     validateName,
     validateEmail,
-    deleteUser
+    deleteUser,
+    editUser,
   };
 });
 

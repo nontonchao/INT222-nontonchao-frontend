@@ -2,9 +2,11 @@
 import { ref } from "vue";
 import { useEvents } from "../stores/events.js";
 import { useRouter } from "vue-router";
+import { useUsers } from "../stores/users.js";
 
 const router = useRouter();
 const useEvent = useEvents();
+const userStore = useUsers();
 
 const props = defineProps({
   userz: {
@@ -13,6 +15,7 @@ const props = defineProps({
     default: {},
   },
 });
+
 const firstname = ref("");
 const lastname = ref("");
 const email_ = ref("");
@@ -38,6 +41,10 @@ const validateEmail = (email) => {
   return false;
 };
 
+const editUser = async (id) => {
+  await userStore.editUser(id, { email: email_.value });
+}
+
 const clearForm = () => {
   firstname.value = "";
   lastname.value = "";
@@ -61,7 +68,7 @@ const validatePass = () => {
   }
   return false;
 };
-// let toEditUser = prop.userz;
+
 </script>
 
 <template>
@@ -71,8 +78,7 @@ const validatePass = () => {
         <div class="row gy-4 gy-md-0">
           <div
             class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center"
-            style="margin: 60px"
-          >
+            style="margin: 60px">
             <div style="max-width: 350px">
               <h2 class="text-uppercase fw-bold">แก้ไขข้อมูลของผู้ใช้งาน</h2>
               <p class="my-3">คุณสามารถแก้ข้อมูลเกี่ยวกับ OASIP ID</p>
@@ -88,10 +94,7 @@ const validatePass = () => {
                 <div class="card-body p-sm-5">
                   <p>คุณเป็นใคร ?</p>
                   <div class="mb-4">
-                    <select
-                      v-model="role_"
-                      class="form-select form-select mt-1"
-                    >
+                    <select v-model="role_" class="form-select form-select mt-1">
                       <option selected>นักศึกษา</option>
                       <option>อาจารย์</option>
                     </select>
@@ -99,75 +102,35 @@ const validatePass = () => {
                   <div>
                     <div class="row mb-3">
                       <div class="col-md-6 form-floating mb-3">
-                        <input
-                          type="text"
-                          v-model="firstname"
-                          class="form-control"
-                          id="floatingInput"
-                          name="name"
-                          minlength="1"
-                          maxlength="50"
-                          placeholder="ชื่อ"
-                        />
+                        <input type="text" v-model="firstname" class="form-control" id="floatingInput" name="name"
+                          minlength="1" maxlength="50" placeholder="ชื่อ" />
                         <label for="floatingInput">ชื่อ</label>
                       </div>
                       <div class="col-md-6 form-floating mb-3">
-                        <input
-                          v-model="lastname"
-                          class="form-control"
-                          type="text"
-                          id="floatingInput"
-                          name="lastname"
-                          minlength="1"
-                          maxlength="50"
-                          placeholder="นามสกุล"
-                        />
+                        <input v-model="lastname" class="form-control" type="text" id="floatingInput" name="lastname"
+                          minlength="1" maxlength="50" placeholder="นามสกุล" />
                         <label for="floatingInput">นามสกุล</label>
                       </div>
                     </div>
                   </div>
                   <div class="mb-5 form-floating mb-3">
-                    <input
-                      v-model="email_"
-                      class="form-control"
-                      required
-                      type="email"
-                      id="email-2"
-                      name="email"
-                      minlength="1"
-                      maxlength="50"
-                      placeholder="อีเมล"
-                      
-                      @change="validateEmail(email_)"
-                    />
+                    <input v-model="email_" class="form-control" required type="email" id="email-2" name="email"
+                      minlength="1" maxlength="50" placeholder="อีเมล" @change="validateEmail(email_)" />
                     <label for="floatingInput">อีเมล</label>
 
-                    <p
-                      class="text-danger text-end fs-6"
-                      v-if="emailStatus == 0"
-                    >
+                    <p class="text-danger text-end fs-6" v-if="emailStatus == 0">
                       *กรุณาใส่อีเมลให้ถูกต้อง
                     </p>
                   </div>
 
                   <div class="d-flex flex-row-reverse bd-highlight">
-                    <button
-                      class="btn btn-danger btn-sm"
-                      type="button"
-                      style="--bs-btn-border-radius: 1rem"
-                      @click="router.push(`/Userinfo/${props.userz.id}`)"
-                    >
+                    <button class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem"
+                      @click="router.push(`/Userinfo/${props.userz.id}`)">
                       ยกเลิก
                     </button>
-                    <button
-                      class="btn btn-primary btn-sm mx-4"
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#myModal"
-                      style="--bs-btn-border-radius: 1rem"
-                      :disabled="!(time != 0 && startTime != 0)"
-                      @click=""
-                    >
+                    <button class="btn btn-primary btn-sm mx-4" type="button" data-bs-toggle="modal"
+                      data-bs-target="#myModal" style="--bs-btn-border-radius: 1rem"
+                      :disabled="!(time != 0 && startTime != 0)" @click="">
                       ยืนยัน
                     </button>
                   </div>
@@ -184,24 +147,12 @@ const validatePass = () => {
       <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header flex-column">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-hidden="true"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             <div class="icon-box">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="70"
-                height="70"
-                fill="currentColor"
-                class="bi bi-exclamation"
-                viewBox="0 0 16 16"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                class="bi bi-exclamation" viewBox="0 0 16 16">
                 <path
-                  d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z"
-                />
+                  d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
               </svg>
             </div>
 
@@ -213,20 +164,11 @@ const validatePass = () => {
             <p>หากคุณแก้ไขOASIP ID ของคุณไปแล้ว ข้อมูลของคุณจะถูกเปลี่ยนไปตามที่คุณต้องการ</p>
           </div>
           <div class="modal-footer justify-content-center">
-            <button
-              type="button"
-              data-bs-dismiss="modal"
-              class="btn btn-primary rounded-pill"
-              data-dismiss="modal"
-              @click="router.push(`/Userinfo/${props.userz.id}`)"
-            >
+            <button type="button" data-bs-dismiss="modal" class="btn btn-primary rounded-pill" data-dismiss="modal"
+              @click="editUser(props.userz.id); router.push(`/Userinfo/${props.userz.id}`)">
               ยืนยัน
             </button>
-            <button
-              type="button"
-              data-bs-dismiss="modal"
-              class="btn btn-danger rounded-pill"
-            >
+            <button type="button" data-bs-dismiss="modal" class="btn btn-danger rounded-pill">
               ยกเลิก
             </button>
           </div>
@@ -243,15 +185,18 @@ const validatePass = () => {
   border-bottom: 1px solid #000000;
   border-radius: 5;
 }
+
 .form-select:focus,
 .form-control:focus {
   box-shadow: none;
   border-bottom-color: #2196f3;
 }
+
 .scale:hover {
   transform: scale(1.2);
   filter: drop-shadow(0 0 0.15rem rgb(129, 128, 128));
 }
+
 .list-group {
   max-height: 300px;
 }
