@@ -10,6 +10,13 @@ const eventList = ref({});
 const eventCateList = ref([]);
 const router = useRouter();
 
+//event num
+const eAll = ref(0);
+const eComing = ref(0);
+const eOngoing = ref(0);
+const ePast = ref(0);
+//
+
 // filter
 const filter_list = ref({});
 const fStatus = ref("ทั้งหมด");
@@ -20,6 +27,26 @@ const search = ref("");
 
 const endtime = (startTime, add) => {
   return new Date(new Date(startTime).setMinutes(new Date(startTime).getMinutes(), add * 60))
+}
+
+const eventNum = () => {
+  const currentDateTime = new Date();
+  eAll.value = eventList.value.length;
+  eventList.value.filter((x) => {
+    if (new Date(x.eventStartTime) > currentDateTime) {
+      eComing.value++;
+    };
+  });
+  eventList.value.filter((x) => {
+    if (new Date(x.eventStartTime).getDate() == currentDateTime.getDate() && currentDateTime.getTime() > new Date(x.eventStartTime).getTime() && currentDateTime < endtime(x.eventStartTime, x.eventDuration)) {
+      eOngoing.value++;
+    };
+  });
+  eventList.value.filter((x) => {
+    if (endtime(x.eventStartTime, x.eventDuration) < currentDateTime) {
+      ePast.value++;
+    }
+  });
 }
 
 const filterEvent = async (search) => {
@@ -51,6 +78,7 @@ onBeforeMount(async () => {
   eventList.value = await eventStore.fetchEvents();
   filter_list.value = eventList.value;
   eventCateList.value = eventCateStore.eventCategoryList;
+  eventNum();
 });
 </script>
 
@@ -127,7 +155,7 @@ onBeforeMount(async () => {
               <div class="col">
                 <div class="p-3">
                   <h4 class="display-5 fw-bold text-white mb-0">
-                    {{ eventList.length }}
+                    {{ eAll }}
                   </h4>
                   <p class="mb-0 text-white">นัดหมายทั้งหมด</p>
                 </div>
@@ -135,7 +163,7 @@ onBeforeMount(async () => {
               <div class="col">
                 <div class="p-3">
                   <h4 class="display-5 fw-bold text-white mb-0">
-                    {{ eventList.length }}
+                    {{ eComing }}
                   </h4>
                   <p class="mb-0 text-white">กำลังจะมาถึง</p>
                 </div>
@@ -143,7 +171,7 @@ onBeforeMount(async () => {
               <div class="col">
                 <div class="p-3">
                   <h4 class="display-5 fw-bold text-white mb-0">
-                    {{ eventList.length }}
+                    {{ eOngoing }}
                   </h4>
                   <p class="mb-0 text-white">กำลังดำเนินอยู่</p>
                 </div>
@@ -151,7 +179,7 @@ onBeforeMount(async () => {
               <div class="col">
                 <div class="p-3">
                   <h4 class="display-5 fw-bold text-white mb-0">
-                    {{ eventList.length }}
+                    {{ ePast }}
                   </h4>
                   <p class="mb-0 text-white">ที่ผ่านมา</p>
                 </div>
