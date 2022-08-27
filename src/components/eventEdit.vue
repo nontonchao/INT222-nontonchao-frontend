@@ -2,14 +2,12 @@
 import { ref } from "vue";
 import { useEvents } from "../stores/events.js";
 import { useRouter } from "vue-router";
-
 const router = useRouter();
 const useEvent = useEvents();
 const startTime = ref("");
 const time = ref("");
 const activeIndex = ref("");
 const eNotes = ref(props.eventz.eventNotes);
-
 const props = defineProps({
   eventz: {
     type: Object,
@@ -17,13 +15,10 @@ const props = defineProps({
     default: {},
   },
 });
-
 let toEdit = props.eventz;
-
 const numberFormat = function (number, width) {
   return new Array(+width + 1 - (number + "").length).join("0") + number;
 };
-
 const getCurrDate = () => {
   const today = new Date();
   return `${today.getFullYear()}-${numberFormat(
@@ -31,12 +26,9 @@ const getCurrDate = () => {
     2
   )}-${numberFormat(new Date(today.toString()).getDate(), 2)}`;
 };
-
 console.log();
-
 var d = new Date(getCurrDate());
 d.setHours(0, 0, 0, 0);
-
 const getTime = (time) => {
   return (
     String(time.getHours()).padStart(2, "0") +
@@ -44,13 +36,10 @@ const getTime = (time) => {
     String(time.getMinutes()).padStart(2, "0")
   );
 };
-
 function addMinutes(date, minutes) {
   return new Date(date.getTime() + minutes * 60000);
 }
-
 const timeTable = ref([]);
-
 const generateTimeSlot = (eventDuration) => {
   timeTable.value.length = 0;
   d.setHours(0, 0, 0, 0);
@@ -61,7 +50,6 @@ const generateTimeSlot = (eventDuration) => {
     d = addMinutes(d, 5);
   }
 };
-
 const activeClick = (id) => {
   if (id === activeIndex.value) {
     return "btn btn-outline-danger btn-sm m-2 active";
@@ -69,9 +57,7 @@ const activeClick = (id) => {
     return "btn btn-outline-danger btn-sm m-2";
   }
 };
-
 generateTimeSlot(toEdit.eventDuration);
-
 const editEvent = async () => {
   toEdit = {
     eventStartTime:
@@ -321,16 +307,13 @@ const editEvent = async () => {
 .list-group {
   max-height: 300px;
 }
-
 body {
   font-family: "Varela Round", sans-serif;
 }
-
 .modal-confirm {
   color: #636363;
   width: 500px;
 }
-
 .modal-confirm .modal-content {
   padding: 20px;
   border-radius: 5px;
@@ -338,28 +321,23 @@ body {
   text-align: center;
   font-size: 14px;
 }
-
 .modal-confirm .modal-header {
   border-bottom: none;
   position: relative;
 }
-
 .modal-confirm h4 {
   text-align: center;
   font-size: 26px;
   margin: 30px 500px -20px;
 }
-
 .modal-confirm .close {
   position: absolute;
   top: -5px;
   right: -2px;
 }
-
 .modal-confirm .modal-body {
   color: #999;
 }
-
 .modal-confirm .modal-footer {
   border: none;
   text-align: center;
@@ -367,11 +345,9 @@ body {
   font-size: 13px;
   padding: 10px 15px 25px;
 }
-
 .modal-confirm .modal-footer a {
   color: #999;
 }
-
 .modal-confirm .icon-box {
   width: 80px;
   height: 80px;
@@ -381,14 +357,12 @@ body {
   text-align: center;
   border: 4px solid rgb(250, 231, 62);
 }
-
 .modal-confirm .icon-box i {
   color: #f15e5e;
   font-size: 46px;
   display: inline-block;
   margin-top: 13px;
 }
-
 .modal-confirm .btn,
 .modal-confirm .btn:active {
   color: #fff;
@@ -403,20 +377,16 @@ body {
   border-radius: 3px;
   margin: 0 5px;
 }
-
 .modal-confirm .btn-secondary {
   background: #f5f5f7;
 }
-
 .modal-confirm .btn-secondary:hover,
 .modal-confirm .btn-secondary:focus {
   background: #a8a8a8;
 }
-
 .modal-confirm .btn-danger {
   background: #f15e5e;
 }
-
 .modal-confirm .btn-danger:hover,
 .modal-confirm .btn-danger:focus {
   background: #ee3535;

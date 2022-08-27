@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 export const useUsers = defineStore("users", () => {
   const users = ref([]);
+  const resStatus = ref(0)
   const fetchUsers = async () => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}users`, {
       method: "GET",
@@ -93,6 +94,7 @@ export const useUsers = defineStore("users", () => {
     } else {
       alert("error while editing");
     }
+    resStatus.value = res.status
   };
 
 
@@ -104,6 +106,7 @@ export const useUsers = defineStore("users", () => {
     validateEmail,
     deleteUser,
     editUser,
+    resStatus,
   };
 });
 

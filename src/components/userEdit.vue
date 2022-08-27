@@ -187,7 +187,7 @@ const validatePass = () => {
     <!-- Modal edit HTML -->
     <div id="myModal" class="modal fade">
       <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
-        <!-- 200 Modal edit HTML -->
+        <!-- con Modal edit HTML -->
         <div class="modal-content">
           <div class="modal-header flex-column">
             <button
@@ -242,62 +242,87 @@ const validatePass = () => {
           </div>
         </div>
         <!-- 200 Modal edit HTML -->
+        <!-- 400 Modal edit HTML -->
+        <div id="myModal" class="modal fade">
+          <div
+            class="modal-dialog modal-confirm modal-lx modal-dialog-centered"
+          >
+            <div class="modal-content" v-show="userStore.resStatus == 400">
+              <div class="modal-header flex-column">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-hidden="true"
+                ></button>
+                <div class="icon-box">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="70"
+                    height="70"
+                    fill="currentColor"
+                    class="bi bi-exclamation"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z"
+                    />
+                  </svg>
+                </div>
 
-        <!-- 200 Modal edit HTML -->
-        <div class="modal-content">
-          <div class="modal-header flex-column">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-hidden="true"
-            ></button>
-            <div class="icon-box">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="70"
-                height="70"
-                fill="currentColor"
-                class="bi bi-exclamation"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z"
-                />
-              </svg>
+                <h4 class="modal-title w-100">คุณอีเมลนี้ถูกใช้ไปแล้ว !</h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                  หากคุณต้องการจะแก้ไขข้อมูล OASIP ID
+                  กรุณาใช้ชื่อและอีเมลให้ถูกต้อง
+                </p>
+              </div>
             </div>
-
-            <h4 class="modal-title w-100">คุณต้องการจะแก้ไข OASIP ID ?</h4>
-          </div>
-          <div class="modal-body">
-            <p>
-              หากคุณแก้ไขOASIP ID ของคุณไปแล้ว
-              ข้อมูลของคุณจะถูกเปลี่ยนไปตามที่คุณต้องการ
-            </p>
-          </div>
-          <div class="modal-footer justify-content-center">
-            <button
-              type="button"
-              data-bs-dismiss="modal"
-              class="btn btn-primary rounded-pill"
-              data-dismiss="modal"
-              @click="
-                editUser(props.userz.id);
-                router.push(`/Userinfo/${props.userz.id}`);
-              "
-            >
-              ยืนยัน
-            </button>
-            <button
-              type="button"
-              data-bs-dismiss="modal"
-              class="btn btn-danger rounded-pill"
-            >
-              ยกเลิก
-            </button>
           </div>
         </div>
-        <!-- 200 Modal edit HTML -->
+        <!-- 400 Modal edit HTML -->
+
+        <!-- 401 Modal edit HTML -->
+        <div id="myModal" class="modal fade">
+          <div
+            class="modal-dialog modal-confirm modal-lx modal-dialog-centered"
+          >
+            <div class="modal-content" v-show="userStore.resStatus == 401">
+              <div class="modal-header flex-column">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-hidden="true"
+                ></button>
+                <div class="icon-box">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="70"
+                    height="70"
+                    fill="currentColor"
+                    class="bi bi-exclamation"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z"
+                    />
+                  </svg>
+                </div>
+
+                <h4 class="modal-title w-100">คุณชื่อนี้ถูกใช้ไปแล้ว !</h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                  หากคุณต้องการจะแก้ไขข้อมูล OASIP ID
+                  กรุณาใช้ชื่อและอีเมลให้ถูกต้อง
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 401 Modal edit HTML -->
       </div>
     </div>
   </div>

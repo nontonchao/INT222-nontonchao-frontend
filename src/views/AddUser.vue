@@ -333,6 +333,9 @@ const validatePass = () => {
       </div>
     </div>
   </div>
+
+
+  
 </template>
 
 <style scoped>
