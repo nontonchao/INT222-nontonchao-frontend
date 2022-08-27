@@ -62,6 +62,14 @@ export const useEvents = defineStore("events", () => {
     }
   };
 
+  const getTime = async (date, eventCategoryId) => {
+    const res = await fetch(
+      `${import.meta.env.VITE_BASE_URL}events/date/${date}/${eventCategoryId}`)
+    if (res.status == 200) {
+      return await res.json();
+    }
+  }
+
   const fetchEvents = async () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_BASE_URL}events`, {
@@ -85,6 +93,7 @@ export const useEvents = defineStore("events", () => {
     getEventById,
     addEvent,
     editEvent,
+    getTime,
   };
 });
 
