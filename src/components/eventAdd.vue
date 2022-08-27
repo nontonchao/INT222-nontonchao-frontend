@@ -1,8 +1,7 @@
 <script setup>
 import { onBeforeMount, ref } from "vue";
 import { useEvents } from "../stores/events.js";
-import { START_LOCATION, useRouter } from "vue-router";
-import { createFunctionExpression } from "@vue/compiler-core";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   clinic_list: {
@@ -97,9 +96,6 @@ const getClinic = (clinicName) => {
   )[0];
 };
 
-const aaa = (w) => {
-  console.log(w);
-}
 const addEvent = async () => {
   toSend.value = {
     // bookingName: name.value,
