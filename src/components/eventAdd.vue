@@ -13,12 +13,11 @@ const props = defineProps({
 
 var d = new Date();
 d.setHours(0, 0, 0, 0);
+var d_tmp = ref(new Date());
 
 const getTime = (time) => {
   return (
-    String(time.getHours()).padStart(2, "0") +
-    ":" +
-    String(time.getMinutes()).padStart(2, "0")
+    time
   );
 };
 
@@ -33,15 +32,15 @@ const checkTimeSlot = async (date, eventCategoryId) => {
   slot.value.length = 0;
   const slot_t = await eventStore.getTime(date, eventCategoryId);
   slot_t.forEach(x => {
-    slot.value.push(new Date(x.eventStartTime).toString().split(' ')[4].substring(0, 5));
+    slot.value.push(new Date(x.eventStartTime).toString());
   });
-  console.log(slot.value.includes('00:00'));
 }
 
 const timeTable = ref([]);
 
 const generateTimeSlot = (eventDuration) => {
   timeTable.value.length = 0;
+  d = new Date(startTime.value.split('-')[0] + '-' + startTime.value.split('-')[1] + '-' + startTime.value.split('-')[2]);
   d.setHours(0, 0, 0, 0);
   for (let i = 0; i < 1440 / (eventDuration + 5); i++) {
     timeTable.value.push(
@@ -73,7 +72,7 @@ const time = ref("");
 const toSend = ref("");
 const selectClinic = ref({});
 const activeIndex = ref();
-
+const duration = ref();
 
 
 const numberFormat = function (number, width) {
@@ -88,7 +87,6 @@ const getCurrDate = () => {
   )}-${numberFormat(new Date(today.toString()).getDate(), 2)}`;
 };
 const startTime = ref(getCurrDate());
-console.log(getCurrDate())
 
 const getClinic = (clinicName) => {
   selectClinic.value = props.clinic_list.filter(
@@ -101,14 +99,15 @@ const addEvent = async () => {
     // bookingName: name.value,
     bookingName: firstname.value.trim() + " " + lastname.value.trim(),
     bookingEmail: email.value.trim(),
-    eventStartTime:
-      new Date(startTime.value)
-        .toISOString()
-        .replace(".000Z", "Z")
-        .split("T")[0] +
-      "T" +
-      time.value +
-      ":00.000+07:00",
+    // eventStartTime:
+    //   new Date(startTime.value)
+    //     .toISOString()
+    //     .replace(".000Z", "Z")
+    //     .split("T")[0] +
+    //   "T" +
+    //   time.value +
+    //   ":00.000+07:00",
+    eventStartTime: d_tmp.value,
     eventDuration: JSON.stringify(
       props.clinic_list.filter((x) => x.eventCategoryName === clinicX.value)[0]
         .eventDuration
@@ -168,6 +167,7 @@ const ValidateEmail = (mail) => {
               <input v-model="clinicX" @change="
   getClinic(clinicX);
 ecId = cateList.id;
+duration = cateList.eventDuration;
 generateTimeSlot(cateList.eventDuration);
 checkTimeSlot(startTime, ecId);
               " class="form-check-input" type="radio" required name="flexRadioDefault"
@@ -232,7 +232,7 @@ checkTimeSlot(startTime, ecId);
           <div class="col-md-6">
             <div class="m-5">
               <input type="date" class="form-control" v-model="startTime" required :min="getCurrDate()"
-                @change="checkTimeSlot(startTime, ecId)" />
+                @change="checkTimeSlot(startTime, ecId); generateTimeSlot(duration)" />
             </div>
             <div>
               <!-- 1440 = นาทีใน 1 วัน ต้องเอา duration ของ category นั้นๆมา + 5 นาทีแล้วหาร จะได้สลอตเวลามา -->
@@ -240,12 +240,15 @@ checkTimeSlot(startTime, ecId);
                 <div class="panel-body my-5 text-center">
                   <div class="row row-cols-5 list-group list-group-item">
                     <button type="button" v-for="(x, index) in timeTable" :key="index" @click="
-  time = timeTable[index].split('-')[0].trim();
-activeIndex = index;
-activeClick(index);
-                    " :class="activeClick(index)" :disabled="slot.includes(x.split('-')[0].trim())"
+                      time = timeTable[index].split('-')[0].trim();
+                    activeIndex = index;
+                    activeClick(index);
+                    d_tmp = new Date(x.substring(0, 50)).toISOString()" :class="activeClick(index)"
+                      :disabled="slot.includes(x.substring(0, 50)) || new Date(x.substring(0, 50)) < new Date()"
                       :activeIndex="index" class="'btn-sm'">
-                      {{ x }}
+                      {{ x.split(' ')[4].substring(0, 5) }} - {{ x.split(' ')[13].substring(0, 5) }}
+                      <small v-if="slot.includes(x.substring(0, 50))">เวลานี้ถูกจองแล้ว</small>
+                      <small v-if="new Date(x.substring(0, 50)) < new Date()">หมดเวลาจอง</small>
                     </button>
                   </div>
                 </div>
