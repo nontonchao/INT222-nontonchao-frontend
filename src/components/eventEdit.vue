@@ -16,9 +16,11 @@ const props = defineProps({
   },
 });
 let toEdit = props.eventz;
+
 const numberFormat = function (number, width) {
   return new Array(+width + 1 - (number + "").length).join("0") + number;
 };
+
 const getCurrDate = () => {
   const today = new Date();
   return `${today.getFullYear()}-${numberFormat(
@@ -26,22 +28,45 @@ const getCurrDate = () => {
     2
   )}-${numberFormat(new Date(today.toString()).getDate(), 2)}`;
 };
-console.log();
-var d = new Date(getCurrDate());
+
+
+var d = new Date();
 d.setHours(0, 0, 0, 0);
+var d_tmp = ref(new Date());
+
 const getTime = (time) => {
-  return (
-    String(time.getHours()).padStart(2, "0") +
-    ":" +
-    String(time.getMinutes()).padStart(2, "0")
-  );
+  return time;
 };
+
+
 function addMinutes(date, minutes) {
   return new Date(date.getTime() + minutes * 60000);
 }
+
+var d = new Date();
+d.setHours(0, 0, 0, 0);
+const slot = ref([]);
+
+const checkTimeSlot = async (date, eventCategoryId) => {
+  slot.value.length = 0;
+  const slot_t = await useEvent.getTime(date, eventCategoryId);
+  slot_t.forEach((x) => {
+    slot.value.push(new Date(x.eventStartTime).toString());
+  });
+};
+
 const timeTable = ref([]);
+
 const generateTimeSlot = (eventDuration) => {
+  console.log(eventDuration);
   timeTable.value.length = 0;
+  d = new Date(
+    startTime.value.split("-")[0] +
+    "-" +
+    startTime.value.split("-")[1] +
+    "-" +
+    startTime.value.split("-")[2]
+  );
   d.setHours(0, 0, 0, 0);
   for (let i = 0; i < 1440 / (eventDuration + 5); i++) {
     timeTable.value.push(
@@ -50,6 +75,7 @@ const generateTimeSlot = (eventDuration) => {
     d = addMinutes(d, 5);
   }
 };
+
 const activeClick = (id) => {
   if (id === activeIndex.value) {
     return "btn btn-outline-danger btn-sm m-2 active";
@@ -57,24 +83,17 @@ const activeClick = (id) => {
     return "btn btn-outline-danger btn-sm m-2";
   }
 };
-generateTimeSlot(toEdit.eventDuration);
+
 const editEvent = async () => {
   toEdit = {
-    eventStartTime:
-      new Date(startTime.value)
-        .toISOString()
-        .replace(".000Z", "Z")
-        .split("T")[0] +
-      "T" +
-      time.value +
-      ":00Z",
+    eventStartTime: d_tmp.value,
     eventNotes: eNotes.value,
   };
   await useEvent.editEvent(props.eventz.id, toEdit);
   1;
 };
-</script>
 
+</script>
 <template>
   <div>
     <section class="py-4 py-xl-5" style="background: #ffffff">
@@ -82,8 +101,7 @@ const editEvent = async () => {
         <div class="row gy-4 gy-md-0">
           <div
             class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center"
-            style="margin: 60px"
-          >
+            style="margin: 60px">
             <div style="max-width: 350px">
               <h2 class="text-uppercase fw-bold">แก้ไขการนัดหมาย</h2>
               <p class="my-3">
@@ -99,18 +117,10 @@ const editEvent = async () => {
         <div class="row gy-4 gy-md-0 justify-content-center">
           <div class="col-md-3 p-3">
             <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="flexRadioDefault"
-                disabled
-                checked
-              />
+              <input class="form-check-input" type="radio" name="flexRadioDefault" disabled checked />
               {{ eventz.eventCategory.eventCategoryName }}
               <label class="form-check-label">
-                <small class="text-muted"
-                  >({{ eventz.eventCategory.eventDuration }} นาที)</small
-                >
+                <small class="text-muted">({{ eventz.eventCategory.eventDuration }} นาที)</small>
               </label>
             </div>
           </div>
@@ -119,21 +129,19 @@ const editEvent = async () => {
       <div class="container py-4 py-xl-5">
         <div class="row gy-4 gy-md-0">
           <div
-            class="col-md-3 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center"
-          ></div>
+            class="col-md-3 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center">
+          </div>
           <div class="col-md-6 form-floating">
             <form class="mt-1">
               <div class="row">
                 <div class="col">
                   <p>
-                    <strong>Firstname: </strong
-                    >{{ eventz.bookingName.split(" ")[0] }}
+                    <strong>Firstname: </strong>{{ eventz.bookingName.split(" ")[0] }}
                   </p>
                 </div>
                 <div class="col">
                   <p>
-                    <strong>Lastname: </strong
-                    >{{ eventz.bookingName.split(" ")[1] }}
+                    <strong>Lastname: </strong>{{ eventz.bookingName.split(" ")[1] }}
                   </p>
                 </div>
               </div>
@@ -150,45 +158,33 @@ const editEvent = async () => {
         <div class="row gy-4 gy-md-0">
           <div class="col-md-6">
             <div class="m-5">
-              <input
-                type="date"
-                class="form-control"
-                :min="getCurrDate()"
-                v-model="startTime"
-                required
-              />
+              <input type="date" class="form-control" v-model="startTime" required :min="getCurrDate()" @change="
+  checkTimeSlot(startTime, toEdit.eventCategory.id);
+generateTimeSlot(toEdit.eventDuration);
+              " />
             </div>
             <div>
-              <div
-                class="container text-center"
-                v-show="startTime.length > 0 && getCurrDate() <= startTime"
-              >
+              <div class="container text-center" v-show="startTime.length > 0 && getCurrDate() <= startTime">
                 <div class="row row-cols-5 list-group list-group-item">
-                  <button
-                    type="button"
-                    v-for="(x, index) in timeTable"
-                    :key="index"
-                    @click="
-                      time = timeTable[index].split('-')[0].trim();
-                      activeIndex = index;
-                      activeClick(index);
-                    "
-                    :class="activeClick(index)"
-                    :activeIndex="index"
-                    class="btn-sm"
-                  >
-                    {{ x }}
+                  <button type="button" v-for="(x, index) in timeTable" :key="index" @click="
+  time = timeTable[index].split('-')[0].trim();
+activeIndex = index;
+activeClick(index);
+d_tmp = new Date(x.substring(0, 50)).toISOString();
+                  " :class="activeClick(index)" :disabled="
+                    slot.includes(x.substring(0, 50)) ||
+                    new Date(x.substring(0, 50)) < new Date()
+                  " :activeIndex="index" class="'btn-sm'">
+                    {{ x.split(" ")[4].substring(0, 5) }} -
+                    {{ x.split(" ")[13].substring(0, 5) }}
+                    <small v-if="slot.includes(x.substring(0, 50))">เวลานี้ถูกจองแล้ว</small>
+                    <small v-if="new Date(x.substring(0, 50)) < new Date()">หมดเวลาจอง</small>
                   </button>
                 </div>
               </div>
               <div class="col m-5">
-                <textarea
-                  rows="4"
-                  class="form-control mt-3"
-                  placeholder="อยากบอกอะไรกับที่ปรึกษาไหม?"
-                  maxlength="300"
-                  v-model="eNotes"
-                />
+                <textarea rows="4" class="form-control mt-3" placeholder="อยากบอกอะไรกับที่ปรึกษาไหม?" maxlength="300"
+                  v-model="eNotes" />
               </div>
             </div>
           </div>
@@ -202,23 +198,12 @@ const editEvent = async () => {
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight">
-          <button
-            class="btn btn-danger btn-sm"
-            type="button"
-            style="--bs-btn-border-radius: 1rem"
-            @click="router.push(`/Eventinfo/${props.eventz.id}`)"
-          >
+          <button class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem"
+            @click="router.push(`/Eventinfo/${props.eventz.id}`)">
             ยกเลิก
           </button>
-          <button
-            class="btn btn-primary btn-sm mx-4"
-            type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#myModal"
-            style="--bs-btn-border-radius: 1rem"
-            :disabled="!(time != 0 && startTime != 0)"
-            @click="editEvent()"
-          >
+          <button class="btn btn-primary btn-sm mx-4" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
+            style="--bs-btn-border-radius: 1rem" :disabled="!(time != 0 && startTime != 0)" @click="editEvent()">
             ยืนยัน
           </button>
         </div>
@@ -230,24 +215,12 @@ const editEvent = async () => {
       <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
         <div class="modal-content" v-show="useEvents.resStatus == 400">
           <div class="modal-header flex-column">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-hidden="true"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             <div class="icon-box">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="70"
-                height="70"
-                fill="currentColor"
-                class="bi bi-exclamation"
-                viewBox="0 0 16 16"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                class="bi bi-exclamation" viewBox="0 0 16 16">
                 <path
-                  d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z"
-                />
+                  d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
               </svg>
             </div>
 
@@ -268,24 +241,12 @@ const editEvent = async () => {
       <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
         <div class="modal-content" v-show="useEvents.resStatus == 401">
           <div class="modal-header flex-column">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-hidden="true"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             <div class="icon-box">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="70"
-                height="70"
-                fill="currentColor"
-                class="bi bi-exclamation"
-                viewBox="0 0 16 16"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                class="bi bi-exclamation" viewBox="0 0 16 16">
                 <path
-                  d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z"
-                />
+                  d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
               </svg>
             </div>
 
@@ -307,13 +268,16 @@ const editEvent = async () => {
 .list-group {
   max-height: 300px;
 }
+
 body {
   font-family: "Varela Round", sans-serif;
 }
+
 .modal-confirm {
   color: #636363;
   width: 500px;
 }
+
 .modal-confirm .modal-content {
   padding: 20px;
   border-radius: 5px;
@@ -321,23 +285,28 @@ body {
   text-align: center;
   font-size: 14px;
 }
+
 .modal-confirm .modal-header {
   border-bottom: none;
   position: relative;
 }
+
 .modal-confirm h4 {
   text-align: center;
   font-size: 26px;
   margin: 30px 500px -20px;
 }
+
 .modal-confirm .close {
   position: absolute;
   top: -5px;
   right: -2px;
 }
+
 .modal-confirm .modal-body {
   color: #999;
 }
+
 .modal-confirm .modal-footer {
   border: none;
   text-align: center;
@@ -345,9 +314,11 @@ body {
   font-size: 13px;
   padding: 10px 15px 25px;
 }
+
 .modal-confirm .modal-footer a {
   color: #999;
 }
+
 .modal-confirm .icon-box {
   width: 80px;
   height: 80px;
@@ -357,12 +328,14 @@ body {
   text-align: center;
   border: 4px solid rgb(250, 231, 62);
 }
+
 .modal-confirm .icon-box i {
   color: #f15e5e;
   font-size: 46px;
   display: inline-block;
   margin-top: 13px;
 }
+
 .modal-confirm .btn,
 .modal-confirm .btn:active {
   color: #fff;
@@ -377,16 +350,20 @@ body {
   border-radius: 3px;
   margin: 0 5px;
 }
+
 .modal-confirm .btn-secondary {
   background: #f5f5f7;
 }
+
 .modal-confirm .btn-secondary:hover,
 .modal-confirm .btn-secondary:focus {
   background: #a8a8a8;
 }
+
 .modal-confirm .btn-danger {
   background: #f15e5e;
 }
+
 .modal-confirm .btn-danger:hover,
 .modal-confirm .btn-danger:focus {
   background: #ee3535;
