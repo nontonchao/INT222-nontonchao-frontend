@@ -26,7 +26,7 @@ onBeforeMount(async () => {
 
 <template>
   <div>
-    <section class="py-4 py-xl-5" style="background: #f5f5f7">
+    <section class="py-4 py-xl-5" style="background: #ffffff">
       <section class="border bottom-dark" style="background: #ffffff">
         <nav
           class="navbar navbar-light navbar-expand-md py-3"
