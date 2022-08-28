@@ -37,8 +37,7 @@ const validateEmail = (email) => {
     emailStatus.value = 0;
     return false;
   }
-  emailStatus.value = 0;
-  return false;
+
 };
 
 const editUser = async (id) => {
@@ -241,7 +240,7 @@ const validatePass = () => {
             </button>
           </div>
         </div>
-        <!-- 200 Modal edit HTML -->
+        <!-- conf Modal edit HTML -->
         <!-- 400 Modal edit HTML -->
         <div id="myModal" class="modal fade">
           <div

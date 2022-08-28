@@ -25,8 +25,10 @@ export const useUsers = defineStore("users", () => {
       body: JSON.stringify(new_user),
     });
     if (res.status == 201) {
+      resStatus.value = res.status
       // alert("user created!");
     } else {
+      resStatus.value = res.status
       console.log("error while registering");
     }
   };
@@ -71,7 +73,7 @@ export const useUsers = defineStore("users", () => {
       }
     );
     if (res.status === 200) {
-      // alert("event removed");
+      alert("event removed");
     } else {
       alert("error while delete || error :" + statusMessage.value);
     }
@@ -89,12 +91,19 @@ export const useUsers = defineStore("users", () => {
       }
     );
     if (res.status == 200) {
+      resStatus.value = res.status
       alert("user edited");
     } else if (res.status == 400) {
+      resStatus.value = res.status
     } else {
       alert("error while editing");
     }
     resStatus.value = res.status
+  };
+
+  const isEmailNotUnique = (targetEmail) => {
+    return users.value
+      .some((user) => user.email === targetEmail)
   };
 
 
@@ -107,6 +116,7 @@ export const useUsers = defineStore("users", () => {
     deleteUser,
     editUser,
     resStatus,
+    isEmailNotUnique,
   };
 });
 

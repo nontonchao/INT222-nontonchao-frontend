@@ -20,9 +20,10 @@ const register = async () => {
     role: role_.value == "นักศึกษา" ? "student" : "lecturer",
     password: passwordX.value,
   });
+  console.log(await `status ${userStore.resStatus}`);
 };
 
-const emailStatus = ref(2);
+const emailStatus = ref();
 const validateEmail = (email) => {
   if (
     email.length != 0 &&
@@ -37,8 +38,6 @@ const validateEmail = (email) => {
     emailStatus.value = 0;
     return false;
   }
-  emailStatus.value = 0;
-  return false;
 };
 
 const clearForm = () => {
@@ -46,7 +45,7 @@ const clearForm = () => {
   lastname.value = "";
   email_.value = "";
   role_.value = "นักศึกษา";
-  emailStatus.value = 2;
+  emailStatus.value = 3;
 };
 
 const validatePass = () => {
@@ -106,7 +105,7 @@ const validatePass = () => {
         </nav>
 
         <!-- modal noti -->
-        <section class="border bottom-dark" style="background: #0071e3">
+        <!-- <section class="border bottom-dark" style="background: #0071e3">
           <nav class="navbar navbar-light" style="margin: 2px">
             <div class="px-5 container align-items-center">
               <h6 class="fw-bold px-5" style="color: #ffffff">
@@ -122,7 +121,7 @@ const validatePass = () => {
               </ul>
             </div>
           </nav>
-        </section>
+        </section> -->
         <!-- modal noti -->
       </section>
       <section class="container py-4 py-xl-5">
@@ -193,12 +192,19 @@ const validatePass = () => {
                           maxlength="50"
                           placeholder="อีเมล"
                           @change="validateEmail(email_)"
+                          @keyup="userStore.isEmailNotUnique(email_)"
                         />
                         <p
                           class="text-danger text-end fs-6"
                           v-if="emailStatus == 0"
                         >
                           *กรุณาใส่อีเมลให้ถูกต้อง
+                        </p>
+                        <p
+                          class="text-danger text-end fs-6"
+                          v-if="userStore.isEmailNotUnique(email_)"
+                        >
+                          *อีเมลนี้ถูกใช้ไปแล้ว
                         </p>
                       </div>
 
@@ -257,7 +263,7 @@ const validatePass = () => {
                               lastname != 0 &&
                               email_ != 0 &&
                               validateEmail(email_) &&
-                              validatePass()
+                              validatePass()&& !userStore.isEmailNotUnique(email_)
                             )
                           "
                         >
@@ -278,6 +284,7 @@ const validatePass = () => {
   <!-- modal -->
   <div id="myModal" class="modal fade">
     <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
+      <!-- con Modal edit HTML -->
       <div class="modal-content">
         <div class="modal-header flex-column">
           <button
@@ -312,13 +319,16 @@ const validatePass = () => {
         <div class="modal-footer justify-content-center">
           <button
             data-bs-dismiss="modal"
-            @click="
-              register();
-              router.push(`/login`);
-            "
             type="button"
             class="btn btn-primary rounded-pill"
             data-dismiss="modal"
+            data-bs-toggle="modal"
+            data-bs-target="#myModal"
+            @change="validatePass()"
+            @click="
+              register();
+              router.push('/Login');
+            "
           >
             ยืนยัน
           </button>
@@ -331,11 +341,38 @@ const validatePass = () => {
           </button>
         </div>
       </div>
+      <!-- 400 Modal edit HTML -->
+      <!-- <div class="modal-content" v-show="userStore.resStatus == 400">
+        <div class="modal-header flex-column">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <div class="icon-box">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="70"
+              height="70"
+              fill="currentColor"
+              class="bi bi-emoji-frown-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"
+              />
+            </svg>
+          </div>
+          <h4 class="modal-title w-100">คุณอีเมลนี้ถูกใช้ไปแล้ว !</h4>
+        </div>
+        <div class="modal-body">
+          <p>กรุณาตรวจสอบอีเมลของคุณให้ถูกต้อง เนื่องจากอีเมลนี้ถูกใช้ไปแล้ว</p>
+        </div>
+      </div> -->
+      <!-- 400 Modal edit HTML -->
     </div>
   </div>
-
-
-  
 </template>
 
 <style scoped>
@@ -396,7 +433,6 @@ body {
   border-radius: 50%;
   z-index: 9;
   text-align: center;
-  border: 4px solid #68cc45;
 }
 
 .modal-confirm .icon-box i {

@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 export const useEvents = defineStore("events", () => {
   const events = ref([]);
+  const statusCode = ref(0)
 
   const addEvent = async (event) => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}events`, {
@@ -14,10 +15,13 @@ export const useEvents = defineStore("events", () => {
     });
     if (res.status == 201) {
       alert("event added");
+      statusCode.value = res.status
       await fetchEvents();
     } else if (res.status == 400) {
+      statusCode.value = res.status
       alert("error while adding 400");
     } else {
+      statusCode.value = res.status
       alert("error while adding");
     }
   };
@@ -37,8 +41,10 @@ export const useEvents = defineStore("events", () => {
       }
     );
     if (res.status === 200) {
+      statusCode.value = res.status
       alert("event removed");
     } else {
+      statusCode.value = res.status
       alert("error while delete || error :" + statusMessage.value);
     }
   };
@@ -55,9 +61,12 @@ export const useEvents = defineStore("events", () => {
       }
     );
     if (res.status == 200) {
+      statusCode.value = res.status 
       alert("event edited");
     } else if (res.status == 400) {
+      statusCode.value = res.status 
     } else {
+      statusCode.value = res.status 
       alert("error while editing");
     }
   };
@@ -66,6 +75,7 @@ export const useEvents = defineStore("events", () => {
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL}events/date/${date}/${eventCategoryId}`)
     if (res.status == 200) {
+      statusCode.value = res.status 
       return await res.json();
     }
   }

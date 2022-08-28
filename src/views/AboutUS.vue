@@ -1,11 +1,6 @@
 <script setup>
 import { ref } from "vue";
 
-// const isConfirm = ref(false);
-// const toggleConfirm = () => {
-//   isConfirm.value = !isConfirm.value;
-//   console.log(isConfirm.value);
-// };
 </script>
 
 <template>
@@ -75,6 +70,7 @@ import { ref } from "vue";
               type="button"
               class="btn btn-primary rounded-pill"
               data-dismiss="modal"
+           
             >
               ยืนยัน
             </button>
