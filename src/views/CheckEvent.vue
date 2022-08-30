@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useEvents } from "../stores/events.js";
 import { useEventCategory } from "../stores/eventCategory.js";
@@ -32,6 +32,10 @@ const endtime = (startTime, add) => {
 };
 
 const eventNum = () => {
+  eAll.value = 0;
+  eComing.value = 0;
+  eOngoing.value = 0;
+  ePast.value = 0;
   const currentDateTime = new Date();
   eAll.value = eventList.value.length;
   eventList.value.filter((x) => {
@@ -88,6 +92,12 @@ onBeforeMount(async () => {
   eventList.value = await eventStore.fetchEvents();
   filter_list.value = eventList.value;
   eventCateList.value = eventCateStore.eventCategoryList;
+  eventNum();
+});
+
+onMounted(async () => {
+  eventList.value = await eventStore.fetchEvents();
+  filter_list.value = eventList.value;
   eventNum();
 });
 </script>
@@ -199,12 +209,12 @@ onBeforeMount(async () => {
                 "
                 style="cursor: pointer"
               >
-                <div class="col ">
+                <div class="col">
                   <div class="p-3">
                     <h4 class="display-5 fw-bold text-white mb-0">
                       {{ eAll }}
                     </h4>
-                    <p class="mb-0 text-white ">นัดหมายทั้งหมด</p>
+                    <p class="mb-0 text-white">นัดหมายทั้งหมด</p>
                   </div>
                 </div>
               </div>
@@ -344,5 +354,4 @@ onBeforeMount(async () => {
   background-color: darkgray;
   cursor: pointer;
 }
-
 </style>
