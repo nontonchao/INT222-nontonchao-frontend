@@ -6,8 +6,8 @@ export const useLogin = defineStore("login", () => {
   const login = async (email, password) => {
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL
-      }match?email=${email}&password=${password}`
-    );
+      }login?email=${email}&password=${password}`
+      , { method: 'POST' })
     if (res.status == 200) {
       resStatus.value = 200
 
@@ -16,8 +16,6 @@ export const useLogin = defineStore("login", () => {
 
     } else if (res.status == 404) {
       resStatus.value = 404
-
-
     }
   };
   return {

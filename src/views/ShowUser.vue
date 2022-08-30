@@ -13,9 +13,7 @@ onBeforeMount(async () => {
 
 onMounted(async () => {
   users.value = await userStore.fetchUsers();
-})
-
-
+});
 </script>
 
 <template>
@@ -36,7 +34,7 @@ onMounted(async () => {
       <div class="container pt-5">
         <div>
           <!-- userList -->
-          <div class="border rounded border-1 p-3">
+          <div class="border rounded border-1 p-3" v-if="users.length != 0">
             <div class="panel panel-primary">
               <div class="panel-body my-5 text-center">
                 <ul class="list-group list-group-flush">
@@ -80,6 +78,9 @@ onMounted(async () => {
                 </ul>
               </div>
             </div>
+          </div>
+          <div v-else>
+            NO USERS  
           </div>
           <!-- eventList -->
         </div>
