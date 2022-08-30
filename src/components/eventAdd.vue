@@ -268,7 +268,6 @@ d_tmp = new Date(x.substring(0, 50)).toISOString();
           </div>
           <div class="col-md-6 d-md-flex align-items-md-center">
             <div style="max-width: 350px">
-              {{ d_tmp }}
               <h2 class="text-uppercase fw-bold">ขั้นตอนที่ 3</h2>
               <p class="my-3">สะดวกเข้าคลินิกวันไหนล่ะ :D</p>
             </div>
