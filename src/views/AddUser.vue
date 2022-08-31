@@ -402,7 +402,7 @@ const validatePass = () => {
           <p>กรุณาตรวจสอบอีเมลของคุณให้ถูกต้อง เนื่องจากอีเมลนี้ถูกใช้ไปแล้ว</p>
         </div>
       </div>
-   
+
       <div class="modal-content" v-show="email_ == 0 || !validateEmail(email_)">
         <div class="modal-header flex-column">
           <button
@@ -432,7 +432,12 @@ const validatePass = () => {
         </div>
       </div>
 
-      <div class="modal-content" v-show="!email_ == 0 && validateEmail(email_)">
+      <div
+        class="modal-content"
+        v-show="
+          !email_ == 0 && validateEmail(email_) && !userStore.resStatus == 400
+        "
+      >
         <div class="modal-header flex-column">
           <button
             type="button"
@@ -457,7 +462,7 @@ const validatePass = () => {
           <h4 class="modal-title w-100">อีเมลถูกต้อง !</h4>
         </div>
         <div class="modal-body">
-          <p>คุณสามารถสร้าง OASIP ID ด้วยอีเมลนี้ได้ </p>
+          <p>คุณสามารถสร้าง OASIP ID ด้วยอีเมลนี้ได้</p>
         </div>
       </div>
     </div>
