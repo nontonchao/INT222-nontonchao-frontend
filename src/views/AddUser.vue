@@ -180,20 +180,41 @@ const validatePass = () => {
                           </div>
                         </div>
                       </div>
-                      <div class="mb-5">
-                        <input
-                          v-model="email_"
-                          class="form-control"
-                          required
-                          type="email"
-                          id="email-2"
-                          name="email"
-                          minlength="1"
-                          maxlength="50"
-                          placeholder="อีเมล"
-                          @change="validateEmail(email_)"
-                          @keyup="userStore.isEmailNotUnique(email_)"
-                        />
+                      <div class="row mb-3">
+                        <div class="col-md-11">
+                          <input
+                            v-model="email_"
+                            class="form-control"
+                            required
+                            type="email"
+                            id="email-2"
+                            name="email"
+                            minlength="1"
+                            maxlength="50"
+                            placeholder="อีเมล"
+                            @change="validateEmail(email_)"
+                            @keyup="userStore.isEmailNotUnique(email_)"
+                          />
+                        </div>
+                        <div class="col">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            fill="currentColor"
+                            class="bi bi-check2-circle color:"
+                            viewBox="0 0 16 16"
+                            style="cursor: pointer"
+                          >
+                            <path
+                              d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"
+                            />
+                            <path
+                              d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"
+                            />
+                          </svg>
+                        </div>
+
                         <p
                           class="text-danger text-end fs-6"
                           v-if="emailStatus == 0"
@@ -263,7 +284,8 @@ const validatePass = () => {
                               lastname != 0 &&
                               email_ != 0 &&
                               validateEmail(email_) &&
-                              validatePass()&& !userStore.isEmailNotUnique(email_)
+                              validatePass() &&
+                              !userStore.isEmailNotUnique(email_)
                             )
                           "
                         >
@@ -341,36 +363,6 @@ const validatePass = () => {
           </button>
         </div>
       </div>
-      <!-- 400 Modal edit HTML -->
-      <!-- <div class="modal-content" v-show="userStore.resStatus == 400">
-        <div class="modal-header flex-column">
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-hidden="true"
-          ></button>
-          <div class="icon-box">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="70"
-              height="70"
-              fill="currentColor"
-              class="bi bi-emoji-frown-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"
-              />
-            </svg>
-          </div>
-          <h4 class="modal-title w-100">คุณอีเมลนี้ถูกใช้ไปแล้ว !</h4>
-        </div>
-        <div class="modal-body">
-          <p>กรุณาตรวจสอบอีเมลของคุณให้ถูกต้อง เนื่องจากอีเมลนี้ถูกใช้ไปแล้ว</p>
-        </div>
-      </div> -->
-      <!-- 400 Modal edit HTML -->
     </div>
   </div>
 </template>
@@ -378,6 +370,12 @@ const validatePass = () => {
 <style scoped>
 body {
   font-family: "Varela Round", sans-serif;
+}
+svg {
+  fill: #636363;
+}
+svg:hover {
+  fill: red;
 }
 
 .modal-confirm {

@@ -50,7 +50,7 @@ onBeforeMount(async () => {
         </div>
       </div>
 
-      <section class="position-relative py-4 py-xl-5" v-show="!toggleEdit">
+      <section class="position-relative py-4 py-xl-5" style="cursor: pointer" v-show="!toggleEdit">
         <div class="container py-4 py-xl-5">
           <div class="row gy-4 row-cols-2 row-cols-md-5">
             <div
@@ -81,7 +81,7 @@ onBeforeMount(async () => {
         </div>
       </section>
       <!-- ก่อนกดแก้ไข -->
-      <section class="position-relative">
+      <section class="position-relative" >
         <div
           class="container position-relative"
           v-show="selectedCate.eventCategoryName != '' && !toggleEdit"
