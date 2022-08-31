@@ -39,10 +39,10 @@ export const useUsers = defineStore("users", () => {
     });
     if (res.status == 200) {
       resStatus.value = res.status;
-      alert("email ใช้ได้");
+
     } else {
       resStatus.value = res.status;
-      alert("email ใช้ไม่ได้");
+
     }
   }
 

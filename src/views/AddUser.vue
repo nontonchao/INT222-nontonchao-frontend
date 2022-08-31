@@ -2,17 +2,14 @@
 import { ref } from "vue";
 import { useUsers } from "../stores/users.js";
 import { useRouter } from "vue-router";
-
 const userStore = useUsers();
 const router = useRouter();
-
 const firstname = ref("");
 const lastname = ref("");
 const email_ = ref("");
 const role_ = ref("นักศึกษา");
 const passwordX = ref("");
 const ConfirmPassword = ref("");
-
 const emailCheck = async () => {
   await userStore.emailCheck(email_.value);
 };
@@ -25,7 +22,6 @@ const register = async () => {
   });
   console.log(await `status ${userStore.resStatus}`);
 };
-
 const emailStatus = ref();
 const validateEmail = (email) => {
   if (
@@ -42,7 +38,6 @@ const validateEmail = (email) => {
     return false;
   }
 };
-
 const clearForm = () => {
   firstname.value = "";
   lastname.value = "";
@@ -50,7 +45,6 @@ const clearForm = () => {
   role_.value = "นักศึกษา";
   emailStatus.value = 3;
 };
-
 const validatePass = () => {
   if (
     passwordX.value.length != 0 &&
@@ -188,7 +182,11 @@ const validatePass = () => {
                             placeholder="อีเมล"
                             @change="validateEmail(email_)"
                             @keyup="userStore.isEmailNotUnique(email_)"
-                            :disabled="userStore.resStatus == 200"
+                            :disabled="
+                              userStore.resStatus == 200 &&
+                              email_ != 0 &&
+                              validateEmail(email_)
+                            "
                           />
                         </div>
                         <div class="col">
@@ -228,7 +226,15 @@ const validatePass = () => {
                       </div>
 
                       <hr />
-                      <div v-show="userStore.resStatus == 200">
+                      <div
+                        v-show="
+                          firstname != 0 &&
+                          lastname != 0 &&
+                          userStore.resStatus == 200 &&
+                          email_ != 0 &&
+                          validateEmail(email_)
+                        "
+                      >
                         <div class="mt-5 mb-3">
                           <input
                             class="form-control"
@@ -365,7 +371,7 @@ const validatePass = () => {
     </div>
   </div>
 
-  <div id="myModal" class="modal fade">
+  <div id="myModal400" class="modal fade">
     <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
       <!-- 400 Modal edit HTML -->
       <div class="modal-content" v-show="userStore.resStatus == 400">
@@ -396,7 +402,64 @@ const validatePass = () => {
           <p>กรุณาตรวจสอบอีเมลของคุณให้ถูกต้อง เนื่องจากอีเมลนี้ถูกใช้ไปแล้ว</p>
         </div>
       </div>
-      <!-- 400 Modal edit HTML -->
+   
+      <div class="modal-content" v-show="email_ == 0 || !validateEmail(email_)">
+        <div class="modal-header flex-column">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <div class="icon-box">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="70"
+              height="70"
+              fill="currentColor"
+              class="bi bi-emoji-frown-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"
+              />
+            </svg>
+          </div>
+          <h4 class="modal-title w-100">อีเมลนี้ไม่ถูกต้อง !</h4>
+        </div>
+        <div class="modal-body">
+          <p>กรุณาตรวจสอบอีเมลของคุณให้ถูกต้อง เนื่องจากอีเมลนี้ไม่ถูกต้อง</p>
+        </div>
+      </div>
+
+      <div class="modal-content" v-show="!email_ == 0 && validateEmail(email_)">
+        <div class="modal-header flex-column">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-hidden="true"
+          ></button>
+          <div class="icon-box">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="70"
+              height="70"
+              fill="currentColor"
+              class="bi bi-emoji-frown-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"
+              />
+            </svg>
+          </div>
+          <h4 class="modal-title w-100">อีเมลถูกต้อง !</h4>
+        </div>
+        <div class="modal-body">
+          <p>คุณสามารถสร้าง OASIP ID ด้วยอีเมลนี้ได้ </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -405,20 +468,16 @@ const validatePass = () => {
 body {
   font-family: "Varela Round", sans-serif;
 }
-
 svg {
   fill: #636363;
 }
-
 svg:hover {
   fill: red;
 }
-
 .modal-confirm {
   color: #636363;
   width: 500px;
 }
-
 .modal-confirm .modal-content {
   padding: 20px;
   border-radius: 5px;
@@ -426,28 +485,23 @@ svg:hover {
   text-align: center;
   font-size: 14px;
 }
-
 .modal-confirm .modal-header {
   border-bottom: none;
   position: relative;
 }
-
 .modal-confirm h4 {
   text-align: center;
   font-size: 26px;
   margin: 30px 500px -20px;
 }
-
 .modal-confirm .close {
   position: absolute;
   top: -5px;
   right: -2px;
 }
-
 .modal-confirm .modal-body {
   color: #999;
 }
-
 .modal-confirm .modal-footer {
   border: none;
   text-align: center;
@@ -455,11 +509,9 @@ svg:hover {
   font-size: 13px;
   padding: 10px 15px 25px;
 }
-
 .modal-confirm .modal-footer a {
   color: #999;
 }
-
 .modal-confirm .icon-box {
   width: 80px;
   height: 80px;
@@ -468,14 +520,12 @@ svg:hover {
   z-index: 9;
   text-align: center;
 }
-
 .modal-confirm .icon-box i {
   color: #f15e5e;
   font-size: 46px;
   display: inline-block;
   margin-top: 13px;
 }
-
 .modal-confirm .btn,
 .modal-confirm .btn:active {
   color: #fff;
@@ -490,25 +540,20 @@ svg:hover {
   border-radius: 3px;
   margin: 0 5px;
 }
-
 .modal-confirm .btn-secondary {
   background: #f5f5f7;
 }
-
 .modal-confirm .btn-secondary:hover,
 .modal-confirm .btn-secondary:focus {
   background: #a8a8a8;
 }
-
 .modal-confirm .btn-danger {
   background: #f15e5e;
 }
-
 .modal-confirm .btn-danger:hover,
 .modal-confirm .btn-danger:focus {
   background: #ee3535;
 }
-
 .trigger-btn {
   display: inline-block;
   margin: 100px auto;
