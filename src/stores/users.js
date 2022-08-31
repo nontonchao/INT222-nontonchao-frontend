@@ -33,6 +33,19 @@ export const useUsers = defineStore("users", () => {
     }
   };
 
+  const emailCheck = async (email) => {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}users/check?email=${email}`, {
+      method: "GET",
+    });
+    if (res.status == 200) {
+      resStatus.value = res.status;
+      alert("email ใช้ได้");
+    } else {
+      resStatus.value = res.status;
+      alert("email ใช้ไม่ได้");
+    }
+  }
+
   const getUserById = async (id) => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}users/${id}`, {
       method: "GET",
@@ -117,6 +130,7 @@ export const useUsers = defineStore("users", () => {
     editUser,
     resStatus,
     isEmailNotUnique,
+    emailCheck,
   };
 });
 
