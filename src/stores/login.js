@@ -6,8 +6,14 @@ export const useLogin = defineStore("login", () => {
   const login = async (email, password) => {
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL
-      }login?email=${email}&password=${password}`
-      , { method: 'POST' })
+      }login`
+      , {
+        method: 'POST',
+        body: JSON.stringify({ email: email, password: password }),
+        headers: {
+          "content-type": "application/json",
+        },
+      })
     if (res.status == 200) {
       resStatus.value = 200
 
