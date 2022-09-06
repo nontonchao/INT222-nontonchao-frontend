@@ -6,7 +6,7 @@ const loginStore = useLogin();
 
 const email = ref("");
 const password = ref("");
-const name = ref({});
+const name = ref("");
 
 const parseJwt = (token) => {
   var base64Url = token.split('.')[1];
@@ -19,7 +19,9 @@ const parseJwt = (token) => {
 
 const login = async () => {
   await loginStore.login(email.value, password.value);
+  localStorage.setItem("access_token", loginStore.token_obj.token);
   name.value = (parseJwt(loginStore.token_obj.token)).name;
+  localStorage.setItem("name", name.value)
 };
 
 
@@ -33,6 +35,7 @@ const ValidateEmail = (mail) => {
       ? (emailErr.value = 1)
       : (emailErr.value = 2);
 };
+
 </script>
 
 <template>
