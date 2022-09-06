@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 export const useLogin = defineStore("login", () => {
   const resStatus = ref(0);
+  const token_obj = ref("");
   const login = async (email, password) => {
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL
@@ -16,7 +17,7 @@ export const useLogin = defineStore("login", () => {
       })
     if (res.status == 200) {
       resStatus.value = 200
-
+      token_obj.value = await res.json();
     } else if (res.status == 401) {
       resStatus.value = 401
 
@@ -27,6 +28,7 @@ export const useLogin = defineStore("login", () => {
   return {
     login,
     resStatus,
+    token_obj,
   };
 });
 
