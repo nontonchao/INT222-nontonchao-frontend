@@ -21,9 +21,11 @@ const parseJwt = (token) => {
 
 const login = async () => {
   await loginStore.login(email.value, password.value);
-  localStorage.setItem("access_token", loginStore.token_obj.token);
-  name.value = (parseJwt(loginStore.token_obj.token)).name;
-  localStorage.setItem("name", name.value)
+  if (loginStore.resStatus !== 401) {
+    localStorage.setItem("access_token", loginStore.token_obj.token);
+    name.value = (parseJwt(loginStore.token_obj.token)).name;
+    localStorage.setItem("name", name.value)
+  }
 };
 
 const emailErr = ref(0);
