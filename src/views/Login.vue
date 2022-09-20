@@ -24,7 +24,6 @@ const login = async () => {
   localStorage.setItem("name", name.value)
 };
 
-
 const emailErr = ref(0);
 const ValidateEmail = (mail) => {
   return mail == ""

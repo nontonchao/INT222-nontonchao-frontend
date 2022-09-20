@@ -1,7 +1,6 @@
 <script setup>
-const hello = () => {
-    alert("Hello");
-};
+import { useLogin } from "../stores/login.js";
+const loginStore = useLogin();
 </script>
 
 <template>
@@ -51,11 +50,12 @@ const hello = () => {
                             </a>
                         </li>
                         <li class="nav-item">
-                              <a class="nav-link" href="javascript:;">
-                              <router-link class="routerLink" :to="{
+                            <a class="nav-link" href="javascript:;">
+                                <router-link class="routerLink" :to="{
                                     name: 'ShowUser',
                                 }">show user
-                            </router-link></a>
+                                </router-link>
+                            </a>
                         </li>
                         <!-- <li class="nav-item">
                             <a class="nav-link" href="javascript:;">
@@ -68,10 +68,15 @@ const hello = () => {
                             <router-link class="routerLink" :to="{
                                 name: 'Login',
                             }">
-                                <button class="btn btn-danger btn-sm" type="button"
+                                <button @click="loginStore.logout()" v-if="loginStore.isLogin() == true"
+                                    class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem">
+                                    ออกจากระบบ
+                                </button>
+                                <button v-else class="btn btn-danger btn-sm" type="button"
                                     style="--bs-btn-border-radius: 1rem">
                                     ลงชื่อเข้าใช้
                                 </button>
+
                             </router-link>
                         </li>
                     </ul>
