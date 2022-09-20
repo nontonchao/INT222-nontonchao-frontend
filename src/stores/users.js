@@ -122,6 +122,10 @@ export const useUsers = defineStore("users", () => {
       .some((user) => user.email === targetEmail)
   };
 
+  const logout = () => {
+    users.value = []
+  }
+
 
   return {
     fetchUsers,
@@ -134,6 +138,7 @@ export const useUsers = defineStore("users", () => {
     resStatus,
     isEmailNotUnique,
     emailCheck,
+    logout,
   };
 });
 

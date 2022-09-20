@@ -1,12 +1,14 @@
 <script setup>
 import { ref } from "vue";
 import { useLogin } from "../stores/login.js";
+import { useRouter } from "vue-router";
 
 const loginStore = useLogin();
 
 const email = ref("");
 const password = ref("");
 const name = ref("");
+const router = useRouter();
 
 const parseJwt = (token) => {
   var base64Url = token.split('.')[1];
@@ -144,7 +146,7 @@ const ValidateEmail = (mail) => {
         <div class="modal-content" v-show="loginStore.resStatus == 200">
           <div class="modal-header flex-column">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
-              @click="loginStore.resStatus = 0"></button>
+              @click="loginStore.resStatus = 0;router.push(`/`)"></button>
             <div class="icon-box">
               <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
                 class="bi bi-emoji-sunglasses" viewBox="0 0 16 16">

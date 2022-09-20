@@ -1,6 +1,15 @@
 <script setup>
+import { onBeforeMount } from "vue";
 import { useLogin } from "../stores/login.js";
+import { useRouter } from "vue-router";
+
 const loginStore = useLogin();
+const router = useRouter();
+
+onBeforeMount(async () => {
+  loginStore.isLogin();
+});
+
 </script>
 
 <template>
@@ -68,7 +77,7 @@ const loginStore = useLogin();
                             <router-link class="routerLink" :to="{
                                 name: 'Login',
                             }">
-                                <button @click="loginStore.logout()" v-if="loginStore.isLogin() == true"
+                                <button @click="loginStore.logout();router.push(`/login`);location.reload();" v-if="loginStore.isLogin() == true"
                                     class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem">
                                     ออกจากระบบ
                                 </button>

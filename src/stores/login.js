@@ -1,13 +1,18 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { ref } from 'vue'
+import { useUsers } from "./users";
+
 
 export const useLogin = defineStore("login", () => {
   const resStatus = ref(0);
   const token_obj = ref("");
+  const userStore = useUsers()
 
   const logout = () => {
     localStorage.clear(); // clear localstorage
     isLogin.value = false;
+    userStore.logout();
+    // location.reload();
   };
 
   const isLogin = () => {
