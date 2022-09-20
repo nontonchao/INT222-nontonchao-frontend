@@ -52,6 +52,9 @@ export const useUsers = defineStore("users", () => {
   const getUserById = async (id) => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}users/${id}`, {
       method: "GET",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("access_token")
+      },
     });
     return await res.json();
   };
