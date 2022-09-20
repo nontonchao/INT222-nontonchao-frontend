@@ -60,10 +60,10 @@ const generateTimeSlot = (eventDuration) => {
   timeTable.value.length = 0;
   d = new Date(
     startTime.value.split("-")[0] +
-      "-" +
-      startTime.value.split("-")[1] +
-      "-" +
-      startTime.value.split("-")[2]
+    "-" +
+    startTime.value.split("-")[1] +
+    "-" +
+    startTime.value.split("-")[2]
   );
   d.setHours(0, 0, 0, 0);
   for (let i = 0; i < 1440 / (eventDuration + 5); i++) {
@@ -98,8 +98,7 @@ const editEvent = async () => {
         <div class="row gy-4 gy-md-0">
           <div
             class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center"
-            style="margin: 60px"
-          >
+            style="margin: 60px">
             <div style="max-width: 350px">
               <h2 class="text-uppercase fw-bold">แก้ไขการนัดหมาย</h2>
               <p class="my-3">
@@ -115,18 +114,10 @@ const editEvent = async () => {
         <div class="row gy-4 gy-md-0 justify-content-center">
           <div class="col-md-3 p-3">
             <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="flexRadioDefault"
-                disabled
-                checked
-              />
+              <input class="form-check-input" type="radio" name="flexRadioDefault" disabled checked />
               {{ eventz.eventCategory.eventCategoryName }}
               <label class="form-check-label">
-                <small class="text-muted"
-                  >({{ eventz.eventCategory.eventDuration }} นาที)</small
-                >
+                <small class="text-muted">({{ eventz.eventCategory.eventDuration }} นาที)</small>
               </label>
             </div>
           </div>
@@ -135,21 +126,19 @@ const editEvent = async () => {
       <div class="container py-4 py-xl-5">
         <div class="row gy-4 gy-md-0">
           <div
-            class="col-md-3 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center"
-          ></div>
+            class="col-md-3 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center">
+          </div>
           <div class="col-md-6 form-floating">
             <form class="mt-1">
               <div class="row">
                 <div class="col">
                   <p>
-                    <strong>Firstname: </strong
-                    >{{ eventz.bookingName.split(" ")[0] }}
+                    <strong>Firstname: </strong>{{ eventz.bookingName.split(" ")[0] }}
                   </p>
                 </div>
                 <div class="col">
                   <p>
-                    <strong>Lastname: </strong
-                    >{{ eventz.bookingName.split(" ")[1] }}
+                    <strong>Lastname: </strong>{{ eventz.bookingName.split(" ")[1] }}
                   </p>
                 </div>
               </div>
@@ -166,61 +155,33 @@ const editEvent = async () => {
         <div class="row gy-4 gy-md-0">
           <div class="col-md-6">
             <div class="m-5">
-              <input
-                type="date"
-                class="form-control"
-                v-model="startTime"
-                required
-                :min="getCurrDate()"
-                @change="
-                  checkTimeSlot(startTime, toEdit.eventCategory.id);
-                  generateTimeSlot(toEdit.eventDuration);
-                "
-              />
+              <input type="date" class="form-control" v-model="startTime" required :min="getCurrDate()" @change="
+                checkTimeSlot(startTime, toEdit.eventCategory.id);
+                generateTimeSlot(toEdit.eventDuration);
+              " />
             </div>
             <div>
-              <div
-                class="container text-center"
-                v-show="startTime.length > 0 && getCurrDate() <= startTime"
-              >
+              <div class="container text-center" v-show="startTime.length > 0 && getCurrDate() <= startTime">
                 <div class="row row-cols-5 list-group list-group-item">
-                  <button
-                    type="button"
-                    v-for="(x, index) in timeTable"
-                    :key="index"
-                    @click="
-                      time = timeTable[index].split('-')[0].trim();
-                      activeIndex = index;
-                      activeClick(index);
-                      d_tmp = new Date(x.substring(0, 50)).toISOString();
-                    "
-                    :class="activeClick(index)"
-                    :disabled="
-                      slot.includes(x.substring(0, 50)) ||
-                      new Date(x.substring(0, 50)) < new Date()
-                    "
-                    :activeIndex="index"
-                    class="'btn-sm'"
-                  >
+                  <button type="button" v-for="(x, index) in timeTable" :key="index" @click="
+                    time = timeTable[index].split('-')[0].trim();
+                    activeIndex = index;
+                    activeClick(index);
+                    d_tmp = new Date(x.substring(0, 50)).toISOString();
+                  " :class="activeClick(index)" :disabled="
+                    slot.includes(x.substring(0, 50)) ||
+                    new Date(x.substring(0, 50)) < new Date()
+                  " :activeIndex="index" class="'btn-sm'">
                     {{ x.split(" ")[4].substring(0, 5) }} -
                     {{ x.split(" ")[13].substring(0, 5) }}
-                    <small v-if="slot.includes(x.substring(0, 50))"
-                      >เวลานี้ถูกจองแล้ว</small
-                    >
-                    <small v-if="new Date(x.substring(0, 50)) < new Date()"
-                      >หมดเวลาจอง</small
-                    >
+                    <small v-if="slot.includes(x.substring(0, 50))">เวลานี้ถูกจองแล้ว</small>
+                    <small v-if="new Date(x.substring(0, 50)) < new Date()">หมดเวลาจอง</small>
                   </button>
                 </div>
               </div>
               <div class="col m-5">
-                <textarea
-                  rows="4"
-                  class="form-control mt-3"
-                  placeholder="อยากบอกอะไรกับที่ปรึกษาไหม?"
-                  maxlength="300"
-                  v-model="eNotes"
-                />
+                <textarea rows="4" class="form-control mt-3" placeholder="อยากบอกอะไรกับที่ปรึกษาไหม?" maxlength="300"
+                  v-model="eNotes" />
               </div>
             </div>
           </div>
@@ -234,22 +195,12 @@ const editEvent = async () => {
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight">
-          <button
-            class="btn btn-danger btn-sm"
-            type="button"
-            style="--bs-btn-border-radius: 1rem"
-            @click="router.push(`/Eventinfo/${props.eventz.id}`)"
-          >
+          <button class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem"
+            @click="router.push(`/Eventinfo/${props.eventz.id}`)">
             ยกเลิก
           </button>
-          <button
-            class="btn btn-primary btn-sm mx-4"
-            type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#myModal"
-            style="--bs-btn-border-radius: 1rem"
-            :disabled="!(time != 0 && startTime != 0)"
-          >
+          <button class="btn btn-primary btn-sm mx-4" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
+            style="--bs-btn-border-radius: 1rem" :disabled="!(time != 0 && startTime != 0)">
             ยืนยัน
           </button>
         </div>
@@ -262,24 +213,12 @@ const editEvent = async () => {
         <!-- con Modal edit HTML -->
         <div class="modal-content">
           <div class="modal-header flex-column">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-hidden="true"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             <div class="icon-box">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="70"
-                height="70"
-                fill="#6E6E73"
-                class="bi bi-check-lg"
-                viewBox="0 0 16 16"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="#6E6E73" class="bi bi-check-lg"
+                viewBox="0 0 16 16">
                 <path
-                  d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
-                />
+                  d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
               </svg>
             </div>
 
@@ -292,23 +231,14 @@ const editEvent = async () => {
             </p>
           </div>
           <div class="modal-footer justify-content-center">
-            <button
-              data-bs-dismiss="modal"
-              type="button"
-              class="btn btn-primary rounded-pill"
-              data-dismiss="modal"
+            <button data-bs-dismiss="modal" type="button" class="btn btn-primary rounded-pill" data-dismiss="modal"
               @click="
                 editEvent();
                 router.push(`/Eventinfo/${props.eventz.id}`);
-              "
-            >
+              ">
               ยืนยัน
             </button>
-            <button
-              type="button"
-              data-bs-dismiss="modal"
-              class="btn btn-danger rounded-pill"
-            >
+            <button type="button" data-bs-dismiss="modal" class="btn btn-danger rounded-pill">
               ยกเลิก
             </button>
           </div>

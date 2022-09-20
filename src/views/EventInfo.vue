@@ -7,6 +7,25 @@ const eventStore = useEvents();
 const route = useRoute();
 const router = useRouter();
 const thisEvent = ref({});
+const canEdit = ref(false);
+
+const endtime = (startTime, add) => {
+  return new Date(
+    new Date(startTime).setMinutes(new Date(startTime).getMinutes(), add * 60)
+  );
+};
+
+const isPastOrOngoing = (thisEvent) => {
+  const currentDateTime = new Date();
+  if ((endtime(thisEvent.eventStartTime, thisEvent.eventDuration) < currentDateTime) || new Date(thisEvent.eventStartTime).getDate() == currentDateTime.getDate() &&
+    currentDateTime.getTime() > new Date(thisEvent.eventStartTime).getTime() &&
+    currentDateTime < endtime(thisEvent.eventStartTime, thisEvent.eventDuration)) {
+    canEdit.value = true;
+  } else {
+    canEdit.value = false;
+  }
+}
+
 
 onBeforeMount(async () => {
   thisEvent.value = {
@@ -15,6 +34,7 @@ onBeforeMount(async () => {
     },
   };
   thisEvent.value = await eventStore.getEventById(route.params.event_id);
+  isPastOrOngoing(thisEvent.value);
 });
 
 const removeEvent = async () => {
@@ -42,7 +62,13 @@ const removeEvent = async () => {
 
       <div class="container">
         <h1 class="fw-bold mb-4 display-10" style="margin: 100px">
-          ข้อมูลนัดหมาย
+          <div>
+            <svg @click="router.push(`/check-event/`)" xmlns="http://www.w3.org/2000/svg" width="60" height="60"
+              fill="#0d6efd" class="bi bi-arrow-left-short" viewBox="0 0 12 17" style="cursor:pointer">
+              <path fill-rule="evenodd"
+                d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+            </svg> ข้อมูลนัดหมาย
+          </div>
         </h1>
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
@@ -72,9 +98,9 @@ const removeEvent = async () => {
                 <p class="px-4 fw-bold text-primary mb-0">วันที่</p>
                 <p class="px-4 text-muted mb-5">
                   {{
-                      new Date(thisEvent.eventStartTime).toLocaleDateString() +
-                      " " +
-                      new Date(thisEvent.eventStartTime).toLocaleTimeString()
+                  new Date(thisEvent.eventStartTime).toLocaleDateString() +
+                  " " +
+                  new Date(thisEvent.eventStartTime).toLocaleTimeString()
                   }}
                 </p>
                 <p class="px-4 fw-bold text-primary mb-0">รายละเอียด</p>
@@ -86,14 +112,16 @@ const removeEvent = async () => {
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight">
-          <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
-            style="--bs-btn-border-radius: 1rem">
-            ยกเลิกนัดหมาย
-          </button>
-          <button class="btn btn-primary btn-sm mx-4" type="button" style="--bs-btn-border-radius: 1rem"
-            @click="router.push(`/EditEvent/${thisEvent.id}`)">
-            แก้ไข
-          </button>
+          <div v-show="!canEdit">
+            <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
+              style="--bs-btn-border-radius: 1rem">
+              ยกเลิกนัดหมาย
+            </button>
+            <button class="btn btn-primary btn-sm mx-4" type="button" style="--bs-btn-border-radius: 1rem"
+              @click="router.push(`/EditEvent/${thisEvent.id}`)">
+              แก้ไข
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -124,7 +152,6 @@ const removeEvent = async () => {
             <button type="button" class="btn btn-primary rounded-pill" data-bs-dismiss="modal" data-dismiss="modal"
               @click="removeEvent(); router.push(`/check-event`)">
               ยืนยัน
-
             </button>
             <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">
               ยกเลิก

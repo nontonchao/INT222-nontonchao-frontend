@@ -16,14 +16,9 @@ onBeforeMount(async () => {
   <div>
     <section class="position-relative py-4 py-xl-5" style="background: #f5f5f7">
       <section class="border bottom-dark" style="background: #ffffff">
-        <nav
-          class="navbar navbar-light navbar-expand-md py-3"
-          style="margin: 2px"
-        >
+        <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
           <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#"
-              ><span class="fw-bold">ข้อมูลผู้ใช้งาน</span></a
-            >
+            <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">ข้อมูลผู้ใช้งาน</span></a>
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto"></ul>
             </div>
@@ -35,14 +30,9 @@ onBeforeMount(async () => {
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
             <div class="col-md-6 col-lg-4 col-xl-4">
-              <div
-                class="d-flex flex-column justify-content-center align-items-start h-100"
-              >
+              <div class="d-flex flex-column justify-content-center align-items-start h-100">
                 <div class="d-flex align-items-center p-3">
-                  <img
-                    src="../assets/testimg.png"
-                    class="rounded img-fluid rounded-circle float-start w-100"
-                  />
+                  <img src="../assets/testimg.png" class="rounded img-fluid rounded-circle float-start w-100" />
                 </div>
                 <div>
                   <p class="px-4 fw-bold text-primary mb-0">ชื่อ</p>
@@ -69,21 +59,12 @@ onBeforeMount(async () => {
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight">
-          <button
-            class="btn btn-danger btn-sm"
-            type="button"
-            style="--bs-btn-border-radius: 1rem"
-            data-bs-toggle="modal"
-            data-bs-target="#comfirmDelete"
-          >
+          <button class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem"
+            data-bs-toggle="modal" data-bs-target="#comfirmDelete">
             ยกเลิก ID นี้
           </button>
-          <button
-            class="btn btn-primary btn-sm mx-4"
-            type="button"
-            style="--bs-btn-border-radius: 1rem"
-            @click="router.push(`/EditUser/${thisUser.id}`)"
-          >
+          <button class="btn btn-primary btn-sm mx-4" type="button" style="--bs-btn-border-radius: 1rem"
+            @click="router.push(`/EditUser/${thisUser.id}`)">
             แก้ไข
           </button>
         </div>
@@ -95,24 +76,12 @@ onBeforeMount(async () => {
     <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header flex-column">
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-hidden="true"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
           <div class="icon-box">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="55"
-              height="55"
-              fill="currentColor"
-              class="bi bi-x-lg"
-              viewBox="0 0 16 16"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" fill="currentColor" class="bi bi-x-lg"
+              viewBox="0 0 16 16">
               <path
-                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
-              />
+                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
             </svg>
           </div>
 
@@ -125,19 +94,11 @@ onBeforeMount(async () => {
           </p>
         </div>
         <div class="modal-footer justify-content-center">
-          <button
-            type="button"
-            class="btn btn-primary rounded-pill"
-            data-bs-dismiss="modal"
-            @click="userStore.deleteUser(thisUser.id);router.go(-1)"
-          >
+          <button type="button" class="btn btn-primary rounded-pill" data-bs-dismiss="modal"
+            @click="userStore.deleteUser(thisUser.id);router.go(-1)">
             ยืนยัน
           </button>
-          <button
-            type="button"
-            class="btn btn-danger rounded-pill"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">
             ยกเลิก
           </button>
         </div>

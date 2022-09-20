@@ -74,15 +74,15 @@ const filterEvent = async (search) => {
       (status.value == "ทั้งหมด" && selectDate.value == ""
         ? x
         : status.value == "ทั้งหมด" && selectDate.value != ""
-        ? new Date(x.eventStartTime).toDateString() ==
+          ? new Date(x.eventStartTime).toDateString() ==
           new Date(selectDate.value).toDateString()
-        : status.value == "กำลังจะมาถึง"
-        ? new Date(x.eventStartTime) > currentDateTime
-        : status.value == "กำลังดำเนินอยู่"
-        ? new Date(x.eventStartTime).getDate() == currentDateTime.getDate() &&
-          currentDateTime.getTime() > new Date(x.eventStartTime).getTime() &&
-          currentDateTime < endtime(x.eventStartTime, x.eventDuration)
-        : endtime(x.eventStartTime, x.eventDuration) < currentDateTime)
+          : status.value == "กำลังจะมาถึง"
+            ? new Date(x.eventStartTime) > currentDateTime
+            : status.value == "กำลังดำเนินอยู่"
+              ? new Date(x.eventStartTime).getDate() == currentDateTime.getDate() &&
+              currentDateTime.getTime() > new Date(x.eventStartTime).getTime() &&
+              currentDateTime < endtime(x.eventStartTime, x.eventDuration)
+              : endtime(x.eventStartTime, x.eventDuration) < currentDateTime)
   );
   fStatus.value = status.value;
 };
@@ -106,59 +106,30 @@ onMounted(async () => {
   <div>
     <section class="py-4 py-xl-5" style="background: #f5f5f7">
       <section class="border bottom-dark" style="background: #ffffff">
-        <nav
-          class="navbar navbar-light navbar-expand-md py-3"
-          style="margin: 2px"
-        >
+        <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
           <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#"
-              ><span class="fw-bold">นัดหมายทั้งหมด</span></a
-            >
+            <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">นัดหมายทั้งหมด</span></a>
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto" v-show="eventList.length > 0">
                 <li class="nav-item mx-2">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    placeholder="ชื่อ, อีเมล"
-                    v-model="search"
-                  />
+                  <input type="text" class="form-control form-control-sm" placeholder="ชื่อ, อีเมล" v-model="search" />
                 </li>
                 <li class="nav-item mx-2">
-                  <input
-                    type="date"
-                    class="form-control form-control-sm"
-                    v-model="selectDate"
-                  />
+                  <input type="date" class="form-control form-control-sm" v-model="selectDate" />
                 </li>
                 <li class="nav-item mx-2">
-                  <select
-                    v-model="selectedClinic"
-                    class="form-select form-select-sm"
-                  >
+                  <select v-model="selectedClinic" class="form-select form-select-sm">
                     <option selected>ทั้งหมด</option>
-                    <option
-                      v-for="(eCatelist, index) in eventCateList"
-                      :key="index"
-                    >
+                    <option v-for="(eCatelist, index) in eventCateList" :key="index">
                       {{ eCatelist.eventCategoryName }}
                     </option>
                   </select>
                 </li>
                 <li class="nav-item mx-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="30"
-                    height="30"
-                    fill="currentColor"
-                    class="bi bi-search"
-                    viewBox="0 0 16 16"
-                    @click="filterEvent(search)"
-                    style="cursor: pointer"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-search" viewBox="0 0 16 16" @click="filterEvent(search)" style="cursor: pointer">
                     <path
-                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-                    />
+                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                   </svg>
                 </li>
               </ul>
@@ -180,35 +151,23 @@ onMounted(async () => {
                 จองนัดหมายแล้วไปกันเลย!
               </figcaption>
             </figure>
-            <button
-              class="btn btn-danger fs-5 me-2 py-2 px-4"
-              type="button"
-              style="
+            <button class="btn btn-danger fs-5 me-2 py-2 px-4" type="button" style="
                 margin: -57px 0px;
                 --bs-primary-rgb: 220, 53, 69;
                 padding: 0px 24px;
-              "
-            >
-              <router-link
-                :to="{ name: 'AddEvent' }"
-                style="text-decoration: none; color: #ffffff"
-                >จองนัดหมายเลย
+              ">
+              <router-link :to="{ name: 'AddEvent' }" style="text-decoration: none; color: #ffffff">จองนัดหมายเลย
               </router-link>
             </button>
           </div>
         </div>
         <div v-else>
-          <div
-            class="text-center text-white-50 bg-danger border rounded border-0 p-3 my-5"
-          >
+          <div class="text-center text-white-50 bg-danger border rounded border-0 p-3 my-5">
             <div class="row row-cols-2 row-cols-md-4">
-              <div
-                @click="
-                  status = 'ทั้งหมด';
-                  filterEvent(search);
-                "
-                style="cursor: pointer"
-              >
+              <div @click="
+                status = 'ทั้งหมด';
+                filterEvent(search);
+              " style="cursor: pointer">
                 <div class="col">
                   <div class="p-3">
                     <h4 class="display-5 fw-bold text-white mb-0">
@@ -218,13 +177,10 @@ onMounted(async () => {
                   </div>
                 </div>
               </div>
-              <div
-                @click="
-                  status = 'กำลังจะมาถึง';
-                  filterEvent(search);
-                "
-                style="cursor: pointer"
-              >
+              <div @click="
+                status = 'กำลังจะมาถึง';
+                filterEvent(search);
+              " style="cursor: pointer">
                 <div class="col">
                   <div class="p-3">
                     <h4 class="display-5 fw-bold text-white mb-0">
@@ -234,13 +190,10 @@ onMounted(async () => {
                   </div>
                 </div>
               </div>
-              <div
-                @click="
-                  status = 'กำลังดำเนินอยู่';
-                  filterEvent(search);
-                "
-                style="cursor: pointer"
-              >
+              <div @click="
+                status = 'กำลังดำเนินอยู่';
+                filterEvent(search);
+              " style="cursor: pointer">
                 <div class="col">
                   <div class="p-3">
                     <h4 class="display-5 fw-bold text-white mb-0">
@@ -250,13 +203,10 @@ onMounted(async () => {
                   </div>
                 </div>
               </div>
-              <div
-                @click="
-                  status = 'ที่ผ่านมา';
-                  filterEvent(search);
-                "
-                style="cursor: pointer"
-              >
+              <div @click="
+                status = 'ที่ผ่านมา';
+                filterEvent(search);
+              " style="cursor: pointer">
                 <div class="col">
                   <div class="p-3">
                     <h4 class="display-5 fw-bold text-white mb-0">
@@ -281,19 +231,12 @@ onMounted(async () => {
             <div class="panel panel-primary">
               <div class="panel-body my-5 text-center">
                 <ul class="list-group list-group-flush">
-                  <li
-                    class="list-group-item hover"
-                    v-for="(event, index) in filter_list"
-                    :key="index"
-                    @click="router.push(`/Eventinfo/${event.id}`)"
-                  >
+                  <li class="list-group-item hover" v-for="(event, index) in filter_list" :key="index"
+                    @click="router.push(`/Eventinfo/${event.id}`)">
                     <div class="row row-cols-2 row-cols-md-3">
                       <div class="col">
                         <div class="my-4">
-                          <img
-                            src="../assets/testimg.png"
-                            class="rounded img-fluid rounded-circle float-start w-25"
-                          />
+                          <img src="../assets/testimg.png" class="rounded img-fluid rounded-circle float-start w-25" />
                           <strong>{{ event.bookingName }}</strong>
                           <p class="text-muted">ตำแหน่ง</p>
                         </div>
@@ -307,19 +250,17 @@ onMounted(async () => {
                           <p class="text-muted my">
                             เวลา
                             {{
-                              new Date(
-                                event.eventStartTime
-                              ).toLocaleTimeString()
+                            new Date(
+                            event.eventStartTime
+                            ).toLocaleTimeString()
                             }}
                           </p>
                         </div>
                       </div>
                       <div class="col">
                         <div class="my-4">
-                          <strong
-                            ><kbd>{{ event.id }}</kbd>
-                            {{ event.eventCategoryName }}</strong
-                          >
+                          <strong><kbd>{{ event.id }}</kbd>
+                            {{ event.eventCategoryName }}</strong>
                         </div>
                       </div>
                     </div>

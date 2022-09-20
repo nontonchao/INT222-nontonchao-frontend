@@ -1,5 +1,4 @@
 <script setup>
-import { onBeforeMount } from "vue";
 import EventAdd from '../components/eventAdd.vue';
 import { useEventCategory } from "../stores/eventCategory.js";
 
@@ -14,4 +13,5 @@ const eventCateStore = useEventCategory();
 </template>
 
 <style scoped>
+
 </style>

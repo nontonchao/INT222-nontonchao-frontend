@@ -74,7 +74,7 @@ onMounted(async () => {
             </div>
           </div>
           <div v-else>
-            You are not an admin
+            ไม่มีสิทธิ์เข้าถึงหน้านี้
           </div>
           <!-- eventList -->
         </div>
