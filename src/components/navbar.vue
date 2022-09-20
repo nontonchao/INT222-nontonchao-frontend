@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeMount } from "vue";
+import { onBeforeMount, ref } from "vue";
 import { useLogin } from "../stores/login.js";
 import { useRouter } from "vue-router";
 
@@ -7,7 +7,7 @@ const loginStore = useLogin();
 const router = useRouter();
 
 onBeforeMount(async () => {
-  loginStore.isLogin();
+    loginStore.isLogin();
 });
 
 </script>
@@ -58,11 +58,11 @@ onBeforeMount(async () => {
                                 }">เกี่ยวกับเรา</router-link>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" v-show="loginStore.isAdmin">
                             <a class="nav-link" href="javascript:;">
                                 <router-link class="routerLink" :to="{
                                     name: 'ShowUser',
-                                }">show user
+                                }">ผู้ใช้ทั้งหมด (สำหรับแอดมิน)
                                 </router-link>
                             </a>
                         </li>
@@ -77,8 +77,9 @@ onBeforeMount(async () => {
                             <router-link class="routerLink" :to="{
                                 name: 'Login',
                             }">
-                                <button @click="loginStore.logout();router.push(`/login`);location.reload();" v-if="loginStore.isLogin() == true"
-                                    class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem">
+                                <button @click="loginStore.logout();router.push(`/login`);location.reload();"
+                                    v-if="loginStore.isLogin() == true" class="btn btn-danger btn-sm" type="button"
+                                    style="--bs-btn-border-radius: 1rem">
                                     ออกจากระบบ
                                 </button>
                                 <button v-else class="btn btn-danger btn-sm" type="button"

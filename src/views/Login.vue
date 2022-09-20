@@ -10,20 +10,11 @@ const password = ref("");
 const name = ref("");
 const router = useRouter();
 
-const parseJwt = (token) => {
-  var base64Url = token.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-  return JSON.parse(jsonPayload);
-}
-
 const login = async () => {
   await loginStore.login(email.value, password.value);
   if (loginStore.resStatus !== 401) {
     localStorage.setItem("access_token", loginStore.token_obj.token);
-    name.value = (parseJwt(loginStore.token_obj.token)).name;
+    name.value = (loginStore.parseJwt(loginStore.token_obj.token)).name;
     localStorage.setItem("name", name.value)
   }
 };
