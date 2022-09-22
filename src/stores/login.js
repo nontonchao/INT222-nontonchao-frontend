@@ -8,6 +8,8 @@ export const useLogin = defineStore("login", () => {
   const token_obj = ref("");
   const userStore = useUsers();
   const isAdmin = ref(false);
+  const name = ref("");
+  const email = ref("");
 
   const parseJwt = (token) => {
     var base64Url = token.split('.')[1];
@@ -23,6 +25,8 @@ export const useLogin = defineStore("login", () => {
     userStore.logout();
     isLogin.value = false;
     isAdmin.value = false;
+    name.value = "";
+    email.value = "";
     // location.reload();
   };
 
@@ -31,6 +35,8 @@ export const useLogin = defineStore("login", () => {
       if ((parseJwt(localStorage.getItem("access_token"))).role == "ROLE_ADMIN") { // check role from localstorage token
         isAdmin.value = true;
       };
+      name.value = (parseJwt(localStorage.getItem("access_token")).name);
+      email.value = (parseJwt(localStorage.getItem("access_token")).sub);
       return true;
     } else {
       return false;
@@ -69,6 +75,8 @@ export const useLogin = defineStore("login", () => {
     logout,
     isLogin,
     parseJwt,
+    name,
+    email,
     isAdmin,
     resStatus,
     token_obj,
