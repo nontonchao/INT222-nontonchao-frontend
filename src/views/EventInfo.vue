@@ -2,7 +2,9 @@
 import { onBeforeMount, ref } from "vue";
 import { useEvents } from "../stores/events.js";
 import { useRoute, useRouter } from "vue-router";
+import { useLogin } from "../stores/login.js";
 
+const loginStore = useLogin();
 const eventStore = useEvents();
 const route = useRoute();
 const router = useRouter();
@@ -112,6 +114,12 @@ const removeEvent = async () => {
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight">
+          <div v-show="loginStore.isAdmin && canEdit">
+            <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
+              style="--bs-btn-border-radius: 1rem">
+              ลบนัดหมาย
+            </button>
+          </div>
           <div v-show="!canEdit">
             <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
               style="--bs-btn-border-radius: 1rem">
