@@ -2,10 +2,7 @@
 import { onBeforeMount, ref } from "vue";
 import { useEvents } from "../stores/events.js";
 import { useRoute, useRouter } from "vue-router";
-import { useLogin } from "../stores/login.js";
 
-
-const loginStore = useLogin();
 const eventStore = useEvents();
 const route = useRoute();
 const router = useRouter();
@@ -36,7 +33,7 @@ onBeforeMount(async () => {
       eventCategoryName: "",
     },
   };
-  thisEvent.value = await eventStore.getEventById(route.params.event_id, loginStore.email);
+  thisEvent.value = await eventStore.getEventById(route.params.event_id);
   isPastOrOngoing(thisEvent.value);
 });
 
