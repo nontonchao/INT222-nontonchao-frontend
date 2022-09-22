@@ -3,7 +3,9 @@ import { ref } from "vue";
 
 export const useUsers = defineStore("users", () => {
   const users = ref([]);
-  const resStatus = ref(0)
+  const resStatus = ref(0);
+  const statusMessage = ref("");
+
   const fetchUsers = async () => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}users`, {
       method: "GET",
@@ -66,7 +68,6 @@ export const useUsers = defineStore("users", () => {
     } else {
       return false;
     }
-    return false;
   };
 
   const validateEmail = (email) => {
@@ -81,7 +82,6 @@ export const useUsers = defineStore("users", () => {
     } else {
       return false;
     }
-    return false;
   };
 
   const deleteUser = async (id) => {
@@ -89,10 +89,13 @@ export const useUsers = defineStore("users", () => {
       `${import.meta.env.VITE_BASE_URL}users/${id}`,
       {
         method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("access_token")
+        },
       }
     );
     if (res.status === 200) {
-      alert("event removed");
+      alert("user removed");
     } else {
       alert("error while delete || error :" + statusMessage.value);
     }
@@ -105,6 +108,9 @@ export const useUsers = defineStore("users", () => {
         method: "PATCH",
         headers: {
           "content-type": "application/json",
+        },
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("access_token")
         },
         body: JSON.stringify(toEditUser),
       }

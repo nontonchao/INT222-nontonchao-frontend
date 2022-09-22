@@ -29,7 +29,11 @@ export const useEvents = defineStore("events", () => {
   const getEventById = async (id) => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}events/${id}`, {
       method: "GET",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("access_token")
+      }
     });
+
     return await res.json();
   };
 
@@ -38,6 +42,9 @@ export const useEvents = defineStore("events", () => {
       `${import.meta.env.VITE_BASE_URL}events/delete/${eventId}`,
       {
         method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("access_token")
+        }
       }
     );
     if (res.status === 200) {
@@ -56,10 +63,12 @@ export const useEvents = defineStore("events", () => {
         method: "PUT",
         headers: {
           "content-type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("access_token")
         },
         body: JSON.stringify(editEvent),
       }
     );
+
     if (res.status == 200) {
       statusCode.value = res.status
       alert("event edited");
@@ -82,8 +91,11 @@ export const useEvents = defineStore("events", () => {
 
   const fetchEvents = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BASE_URL}events`, {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}events/`, {
         method: "GET",
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("access_token")
+        }
       });
       events.value = await res.json();
       events.value.forEach((event) => {
