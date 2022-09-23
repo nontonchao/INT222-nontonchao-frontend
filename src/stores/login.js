@@ -27,11 +27,12 @@ export const useLogin = defineStore("login", () => {
     isAdmin.value = false;
     name.value = "";
     email.value = "";
-    // location.reload();
+    //location.reload();
   };
 
   const isLogin = () => {
     if (localStorage.getItem("name") != null && localStorage.getItem("access_token") != null) {
+      refresh();
       if ((parseJwt(localStorage.getItem("access_token"))).role == "ROLE_ADMIN") { // check role from localstorage token
         isAdmin.value = true;
       };
@@ -41,6 +42,30 @@ export const useLogin = defineStore("login", () => {
     } else {
       return false;
     }
+  }
+
+  const refresh = async () => {
+    const res = await fetch(
+      `${import.meta.env.VITE_BASE_URL
+      }login/refresh`
+      , {
+        method: 'GET',
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("access_token"),
+          "isRefreshToken": true
+        },
+      });
+
+    let response = await res.text();
+
+    if (response === "cannot refresh this token") {
+      logout();
+    } else if (response === "this token still valid") {
+    } else {
+      // set new refreshed token
+      localStorage.setItem("access_token", (JSON.parse(response).token));
+    }
+
   }
 
   const login = async (email, password) => {
