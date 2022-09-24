@@ -76,28 +76,28 @@ const filterEvent = async (search) => {
       (status.value == "ทั้งหมด" && selectDate.value == ""
         ? x
         : status.value == "ทั้งหมด" && selectDate.value != ""
-          ? new Date(x.eventStartTime).toDateString() ==
+        ? new Date(x.eventStartTime).toDateString() ==
           new Date(selectDate.value).toDateString()
-          : status.value == "กำลังจะมาถึง"
-            ? new Date(x.eventStartTime) > currentDateTime
-            : status.value == "กำลังดำเนินอยู่"
-              ? new Date(x.eventStartTime).getDate() == currentDateTime.getDate() &&
-              currentDateTime.getTime() > new Date(x.eventStartTime).getTime() &&
-              currentDateTime < endtime(x.eventStartTime, x.eventDuration)
-              : endtime(x.eventStartTime, x.eventDuration) < currentDateTime)
+        : status.value == "กำลังจะมาถึง"
+        ? new Date(x.eventStartTime) > currentDateTime
+        : status.value == "กำลังดำเนินอยู่"
+        ? new Date(x.eventStartTime).getDate() == currentDateTime.getDate() &&
+          currentDateTime.getTime() > new Date(x.eventStartTime).getTime() &&
+          currentDateTime < endtime(x.eventStartTime, x.eventDuration)
+        : endtime(x.eventStartTime, x.eventDuration) < currentDateTime)
   );
   fStatus.value = status.value;
 };
 //
 
 onBeforeMount(async () => {
+  eventStore.statusCode = 0;
   if (loginStore.isLoggedIn == true) {
     eventList.value = await eventStore.fetchEvents(loginStore.email);
     filter_list.value = eventList.value;
     eventCateList.value = eventCateStore.eventCategoryList;
     eventNum();
   }
-
 });
 
 onMounted(async () => {
@@ -107,43 +107,117 @@ onMounted(async () => {
     eventNum();
   }
 });
-
 </script>
 
 <template>
   <div>
     <section class="py-4 py-xl-5" style="background: #f5f5f7">
       <section class="border bottom-dark" style="background: #ffffff">
-        <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
+        <nav
+          class="navbar navbar-light navbar-expand-md py-3"
+          style="margin: 2px"
+        >
           <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">นัดหมายทั้งหมด</span></a>
+            <a class="navbar-brand d-flex align-items-center" href="#"
+              ><span class="fw-bold">นัดหมายทั้งหมด</span></a
+            >
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto" v-show="eventList.length > 0">
                 <li class="nav-item mx-2">
-                  <input type="text" class="form-control form-control-sm" placeholder="ชื่อ, อีเมล" v-model="search" />
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="ชื่อ, อีเมล"
+                    v-model="search"
+                  />
                 </li>
                 <li class="nav-item mx-2">
-                  <input type="date" class="form-control form-control-sm" v-model="selectDate" />
+                  <input
+                    type="date"
+                    class="form-control form-control-sm"
+                    v-model="selectDate"
+                  />
                 </li>
                 <li class="nav-item mx-2">
-                  <select v-model="selectedClinic" class="form-select form-select-sm">
+                  <select
+                    v-model="selectedClinic"
+                    class="form-select form-select-sm"
+                  >
                     <option selected>ทั้งหมด</option>
-                    <option v-for="(eCatelist, index) in eventCateList" :key="index">
+                    <option
+                      v-for="(eCatelist, index) in eventCateList"
+                      :key="index"
+                    >
                       {{ eCatelist.eventCategoryName }}
                     </option>
                   </select>
                 </li>
                 <li class="nav-item mx-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                    class="bi bi-search" viewBox="0 0 16 16" @click="filterEvent(search)" style="cursor: pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="30"
+                    height="30"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16"
+                    @click="filterEvent(search)"
+                    style="cursor: pointer"
+                  >
                     <path
-                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                    />
                   </svg>
                 </li>
               </ul>
             </div>
           </div>
         </nav>
+        <!-- modal noti 200 -->
+        <div v-if="eventStore.statusCode == 200">
+          <section class="border bottom-dark" style="background: #0071e3">
+            <nav class="navbar navbar-light" style="margin: 2px">
+              <div class="px-5 container align-items-center">
+                
+                <h6 class="fw-bold px-5 mt-2" style="color: #ffffff">
+                  ยกเลิกนัดหมายของคุณเรียบร้อยแล้ว
+                </h6>
+                <ul class="navbar-nav ms-auto">
+                  <button
+                    type="button"
+                    class="btn-close px-5"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    @click="eventStore.statusCode = 0"
+                  ></button>
+                </ul>
+              </div>
+            </nav>
+          </section>
+        </div>
+        <!-- modal noti 200-->
+         <!-- modal noti 403   -->
+         <div v-if="eventStore.statusCode != 200 && eventStore.statusCode !=0 ">
+          <section class="border bottom-dark" style="background: #0071e3">
+            <nav class="navbar navbar-light" style="margin: 2px">
+              <div class="px-5 container align-items-center">
+                
+                <h6 class="fw-bold px-5 mt-2" style="color: #ffffff">
+                  เกิดข้อผิดพลาดไม่สามารถยกเลิกนัดหมายของคุณได้ กรุณาตรวจสอบอีกครั้ง
+                </h6>
+                <ul class="navbar-nav ms-auto">
+                  <button
+                    type="button"
+                    class="btn-close px-5"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    @click="eventStore.statusCode = 0"
+                  ></button>
+                </ul>
+              </div>
+            </nav>
+          </section>
+        </div>
+        <!-- modal noti -->
       </section>
       <div class="container">
         <div v-if="loginStore.isLoggedIn == false">
@@ -153,22 +227,30 @@ onMounted(async () => {
             </h1>
             <figure style="margin: 0px; padding: 45px">
               <blockquote class="blockquote">
-                <p class="mb-0 display-6">ดูเหมือนว่าคุณยังไม่ได้ลงชื่อเข้าใช้เลยนะ :\</p>
+                <p class="mb-0 display-6">
+                  ดูเหมือนว่าคุณยังไม่ได้ลงชื่อเข้าใช้เลยนะ :\
+                </p>
               </blockquote>
               <figcaption class="text-muted" style="font-size: 20px">
                 ลงชื่อเข้าใช้ก่อนแล้วค่อยกลับมานะ!
               </figcaption>
             </figure>
-            <button class="btn btn-danger fs-5 me-2 py-2 px-4" type="button" style="
+            <button
+              class="btn btn-danger fs-5 me-2 py-2 px-4"
+              type="button"
+              style="
                 margin: -57px 0px;
                 --bs-primary-rgb: 220, 53, 69;
                 padding: 0px 24px;
-              ">
-              <router-link :to="{ name: 'Login' }" style="text-decoration: none; color: #ffffff">ลงชื่อเข้าใช้เลย
+              "
+            >
+              <router-link
+                :to="{ name: 'Login' }"
+                style="text-decoration: none; color: #ffffff"
+                >ลงชื่อเข้าใช้เลย
               </router-link>
             </button>
           </div>
-
         </div>
         <div v-else>
           <div v-if="eventList.length <= 0">
@@ -178,30 +260,43 @@ onMounted(async () => {
               </h1>
               <figure style="margin: 0px; padding: 45px">
                 <blockquote class="blockquote">
-                  <p class="mb-0 display-6">ยังไม่มีนัดหมายเลย ลองจองมั้ยล่ะ?</p>
+                  <p class="mb-0 display-6">
+                    ยังไม่มีนัดหมายเลย ลองจองมั้ยล่ะ?
+                  </p>
                 </blockquote>
                 <figcaption class="text-muted" style="font-size: 20px">
                   จองนัดหมายแล้วไปกันเลย!
                 </figcaption>
               </figure>
-              <button class="btn btn-danger fs-5 me-2 py-2 px-4" type="button" style="
-                margin: -57px 0px;
-                --bs-primary-rgb: 220, 53, 69;
-                padding: 0px 24px;
-              ">
-                <router-link :to="{ name: 'AddEvent' }" style="text-decoration: none; color: #ffffff">จองนัดหมายเลย
+              <button
+                class="btn btn-danger fs-5 me-2 py-2 px-4"
+                type="button"
+                style="
+                  margin: -57px 0px;
+                  --bs-primary-rgb: 220, 53, 69;
+                  padding: 0px 24px;
+                "
+              >
+                <router-link
+                  :to="{ name: 'AddEvent' }"
+                  style="text-decoration: none; color: #ffffff"
+                  >จองนัดหมายเลย
                 </router-link>
               </button>
             </div>
           </div>
           <div v-else>
-
-            <div class="text-center text-white-50 bg-danger border rounded border-0 p-3 my-5">
+            <div
+              class="text-center text-white-50 bg-danger border rounded border-0 p-3 my-5"
+            >
               <div class="row row-cols-2 row-cols-md-4">
-                <div @click="
-                  status = 'ทั้งหมด';
-                  filterEvent(search);
-                " style="cursor: pointer">
+                <div
+                  @click="
+                    status = 'ทั้งหมด';
+                    filterEvent(search);
+                  "
+                  style="cursor: pointer"
+                >
                   <div class="col">
                     <div class="p-3">
                       <h4 class="display-5 fw-bold text-white mb-0">
@@ -211,10 +306,13 @@ onMounted(async () => {
                     </div>
                   </div>
                 </div>
-                <div @click="
-                  status = 'กำลังจะมาถึง';
-                  filterEvent(search);
-                " style="cursor: pointer">
+                <div
+                  @click="
+                    status = 'กำลังจะมาถึง';
+                    filterEvent(search);
+                  "
+                  style="cursor: pointer"
+                >
                   <div class="col">
                     <div class="p-3">
                       <h4 class="display-5 fw-bold text-white mb-0">
@@ -224,10 +322,13 @@ onMounted(async () => {
                     </div>
                   </div>
                 </div>
-                <div @click="
-                  status = 'กำลังดำเนินอยู่';
-                  filterEvent(search);
-                " style="cursor: pointer">
+                <div
+                  @click="
+                    status = 'กำลังดำเนินอยู่';
+                    filterEvent(search);
+                  "
+                  style="cursor: pointer"
+                >
                   <div class="col">
                     <div class="p-3">
                       <h4 class="display-5 fw-bold text-white mb-0">
@@ -237,10 +338,13 @@ onMounted(async () => {
                     </div>
                   </div>
                 </div>
-                <div @click="
-                  status = 'ที่ผ่านมา';
-                  filterEvent(search);
-                " style="cursor: pointer">
+                <div
+                  @click="
+                    status = 'ที่ผ่านมา';
+                    filterEvent(search);
+                  "
+                  style="cursor: pointer"
+                >
                   <div class="col">
                     <div class="p-3">
                       <h4 class="display-5 fw-bold text-white mb-0">
@@ -256,7 +360,9 @@ onMounted(async () => {
             <div class="border rounded border-1 p-3">
               <div v-if="filter_list.length <= 0">
                 <h1 v-if="fStatus == 'ที่ผ่านมา'">No Past Events</h1>
-                <h1 v-else-if="fStatus == 'กำลังจะมาถึง'">No Upcoming Events</h1>
+                <h1 v-else-if="fStatus == 'กำลังจะมาถึง'">
+                  No Upcoming Events
+                </h1>
                 <h1 v-else-if="fStatus == 'กำลังดำเนินอยู่'">
                   No Ongoing Events
                 </h1>
@@ -265,37 +371,49 @@ onMounted(async () => {
               <div class="panel panel-primary">
                 <div class="panel-body my-5 text-center">
                   <ul class="list-group list-group-flush">
-                    <li class="list-group-item hover" v-for="(event, index) in filter_list" :key="index"
-                      @click="router.push(`/Eventinfo/${event.id}`)">
+                    <li
+                      class="list-group-item hover"
+                      v-for="(event, index) in filter_list"
+                      :key="index"
+                      @click="router.push(`/Eventinfo/${event.id}`)"
+                    >
                       <div class="row row-cols-2 row-cols-md-3">
                         <div class="col">
                           <div class="my-4">
-                            <img src="../assets/testimg.png"
-                              class="rounded img-fluid rounded-circle float-start w-25" />
+                            <img
+                              src="../assets/testimg.png"
+                              class="rounded img-fluid rounded-circle float-start w-25"
+                            />
                             <strong>{{ event.bookingName }}</strong>
                             <p class="text-muted">ตำแหน่ง</p>
                           </div>
                         </div>
                         <div class="col">
                           <div class="my-4">
-                            <p class="vrtext-muted card-subtitle mb-2 text-muted">
-                              {{ new Date(event.eventStartTime).toDateString() }}
+                            <p
+                              class="vrtext-muted card-subtitle mb-2 text-muted"
+                            >
+                              {{
+                                new Date(event.eventStartTime).toDateString()
+                              }}
                             </p>
                             <strong></strong>
                             <p class="text-muted my">
                               เวลา
                               {{
-                              new Date(
-                              event.eventStartTime
-                              ).toLocaleTimeString()
+                                new Date(
+                                  event.eventStartTime
+                                ).toLocaleTimeString()
                               }}
                             </p>
                           </div>
                         </div>
                         <div class="col">
                           <div class="my-4">
-                            <strong><kbd>{{ event.id }}</kbd>
-                              {{ event.eventCategoryName }}</strong>
+                            <strong
+                              ><kbd>{{ event.id }}</kbd>
+                              {{ event.eventCategoryName }}</strong
+                            >
                           </div>
                         </div>
                       </div>

@@ -19,17 +19,24 @@ const endtime = (startTime, add) => {
 
 const isPastOrOngoing = (thisEvent) => {
   const currentDateTime = new Date();
-  if ((endtime(thisEvent.eventStartTime, thisEvent.eventDuration) < currentDateTime) || new Date(thisEvent.eventStartTime).getDate() == currentDateTime.getDate() &&
-    currentDateTime.getTime() > new Date(thisEvent.eventStartTime).getTime() &&
-    currentDateTime < endtime(thisEvent.eventStartTime, thisEvent.eventDuration)) {
+  if (
+    endtime(thisEvent.eventStartTime, thisEvent.eventDuration) <
+      currentDateTime ||
+    (new Date(thisEvent.eventStartTime).getDate() ==
+      currentDateTime.getDate() &&
+      currentDateTime.getTime() >
+        new Date(thisEvent.eventStartTime).getTime() &&
+      currentDateTime <
+        endtime(thisEvent.eventStartTime, thisEvent.eventDuration))
+  ) {
     canEdit.value = true;
   } else {
     canEdit.value = false;
   }
-}
-
+};
 
 onBeforeMount(async () => {
+  eventStore.statusCode = 0;
   thisEvent.value = {
     eventCategory: {
       eventCategoryName: "",
@@ -47,37 +54,60 @@ const removeEvent = async () => {
   <div>
     <section class="position-relative py-4 py-xl-5" style="background: #f5f5f7">
       <!-- modal noti -->
-      <section class="border bottom-dark" style="background: #0071e3">
-        <nav class="navbar navbar-light" style="margin: 2px">
-          <div class="px-5 container align-items-center">
-            <h6 class="fw-bold px-5 mt-2" style="color: #ffffff">
-              แก้ไขการนัดหมายของคุณเรียบร้อยแล้ว
-            </h6>
-            <ul class="navbar-nav ms-auto">
-              <button type="button" class="btn-close px-5" data-bs-dismiss="modal" aria-label="Close"
-                @click=""></button>
-            </ul>
-          </div>
-        </nav>
-      </section>
+      <div v-if="eventStore.statusCode == 200">
+        <section class="border bottom-dark" style="background: #0071e3">
+          <nav class="navbar navbar-light" style="margin: 2px">
+            <div class="px-5 container align-items-center">
+              <h6 class="fw-bold px-5 mt-2" style="color: #ffffff">
+                แก้ไขการนัดหมายของคุณเรียบร้อยแล้ว
+              </h6>
+              <ul class="navbar-nav ms-auto">
+                <button
+                  type="button"
+                  class="btn-close px-5"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  @click="eventStore.statusCode = 0"
+                ></button>
+              </ul>
+            </div>
+          </nav>
+        </section>
+      </div>
       <!-- modal noti -->
 
       <div class="container">
         <h1 class="fw-bold mb-4 display-10" style="margin: 100px">
           <div>
-            <svg @click="router.push(`/check-event/`)" xmlns="http://www.w3.org/2000/svg" width="60" height="60"
-              fill="#0d6efd" class="bi bi-arrow-left-short" viewBox="0 0 12 17" style="cursor:pointer">
-              <path fill-rule="evenodd"
-                d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
-            </svg> ข้อมูลนัดหมาย
+            <svg
+              @click="router.push(`/check-event/`)"
+              xmlns="http://www.w3.org/2000/svg"
+              width="60"
+              height="60"
+              fill="#0d6efd"
+              class="bi bi-arrow-left-short"
+              viewBox="0 0 12 17"
+              style="cursor: pointer"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
+              />
+            </svg>
+            ข้อมูลนัดหมาย
           </div>
         </h1>
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
             <div class="col-md-6 col-lg-4 col-xl-4">
-              <div class="d-flex flex-column justify-content-center align-items-start h-100">
+              <div
+                class="d-flex flex-column justify-content-center align-items-start h-100"
+              >
                 <div class="d-flex align-items-center p-3">
-                  <img src="../assets/testimg.png" class="rounded img-fluid rounded-circle float-start w-100" />
+                  <img
+                    src="../assets/testimg.png"
+                    class="rounded img-fluid rounded-circle float-start w-100"
+                  />
                 </div>
                 <div>
                   <p class="px-4 fw-bold text-primary mb-0">ชื่อ</p>
@@ -100,9 +130,9 @@ const removeEvent = async () => {
                 <p class="px-4 fw-bold text-primary mb-0">วันที่</p>
                 <p class="px-4 text-muted mb-5">
                   {{
-                  new Date(thisEvent.eventStartTime).toLocaleDateString() +
-                  " " +
-                  new Date(thisEvent.eventStartTime).toLocaleTimeString()
+                    new Date(thisEvent.eventStartTime).toLocaleDateString() +
+                    " " +
+                    new Date(thisEvent.eventStartTime).toLocaleTimeString()
                   }}
                 </p>
                 <p class="px-4 fw-bold text-primary mb-0">รายละเอียด</p>
@@ -115,18 +145,32 @@ const removeEvent = async () => {
         </div>
         <div class="d-flex flex-row-reverse bd-highlight">
           <div v-show="loginStore.isAdmin && canEdit">
-            <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
-              style="--bs-btn-border-radius: 1rem">
+            <button
+              class="btn btn-danger btn-sm"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#myModal"
+              style="--bs-btn-border-radius: 1rem"
+            >
               ลบนัดหมาย
             </button>
           </div>
           <div v-show="!canEdit">
-            <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
-              style="--bs-btn-border-radius: 1rem">
+            <button
+              class="btn btn-danger btn-sm"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#myModal"
+              style="--bs-btn-border-radius: 1rem"
+            >
               ยกเลิกนัดหมาย
             </button>
-            <button class="btn btn-primary btn-sm mx-4" type="button" style="--bs-btn-border-radius: 1rem"
-              @click="router.push(`/EditEvent/${thisEvent.id}`)">
+            <button
+              class="btn btn-primary btn-sm mx-4"
+              type="button"
+              style="--bs-btn-border-radius: 1rem"
+              @click="router.push(`/EditEvent/${thisEvent.id}`)"
+            >
               แก้ไข
             </button>
           </div>
@@ -139,12 +183,24 @@ const removeEvent = async () => {
       <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header flex-column">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-hidden="true"
+            ></button>
             <div class="icon-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" fill="currentColor" class="bi bi-x-lg"
-                viewBox="0 0 16 16">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="55"
+                height="55"
+                fill="currentColor"
+                class="bi bi-x-lg"
+                viewBox="0 0 16 16"
+              >
                 <path
-                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+                />
               </svg>
             </div>
 
@@ -157,11 +213,23 @@ const removeEvent = async () => {
             </p>
           </div>
           <div class="modal-footer justify-content-center">
-            <button type="button" class="btn btn-primary rounded-pill" data-bs-dismiss="modal" data-dismiss="modal"
-              @click="removeEvent(); router.push(`/check-event`)">
+            <button
+              type="button"
+              class="btn btn-primary rounded-pill"
+              data-bs-dismiss="modal"
+              data-dismiss="modal"
+              @click="
+                removeEvent();
+                router.push(`/check-event`);
+              "
+            >
               ยืนยัน
             </button>
-            <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">
+            <button
+              type="button"
+              class="btn btn-danger rounded-pill"
+              data-bs-dismiss="modal"
+            >
               ยกเลิก
             </button>
           </div>

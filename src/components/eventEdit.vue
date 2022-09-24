@@ -133,18 +133,18 @@ const editEvent = async () => {
               <div class="row">
                 <div class="col">
                   <p>
-                    <strong>Firstname: </strong>{{ eventz.bookingName.split(" ")[0] }}
+                    <strong>ชื่อ: </strong>{{ eventz.bookingName.split(" ")[0] }}
                   </p>
                 </div>
                 <div class="col">
                   <p>
-                    <strong>Lastname: </strong>{{ eventz.bookingName.split(" ")[1] }}
+                    <strong>นามสกุล: </strong>{{ eventz.bookingName.split(" ")[1] }}
                   </p>
                 </div>
               </div>
               <div class="row">
                 <div class="col">
-                  <p><strong>Email: </strong>{{ eventz.bookingEmail }}</p>
+                  <p><strong>อีเมล: </strong>{{ eventz.bookingEmail }}</p>
                 </div>
               </div>
             </form>
