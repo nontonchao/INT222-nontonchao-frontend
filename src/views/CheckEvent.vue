@@ -91,7 +91,7 @@ const filterEvent = async (search) => {
 //
 
 onBeforeMount(async () => {
-  if (loginStore.isLogin() == true) {
+  if (loginStore.isLoggedIn == true) {
     eventList.value = await eventStore.fetchEvents(loginStore.email);
     filter_list.value = eventList.value;
     eventCateList.value = eventCateStore.eventCategoryList;
@@ -101,13 +101,13 @@ onBeforeMount(async () => {
 });
 
 onMounted(async () => {
-  if (loginStore.isLogin() == true) {
+  if (loginStore.isLoggedIn == true) {
     eventList.value = await eventStore.fetchEvents(loginStore.email);
     filter_list.value = eventList.value;
     eventNum();
   }
-
 });
+
 </script>
 
 <template>
@@ -146,7 +146,7 @@ onMounted(async () => {
         </nav>
       </section>
       <div class="container">
-        <div v-if="loginStore.isLogin() == false">
+        <div v-if="loginStore.isLoggedIn == false">
           <div class="text-center p-4 p-lg-5">
             <h1 class="fw-bold mb-4 display-5" style="margin: 125px">
               You are not logged in

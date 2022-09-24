@@ -145,7 +145,7 @@ const ValidateEmail = (mail) => {
 };
 
 onBeforeMount(() => {
-  if (loginStore.isLogin() == true) {
+  if (loginStore.isLoggedIn == true) {
     firstname.value = loginStore.name.split(' ')[0];
     lastname.value = loginStore.name.split(' ')[1];
     email.value = loginStore.email;
@@ -214,7 +214,7 @@ onBeforeMount(() => {
               <div class="row">
                 <div class="col">
                   <input type="text" class="form-control" placeholder="ชื่อ" maxlength="100" required
-                    v-model="firstname" :disabled="loginStore.isLogin()" />
+                    v-model="firstname" :disabled="loginStore.isLoggedIn" />
                   <div class="text-wrap">
                     <p class="fs-6 text-danger text-right" v-show="firstname.length == 100">
                       ชื่อไม่เกิน 100 ตัวอักษร
@@ -223,13 +223,13 @@ onBeforeMount(() => {
                 </div>
                 <div class="col">
                   <input type="text" required class="form-control" placeholder="นามสกุล" maxlength="50"
-                    v-model="lastname" :disabled="loginStore.isLogin()" />
+                    v-model="lastname" :disabled="loginStore.isLoggedIn" />
                 </div>
               </div>
               <div class="row">
                 <div class="col">
                   <input type="text" required minlength="1" maxlength="100" @keyup="ValidateEmail(email)"
-                    :disabled="loginStore.isLogin()" class="form-control mt-3" placeholder="อีเมล" v-model="email" />
+                    :disabled="loginStore.isLoggedIn" class="form-control mt-3" placeholder="อีเมล" v-model="email" />
                   <p class="text-danger text-end fs-6" v-if="emailErr == 2">
                     *กรุณาใส่อีเมลให้ถูกต้อง
                   </p>

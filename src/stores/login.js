@@ -8,6 +8,7 @@ export const useLogin = defineStore("login", () => {
   const token_obj = ref("");
   const userStore = useUsers();
   const isAdmin = ref(false);
+  const isLoggedIn = ref(false);
   const name = ref("");
   const email = ref("");
 
@@ -23,8 +24,8 @@ export const useLogin = defineStore("login", () => {
   const logout = () => {
     localStorage.clear(); // clear localstorage
     userStore.logout();
-    isLogin.value = false;
     isAdmin.value = false;
+    isLoggedIn.value = false;
     name.value = "";
     email.value = "";
     //location.reload();
@@ -35,6 +36,7 @@ export const useLogin = defineStore("login", () => {
       refresh();
       if ((parseJwt(localStorage.getItem("access_token"))).role == "ROLE_ADMIN") { // check role from localstorage token
         isAdmin.value = true;
+        isLoggedIn.value = true;
       };
       name.value = (parseJwt(localStorage.getItem("access_token")).name);
       email.value = (parseJwt(localStorage.getItem("access_token")).sub);
@@ -85,6 +87,7 @@ export const useLogin = defineStore("login", () => {
 
       if ((parseJwt(token_obj.value.token)).role === "ROLE_ADMIN") {
         isAdmin.value = true;
+        isLoggedIn.value = true;
       }
 
     } else if (res.status == 401) {
@@ -100,6 +103,7 @@ export const useLogin = defineStore("login", () => {
     logout,
     isLogin,
     parseJwt,
+    isLoggedIn,
     name,
     email,
     isAdmin,

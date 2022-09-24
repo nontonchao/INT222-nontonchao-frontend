@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount, onMounted } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useUsers } from "../stores/users.js";
 import { useRouter } from "vue-router";
 import { useLogin } from '../stores/login.js';
@@ -10,10 +10,6 @@ const router = useRouter();
 const loginStore = useLogin();
 
 onBeforeMount(async () => {
-  users.value = await userStore.fetchUsers();
-});
-
-onMounted(async () => {
   users.value = await userStore.fetchUsers();
 });
 </script>

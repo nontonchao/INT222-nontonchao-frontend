@@ -7,7 +7,7 @@ const loginStore = useLogin();
 const router = useRouter();
 
 onBeforeMount(async () => {
-    loginStore.isLogin();
+    loginStore.isLoggedIn;
 });
 
 </script>
