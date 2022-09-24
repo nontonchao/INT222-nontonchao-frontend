@@ -167,15 +167,15 @@ const editEvent = async () => {
                     time = timeTable[index].split('-')[0].trim();
                     activeIndex = index;
                     activeClick(index);
-                    d_tmp = new Date(x.substring(0, 50)).toISOString();
+                    d_tmp = new Date(x.split('-')[0].trim()).toISOString();
                   " :class="activeClick(index)" :disabled="
-                    slot.includes(x.substring(0, 50)) ||
-                    new Date(x.substring(0, 50)) < new Date()
+                    slot.includes(x.split('-')[0].trim()) ||
+                    new Date(x.split('-')[0].trim()) < new Date()
                   " :activeIndex="index" class="'btn-sm'">
-                    {{ x.split(" ")[4].substring(0, 5) }} -
-                    {{ x.split(" ")[13].substring(0, 5) }}
-                    <small v-if="slot.includes(x.substring(0, 50))">เวลานี้ถูกจองแล้ว</small>
-                    <small v-if="new Date(x.substring(0, 50)) < new Date()">หมดเวลาจอง</small>
+                    {{ new Date(x.split('-')[0]).toLocaleTimeString('it-IT').substring(0,5) }} -
+                    {{ new Date(x.split('-')[1]).toLocaleTimeString('it-IT').substring(0,5) }}
+                    <small v-if="slot.includes(x.split('-')[0].trim())">เวลานี้ถูกจองแล้ว</small>
+                    <small v-if="new Date(x.split('-')[0].trim()) < new Date()">หมดเวลาจอง</small>
                   </button>
                 </div>
               </div>

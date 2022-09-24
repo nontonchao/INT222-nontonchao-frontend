@@ -265,7 +265,6 @@ onBeforeMount(() => {
                     " :activeIndex="index" class="'btn-sm'">
                       {{ new Date(x.split('-')[0]).toLocaleTimeString('it-IT').substring(0,5) }} -
                       {{ new Date(x.split('-')[1]).toLocaleTimeString('it-IT').substring(0,5) }}
-                      {{}}
                       <small v-if="slot.includes(x.split('-')[0].trim())">เวลานี้ถูกจองแล้ว</small>
                       <small v-if="new Date(x.split('-')[0].trim()) < new Date()">หมดเวลาจอง</small>
                     </button>
