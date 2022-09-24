@@ -14,7 +14,6 @@ export const useEvents = defineStore("events", () => {
       body: JSON.stringify(event),
     });
     if (res.status == 201) {
-      alert("event added");
       statusCode.value = res.status
       await fetchEvents();
     } else if (res.status == 400) {
