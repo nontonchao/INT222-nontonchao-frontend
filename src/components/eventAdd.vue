@@ -311,91 +311,92 @@ onBeforeMount(() => {
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight px-5">
-          <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
+          <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal" 
             style="--bs-btn-border-radius: 1rem" :disabled="!(time != 0 && startTime != 0)">
             ยืนยันการจอง
           </button>
         </div>
       </div>
-      <!-- Modal HTML -->
-      <div id="myModal" class="modal fade">
-        <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header flex-column">
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-              <div class="icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="#6E6E73" class="bi bi-check-lg"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                </svg>
-              </div>
-              <h4 class="modal-title w-100">คุณต้องการสร้างนัดหมายของคุณ ?</h4>
-              <div class="modal-body">
-                <p>
-                  คุณต้องการที่จะนัดหมายเพื่อขอคำปรึกษาคลินิก {{selectClinic.eventCategoryName}} เวลา {{ new
-                  Date(time).toLocaleTimeString('it-IT').substring(0,5)}}
-                  ใช่หรือไม่
-                </p>
-              </div>
-              <div class="modal-footer justify-content-center">
-                <button type="button" data-bs-dismiss="modal" class="btn btn-primary rounded-pill" data-dismiss="modal"
-                  data-bs-toggle="modal" data-bs-target="#resModal" @click="addEvent()">
-                  ยืนยัน
-                </button>
 
-                <button type="button" data-bs-dismiss="modal" class="btn btn-danger rounded-pill">
-                  ยกเลิก
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal Res HTML -->
-      <div id="resModal" class="modal fade">
-        <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header flex-column">
-              <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal"
-                aria-hidden="true"></button>
-              <div class="modal-header flex-column" v-if="eventStore.statusCode != 400">
-                <div class="icon-box">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="#6E6E73" class="bi bi-check-lg"
-                    viewBox="0 0 16 16">
-                    <path
-                      d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                  </svg>
-                </div>
-                <h4 class="modal-title w-100">
-                  จองการนัดหมายของคุณเรียบร้อยแล้ว
-                </h4>
-                <div class="modal-body">
-                  <p>ระบบได้ทำการจองนัดหมายของคุณเรียบร้อยแล้ว</p>
-                </div>
-              </div>
-              <div class="modal-header flex-column" v-if="eventStore.statusCode == 400">
-                <div class="icon-box-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
-                    class="bi bi-exclamation-lg" viewBox="0 0 16 16">
-                    <path
-                      d="M7.005 3.1a1 1 0 1 1 1.99 0l-.388 6.35a.61.61 0 0 1-1.214 0L7.005 3.1ZM7 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z" />
-                  </svg>
-                </div>
-                <h4 class="modal-title w-100">ไม่สามารถจองนัดหมายได้</h4>
-                <div class="modal-body">
-                  <p>
-                    ระบบไม่สามารถทำการจองนัดหมายของคุณได้
-                    กรุณาตรวจสอบข้อมูลให้ถูกต้อง
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
+  </div>
+  <!-- Modal HTML -->
+  <div id="myModal" class="modal in" data-bs-backdrop="static">
+    <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
+      <div class="modal-content ">
+        <div class="modal-header flex-column">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="#6E6E73" class="bi bi-check-lg"
+              viewBox="0 0 16 16">
+              <path
+                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+            </svg>
+          </div>
+          <h4 class="modal-title w-100">คุณต้องการสร้างนัดหมายของคุณ ?</h4>
+          <div class="modal-body">
+            <p>
+              คุณต้องการที่จะนัดหมายเพื่อขอคำปรึกษาคลินิก {{selectClinic.eventCategoryName}} เวลา {{ new
+              Date(time).toLocaleTimeString('it-IT').substring(0,5)}}
+              ใช่หรือไม่
+            </p>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#resModal" 
+              @click="addEvent()">
+              ยืนยัน
+            </button>
+
+            <button type="button" data-bs-dismiss="modal" class="btn btn-danger rounded-pill">
+              ยกเลิก
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Res HTML -->
+  <div id="resModal" class="modal in" data-bs-backdrop="static">
+    <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
+      <div class="modal-content">
+        <div class="flex-column">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" @click="(eventStore.statusCode == 400 ? location.reload() : router.push(`/check-event`))"
+            aria-hidden="true"></button>
+          <div class="modal-header flex-column" v-if="eventStore.statusCode == 201">
+            <div class="icon-box">
+              <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="#6E6E73" class="bi bi-check-lg"
+                viewBox="0 0 16 16">
+                <path
+                  d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+              </svg>
+            </div>
+            <h4 class="modal-title w-100">
+              จองการนัดหมายของคุณเรียบร้อยแล้ว
+            </h4>
+            <div class="modal-body">
+              <p>ระบบได้ทำการจองนัดหมายของคุณเรียบร้อยแล้ว</p>
+            </div>
+          </div>
+          <div class="modal-header flex-column" v-if="eventStore.statusCode == 400">
+            <div class="icon-box-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
+                class="bi bi-exclamation-lg" viewBox="0 0 16 16">
+                <path
+                  d="M7.005 3.1a1 1 0 1 1 1.99 0l-.388 6.35a.61.61 0 0 1-1.214 0L7.005 3.1ZM7 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z" />
+              </svg>
+            </div>
+            <h4 class="modal-title w-100">ไม่สามารถจองนัดหมายได้</h4>
+            <div class="modal-body">
+              <p>
+                ระบบไม่สามารถทำการจองนัดหมายของคุณได้
+                กรุณาตรวจสอบข้อมูลให้ถูกต้อง
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -496,7 +497,6 @@ onBeforeMount(() => {
   background: #f5f5f7;
 }
 
-.modal-confirm .btn-secondary:hover,
 .modal-confirm .btn-secondary:focus {
   background: #a8a8a8;
 }

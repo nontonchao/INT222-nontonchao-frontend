@@ -71,11 +71,6 @@ const routes = [{
     component: Login,
 },
 {
-    path: "/login",
-    name: "Login",
-    component: Login,
-},
-{
     path: "/UserInfo/:user_id",
     name: "UserInfo",
     component: UserInfo,
