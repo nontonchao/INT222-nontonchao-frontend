@@ -14,6 +14,7 @@ export const useLogin = defineStore("login", () => {
   const name = ref("");
   const email = ref("");
   const resToken = ref()
+
   const parseJwt = (token) => {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -56,24 +57,21 @@ export const useLogin = defineStore("login", () => {
       , {
         method: 'GET',
         headers: {
-          "Authorization": "Bearer " + localStorage.getItem("access_token"),
+          "Authorization": "Bearer " + localStorage.getItem("refresh_token"),
           "isRefreshToken": true
         },
       });
 
     let response = await res.text();
 
-    if (response === "cannot refresh this token") {
+    if (response === "refresh_token expired try login again!") {
       resToken.value = 401
       console.log(`RES TOKEN${resToken.value}`)
       logout();
-      
-    } else if (response === "this token still valid") {
-
-    } else {
+    }
+    else {
       // set new refreshed token
       localStorage.setItem("access_token", (JSON.parse(response).token));
-
     }
 
   }

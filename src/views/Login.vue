@@ -14,6 +14,7 @@ const login = async () => {
   await loginStore.login(email.value, password.value);
   if (loginStore.resStatus !== 401) {
     localStorage.setItem("access_token", loginStore.token_obj.token);
+    localStorage.setItem("refresh_token", loginStore.token_obj.refresh_token);
     name.value = loginStore.parseJwt(loginStore.token_obj.token).name;
     localStorage.setItem("name", name.value);
   }
@@ -24,10 +25,10 @@ const ValidateEmail = (mail) => {
   return mail == ""
     ? (emailErr.value = 0)
     : /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(
-        mail
-      )
-    ? (emailErr.value = 1)
-    : (emailErr.value = 2);
+      mail
+    )
+      ? (emailErr.value = 1)
+      : (emailErr.value = 2);
 };
 </script>
 
@@ -35,33 +36,22 @@ const ValidateEmail = (mail) => {
   <div>
     <section class="py-4 py-xl-5">
       <section class="border bottom-dark" style="background: #ffffff">
-        <nav
-          class="navbar navbar-light navbar-expand-md py-3"
-          style="margin: 2px"
-        >
+        <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
           <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#"
-              ><span class="fw-bold">OASIP ID</span></a
-            >
+            <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">OASIP ID</span></a>
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item px-4">
-                  <router-link
-                    class="nav-link"
-                    :to="{
-                      name: 'Login',
-                    }"
-                  >
+                  <router-link class="nav-link" :to="{
+                    name: 'Login',
+                  }">
                     ลงชื่อเข้าใช้
                   </router-link>
                 </li>
                 <li class="nav-item">
-                  <router-link
-                    class="nav-link"
-                    :to="{
-                      name: 'AddUser',
-                    }"
-                  >
+                  <router-link class="nav-link" :to="{
+                    name: 'AddUser',
+                  }">
                     สร้าง OASIP ID ของคุณ
                   </router-link>
                 </li>
@@ -72,22 +62,12 @@ const ValidateEmail = (mail) => {
       </section>
       <section class="container py-4 py-xl-5">
         <div class="row mb-5 p-4 p-lg-5">
-          <div
-            class="col-md-8 col-xl-6 text-center mx-auto pt-3"
-            v-show="loginStore.resToken == 401"
-          >
+          <div class="col-md-8 col-xl-6 text-center mx-auto pt-3" v-show="loginStore.resToken == 401">
             <div class="icon-box">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="70"
-                height="70"
-                fill="currentColor"
-                class="bi bi-emoji-frown-fill"
-                viewBox="0 0 16 16"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                class="bi bi-emoji-frown-fill" viewBox="0 0 16 16">
                 <path
-                  d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"
-                />
+                  d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z" />
               </svg>
             </div>
             <br />
@@ -98,10 +78,7 @@ const ValidateEmail = (mail) => {
               <br />
             </p>
           </div>
-          <div
-            class="col-md-8 col-xl-6 text-center mx-auto pt-3"
-            v-show="loginStore.resToken != 401"
-          >
+          <div class="col-md-8 col-xl-6 text-center mx-auto pt-3" v-show="loginStore.resToken != 401">
             <h2 class="fw-bold">บัญชีเดียวสำหรับทุกสิ่งที่เป็น OASIP</h2>
             <p class="w-lg-50">
               เข้าถึงบริการ OASIP-SY1 by NTC ได้ทั้งหมดด้วย OASIP ID
@@ -115,51 +92,30 @@ const ValidateEmail = (mail) => {
                   <div class="card mb-5 border-0">
                     <div class="card-body p-sm-5">
                       <div class="mb-3">
-                        <input
-                          v-model="email"
-                          @keyup="ValidateEmail(email)"
-                          class="form-control"
-                          type="email"
-                          id="email-2"
-                          name="email"
-                          placeholder="อีเมล"
-                        />
+                        <input v-model="email" @keyup="ValidateEmail(email)" class="form-control" type="email"
+                          id="email-2" name="email" placeholder="อีเมล" />
                       </div>
                       <div class="mb-5">
-                        <input
-                          v-model="password"
-                          class="form-control"
-                          type="password"
-                          id="password"
-                          name="password"
-                          placeholder="รหัสผ่าน"
-                        />
+                        <input v-model="password" class="form-control" type="password" id="password" name="password"
+                          placeholder="รหัสผ่าน" />
                       </div>
                       <div class="text-center">
-                        <button
-                          @click="login(), loginStore.resToken = 0"
-                          class="btn btn-danger btn-sm mx-4"
-                          type="button"
-                          style="--bs-btn-border-radius: 1rem"
-                          data-bs-toggle="modal"
-                          data-bs-target="#loginModal"
-                          :disabled="
+                        <button @click="login(), loginStore.resToken = 0" class="btn btn-danger btn-sm mx-4"
+                          type="button" style="--bs-btn-border-radius: 1rem" data-bs-toggle="modal"
+                          data-bs-target="#loginModal" :disabled="
                             password.length < 8 ||
                             (email.length == 0 && password.length > 14) ||
                             emailErr == 2
-                          "
-                        >
+                          ">
                           ลงชื่อเข้าใช้
                         </button>
                       </div>
                     </div>
                   </div>
                   <div class="text-center">
-                    <router-link
-                      :to="{
-                        name: 'AddUser',
-                      }"
-                    >
+                    <router-link :to="{
+                      name: 'AddUser',
+                    }">
                       ไม่มี OASIP ID ใช่ไหม? สร้างของคุณเองตอนนี้ >
                     </router-link>
                   </div>
@@ -175,30 +131,15 @@ const ValidateEmail = (mail) => {
     <div id="loginModal" class="modal fade">
       <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
         <!--401,404  Modal HTML -->
-        <div
-          class="modal-content"
-          v-show="loginStore.resStatus == 401 || loginStore.resStatus == 404"
-        >
+        <div class="modal-content" v-show="loginStore.resStatus == 401 || loginStore.resStatus == 404">
           <div class="modal-header flex-column">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-hidden="true"
-              @click="loginStore.resStatus = 0"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"
+              @click="loginStore.resStatus = 0"></button>
             <div class="icon-box">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="70"
-                height="70"
-                fill="currentColor"
-                class="bi bi-emoji-frown-fill"
-                viewBox="0 0 16 16"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                class="bi bi-emoji-frown-fill" viewBox="0 0 16 16">
                 <path
-                  d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"
-                />
+                  d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z" />
               </svg>
             </div>
 
@@ -214,31 +155,16 @@ const ValidateEmail = (mail) => {
         <!--200 Modal HTML -->
         <div class="modal-content" v-show="loginStore.resStatus == 200">
           <div class="modal-header flex-column">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-hidden="true"
-              @click="
-                loginStore.resStatus = 0;
-                router.push(`/`);
-              "
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true" @click="
+              loginStore.resStatus = 0;
+              router.push(`/`);
+            "></button>
             <div class="icon-box">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="70"
-                height="70"
-                fill="currentColor"
-                class="bi bi-emoji-sunglasses"
-                viewBox="0 0 16 16"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                class="bi bi-emoji-sunglasses" viewBox="0 0 16 16">
                 <path
-                  d="M4.968 9.75a.5.5 0 1 0-.866.5A4.498 4.498 0 0 0 8 12.5a4.5 4.5 0 0 0 3.898-2.25.5.5 0 1 0-.866-.5A3.498 3.498 0 0 1 8 11.5a3.498 3.498 0 0 1-3.032-1.75zM7 5.116V5a1 1 0 0 0-1-1H3.28a1 1 0 0 0-.97 1.243l.311 1.242A2 2 0 0 0 4.561 8H5a2 2 0 0 0 1.994-1.839A2.99 2.99 0 0 1 8 6c.393 0 .74.064 1.006.161A2 2 0 0 0 11 8h.438a2 2 0 0 0 1.94-1.515l.311-1.242A1 1 0 0 0 12.72 4H10a1 1 0 0 0-1 1v.116A4.22 4.22 0 0 0 8 5c-.35 0-.69.04-1 .116z"
-                />
-                <path
-                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-1 0A7 7 0 1 0 1 8a7 7 0 0 0 14 0z"
-                />
+                  d="M4.968 9.75a.5.5 0 1 0-.866.5A4.498 4.498 0 0 0 8 12.5a4.5 4.5 0 0 0 3.898-2.25.5.5 0 1 0-.866-.5A3.498 3.498 0 0 1 8 11.5a3.498 3.498 0 0 1-3.032-1.75zM7 5.116V5a1 1 0 0 0-1-1H3.28a1 1 0 0 0-.97 1.243l.311 1.242A2 2 0 0 0 4.561 8H5a2 2 0 0 0 1.994-1.839A2.99 2.99 0 0 1 8 6c.393 0 .74.064 1.006.161A2 2 0 0 0 11 8h.438a2 2 0 0 0 1.94-1.515l.311-1.242A1 1 0 0 0 12.72 4H10a1 1 0 0 0-1 1v.116A4.22 4.22 0 0 0 8 5c-.35 0-.69.04-1 .116z" />
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-1 0A7 7 0 1 0 1 8a7 7 0 0 0 14 0z" />
               </svg>
             </div>
 
