@@ -54,29 +54,30 @@ export const useLogin = defineStore("login", () => {
   }
 
   const refresh = async () => {
-    const res = await fetch(
-      `${import.meta.env.VITE_BASE_URL
-      }login/refresh`
-      , {
-        method: 'GET',
-        headers: {
-          "Authorization": "Bearer " + localStorage.getItem("refresh_token"),
-          "isRefreshToken": true
-        },
-      });
+    if (new Date(parseJwt(localStorage.getItem("access_token")).exp * 1000) < new Date()) { // check if access token is expire or not
+      console.log('this token is expired')
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL
+        }login/refresh`
+        , {
+          method: 'GET',
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("refresh_token"),
+            "isRefreshToken": true
+          },
+        });
 
-    let response = await res.text();
+      let response = await res.text();
 
-    if (response === "refresh_token expired try login again!") {
-      resToken.value = 401
-      console.log(`RES TOKEN${resToken.value}`)
-      logout();
+      if (response === "refresh_token expired try login again!") {
+        resToken.value = 401
+        logout();
+      }
+      else {
+        // set new refreshed token
+        localStorage.setItem("access_token", (JSON.parse(response).token));
+      }
     }
-    else {
-      // set new refreshed token
-      localStorage.setItem("access_token", (JSON.parse(response).token));
-    }
-
   }
 
   const login = async (email, password) => {
