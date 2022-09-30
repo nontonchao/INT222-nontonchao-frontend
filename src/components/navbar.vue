@@ -1,14 +1,13 @@
 <script setup>
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, onUpdated , ref } from "vue";
 import { useLogin } from "../stores/login.js";
 import { useRouter } from "vue-router";
 
 const loginStore = useLogin();
 const router = useRouter();
 
-onBeforeMount(async () => {
-  loginStore.isLoggedIn;
-});
+
+
 </script>
 
 <template>
@@ -28,7 +27,7 @@ onBeforeMount(async () => {
         <div class="collapse navbar-collapse" id="menu">
           <ul class="navbar-nav flex-grow-1 justify-content-between">
             <li class="nav-item d-none d-xs-block d-md-block">
-              <a class="nav-link" href="#"
+              <a class="nav-name" href="#" style="color:;"
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -43,7 +42,7 @@ onBeforeMount(async () => {
                   <path
                     d="M11.286 1.778a.5.5 0 0 0-.565-.755 4.595 4.595 0 0 0-3.18 5.003 5.46 5.46 0 0 1 1.055.209A3.603 3.603 0 0 1 9.83 2.617a4.593 4.593 0 0 0 4.31 5.744 3.576 3.576 0 0 1-2.241.634c.162.317.295.652.394 1a4.59 4.59 0 0 0 3.624-2.04.5.5 0 0 0-.565-.755 3.593 3.593 0 0 1-4.065-5.422z"
                   /></svg
-              ></a>
+              >   {{ loginStore.name}} | {{ loginStore.role}}</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="javascript:;">
@@ -117,7 +116,6 @@ onBeforeMount(async () => {
                 <button
                   @click="
                     loginStore.logout();
-                    location.reload();
                     router.push(`/login`);
                   "
                   v-if="
@@ -148,6 +146,11 @@ onBeforeMount(async () => {
 </template>
 
 <style scoped>
+
+.nav-name{
+  color: #ffffff;
+  text-decoration: none;
+}
 .routerLink {
   text-decoration: none;
   color: #b9b9b9;

@@ -13,6 +13,7 @@ export const useLogin = defineStore("login", () => {
   const isLoggedIn = ref(false);
   const name = ref("");
   const email = ref("");
+  const role = ref("");
   const resToken = ref()
 
   const parseJwt = (token) => {
@@ -31,6 +32,7 @@ export const useLogin = defineStore("login", () => {
     isLoggedIn.value = false;
     name.value = "";
     email.value = "";
+    role.value = "";
     router.push(`/login`)
     //location.reload();
   };
@@ -43,6 +45,7 @@ export const useLogin = defineStore("login", () => {
       };
       name.value = (parseJwt(localStorage.getItem("access_token")).name);
       email.value = (parseJwt(localStorage.getItem("access_token")).sub);
+      role.value = (parseJwt(localStorage.getItem("access_token")).role);
       isLoggedIn.value = true;
       return true;
     } else {
@@ -112,6 +115,7 @@ export const useLogin = defineStore("login", () => {
     isLoggedIn,
     name,
     email,
+    role,
     isAdmin,
     resStatus,
     resToken,

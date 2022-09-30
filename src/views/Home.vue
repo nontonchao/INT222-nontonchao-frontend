@@ -1,4 +1,10 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import { useLogin } from "../stores/login.js";
+const loginStore = useLogin();
+const name = loginStore.name;
+
+</script>
 
 <template>
   <div>
@@ -14,7 +20,7 @@
               <p class="mb-5 display-6">มีปัญหาปรึกษาใครดี?</p>
             </blockquote>
             <figcaption class="blockquote-footer" style="font-size: 20px">
-              ให้ OASIP ช่วยคุณ
+              ให้ OASIP ช่วยคุณ {{ name.split(" ")[0] }}
             </figcaption>
           </figure>
           <button class="btn btn-danger fs-5 me-2 py-2 px-4" type="button" style="
