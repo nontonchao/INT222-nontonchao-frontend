@@ -1,13 +1,10 @@
 <script setup>
-import { onBeforeMount, onUpdated , ref } from "vue";
+import { onBeforeMount, onUpdated, ref } from "vue";
 import { useLogin } from "../stores/login.js";
 import { useRouter } from "vue-router";
 
 const loginStore = useLogin();
 const router = useRouter();
-
-
-
 </script>
 
 <template>
@@ -27,7 +24,7 @@ const router = useRouter();
         <div class="collapse navbar-collapse" id="menu">
           <ul class="navbar-nav flex-grow-1 justify-content-between">
             <li class="nav-item d-none d-xs-block d-md-block">
-              <a class="nav-name" href="#" style="color:;"
+              <a class="nav-name" href="#" style="color: "
                 ><svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -41,8 +38,11 @@ const router = useRouter();
                   />
                   <path
                     d="M11.286 1.778a.5.5 0 0 0-.565-.755 4.595 4.595 0 0 0-3.18 5.003 5.46 5.46 0 0 1 1.055.209A3.603 3.603 0 0 1 9.83 2.617a4.593 4.593 0 0 0 4.31 5.744 3.576 3.576 0 0 1-2.241.634c.162.317.295.652.394 1a4.59 4.59 0 0 0 3.624-2.04.5.5 0 0 0-.565-.755 3.593 3.593 0 0 1-4.065-5.422z"
-                  /></svg
-              >   {{ loginStore.name}} | {{ loginStore.role}}</a>
+                  />
+                </svg>
+                {{ loginStore.name.split(" ")[0].toUpperCase() }} |
+                {{ loginStore.role.split("_")[1] }}</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="javascript:;">
@@ -146,8 +146,7 @@ const router = useRouter();
 </template>
 
 <style scoped>
-
-.nav-name{
+.nav-name {
   color: #ffffff;
   text-decoration: none;
 }
