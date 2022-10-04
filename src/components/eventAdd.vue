@@ -311,7 +311,7 @@ onBeforeMount(() => {
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight px-5">
-          <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal" 
+          <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
             style="--bs-btn-border-radius: 1rem" :disabled="!(time != 0 && startTime != 0)">
             ยืนยันการจอง
           </button>
@@ -342,7 +342,7 @@ onBeforeMount(() => {
             </p>
           </div>
           <div class="modal-footer justify-content-center">
-            <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#resModal" 
+            <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#resModal"
               @click="addEvent()">
               ยืนยัน
             </button>
@@ -361,7 +361,8 @@ onBeforeMount(() => {
     <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
       <div class="modal-content">
         <div class="flex-column">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" @click="(eventStore.statusCode == 400 ? location.reload() : router.push(`/check-event`))"
+          <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal"
+            @click="(eventStore.statusCode == 400 ? location.reload() : router.push(`/check-event`))"
             aria-hidden="true"></button>
           <div class="modal-header flex-column" v-if="eventStore.statusCode == 201">
             <div class="icon-box">
