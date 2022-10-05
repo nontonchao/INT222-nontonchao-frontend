@@ -29,9 +29,9 @@ const getCurrDate = () => {
   )}-${numberFormat(new Date(today.toString()).getDate(), 2)}`;
 };
 
-var d = new Date();
+let d = new Date();
 d.setHours(0, 0, 0, 0);
-var d_tmp = ref(new Date());
+let d_tmp = ref(new Date());
 
 const getTime = (time) => {
   return time;
@@ -41,8 +41,6 @@ function addMinutes(date, minutes) {
   return new Date(date.getTime() + minutes * 60000);
 }
 
-var d = new Date();
-d.setHours(0, 0, 0, 0);
 const slot = ref([]);
 
 const checkTimeSlot = async (date, eventCategoryId) => {
@@ -90,6 +88,12 @@ const editEvent = async () => {
   await useEvent.editEvent(props.eventz.id, toEdit);
   1;
 };
+
+const tryCall = () => {
+  checkTimeSlot(startTime.value, props.eventz.eventCategory.id);
+  generateTimeSlot(props.eventz.eventDuration);
+}
+
 </script>
 <template>
   <div>
@@ -156,8 +160,7 @@ const editEvent = async () => {
           <div class="col-md-6">
             <div class="m-5">
               <input type="date" class="form-control" v-model="startTime" required :min="getCurrDate()" @change="
-                checkTimeSlot(startTime, toEdit.eventCategory.id);
-                generateTimeSlot(toEdit.eventDuration);
+                tryCall()
               " />
             </div>
             <div>
