@@ -1,27 +1,50 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { ref } from "vue";
+import { useLogin } from "./login.js";
 
 export const useEvents = defineStore("events", () => {
   const events = ref([]);
   const statusCode = ref(0)
+  const loginStore = useLogin();
 
   const addEvent = async (event) => {
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}events`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(event),
-    });
-    if (res.status == 201) {
-      statusCode.value = res.status
-      await fetchEvents();
-    } else if (res.status == 400) {
-      statusCode.value = res.status
-      // alert("error while adding 400");
+    if (loginStore.isLoggedIn == true) {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}events`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("access_token")
+        },
+        body: JSON.stringify(event),
+      });
+      if (res.status == 201) {
+        statusCode.value = res.status
+        await fetchEvents();
+      } else if (res.status == 400) {
+        statusCode.value = res.status
+        // alert("error while adding 400");
+      } else {
+        statusCode.value = res.status
+        alert("error while adding");
+      }
     } else {
-      statusCode.value = res.status
-      alert("error while adding");
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}events`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(event),
+      });
+      if (res.status == 201) {
+        statusCode.value = res.status
+        await fetchEvents();
+      } else if (res.status == 400) {
+        statusCode.value = res.status
+        // alert("error while adding 400");
+      } else {
+        statusCode.value = res.status
+        alert("error while adding");
+      }
     }
   };
 

@@ -69,7 +69,7 @@ export const useLogin = defineStore("login", () => {
 
       let response = await res.text();
 
-      if (response === "refresh_token expired try login again!") {
+      if (response.includes("refresh_token expired try login again!")) {
         resToken.value = 401
         logout();
       }

@@ -133,7 +133,7 @@ export const useUsers = defineStore("users", () => {
 
   const logout = () => {
     users.value = []
-    
+
   }
 
 
