@@ -139,6 +139,22 @@ const removeEvent = async () => {
                 <p class="px-4 text-muted mb-0">
                   {{ thisEvent.eventNotes }}
                 </p>
+                <p class="px-4 fw-bold text-primary mb-0 mt-5">
+                  เอกสารที่แนบมา
+                </p>
+                <div class="d-flex justify-content-start">
+                  <p class="px-4 text-muted mb-5">ชื่อไฟล์</p>
+                  <a href="../assets/testimg.png" download>
+                    <button
+                      class="btn btn-primary btn-sm mx-4"
+                      type="button"
+                      style="--bs-btn-border-radius: 1rem"
+                      @click=""
+                    >
+                      ดาวน์โหลด
+                    </button>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

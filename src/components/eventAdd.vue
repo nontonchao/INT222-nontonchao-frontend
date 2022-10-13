@@ -67,6 +67,7 @@ const toSend = ref("");
 const selectClinic = ref({});
 const activeIndex = ref();
 const duration = ref();
+const attachFile = ref();
 const numberFormat = function (number, width) {
   return new Array(+width + 1 - (number + "").length).join("0") + number;
 };
@@ -367,11 +368,7 @@ onBeforeMount(() => {
                   >หากคุณต้องการแนบเอกสารเพิ่มเติม</label
                 >
                 <div class="input-group">
-                  <input
-                    type="file"
-                    class="form-control"
-                    aria-label="Amount (to the nearest dollar)"
-                  />
+                  <input type="file" class="form-control" />
                   <button class="input-group-text">ยกเลิก</button>
                 </div>
               </div>
