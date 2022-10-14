@@ -27,7 +27,7 @@ const isPastOrOngoing = (thisEvent) => {
       currentDateTime.getTime() >
         new Date(thisEvent.eventStartTime).getTime() &&
       currentDateTime <
-        endtime(thisEvent.eventStartTime, thisEvent.eventDuration))
+        endtime(thisEvent.eventStartTime, thisEvent.eventDuration)) || loginStore.role == "ROLE_LECTURER"
   ) {
     canEdit.value = true;
   } else {
@@ -44,6 +44,7 @@ onBeforeMount(async () => {
   };
   thisEvent.value = await eventStore.getEventById(route.params.event_id);
   isPastOrOngoing(thisEvent.value);
+  
 });
 
 const removeEvent = async () => {
