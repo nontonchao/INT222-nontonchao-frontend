@@ -57,17 +57,19 @@ const activeClick = (id) => {
 
 const fileMessage = ref("ยังไม่ได้อัพโหลด");
 const fileName = ref("");
+var timestamp;
 
 const uploadFile = () => {
   const formData = new FormData();
-  formData.append("file", document.getElementById("fileupload").files[0], document.getElementById("fileupload").files[0].name);
+  timestamp = new Date(new Date().toISOString()).getTime();
+  formData.append("file", document.getElementById("fileupload").files[0], timestamp + "," + document.getElementById("fileupload").files[0].name);
   fetch('http://localhost:8080/api/file/upload', {
     method: 'POST',
     body: formData
   })
-    .then(r => r.status)
+    .then(r => r.text())
     .then(data => {
-      if (data == 200) {
+      if (data.includes("uploaded!")) {
         fileName.value = document.getElementById("fileupload").files[0].name;
         fileMessage.value = `อัพโหลดไฟล์ ${fileName.value} เรียบร้อย`;
       }
@@ -130,7 +132,7 @@ const addEvent = async () => {
         )[0].id
       ),
     },
-    attachment: fileName.value.length > 0 ? fileName.value : null
+    attachment: fileName.value.length > 0 ? timestamp + "," + fileName.value : null
   };
   eventStore.addEvent(toSend.value);
   if (eventStore.statusCode == 200) {

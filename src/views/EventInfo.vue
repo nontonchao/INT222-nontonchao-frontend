@@ -47,7 +47,7 @@ const downloadFile = async () => {
     .then(data => {
       var a = document.createElement("a");
       a.href = window.URL.createObjectURL(data);
-      a.download = thisEvent.value.attachment;
+      a.download = thisEvent.value.attachment.split(',')[1];
       a.click();
     })
 }
@@ -143,7 +143,7 @@ const removeEvent = async () => {
                 </p>
                 <div v-if="thisEvent.attachment != null">
                   <div class="d-flex justify-content-start">
-                    <p class="px-4 text-muted mb-5">{{thisEvent.attachment}}</p>
+                    <p class="px-4 text-muted mb-5">{{thisEvent.attachment.split(',')[1]}}</p>
                     <button class="btn btn-primary btn-sm mx-4" type="button" style="--bs-btn-border-radius: 1rem"
                       @click="downloadFile()">
                       ดาวน์โหลด
