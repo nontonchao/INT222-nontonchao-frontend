@@ -55,15 +55,25 @@ const activeClick = (id) => {
   }
 };
 
-const fileMessage = ref("ยังไม่ได้อัพโหลด");
+
+
 const fileName = ref("");
 var timestamp;
 
-const uploadFile = () => {
+const sizeCheck = () => {
+  if ((document.getElementById("fileupload").files[0].size / 1024 / 1024 > 10)) {
+    document.getElementById("fileupload").value = "";
+    fileName.value = "";
+    alert('file size should be less than 10MB!');
+  }
+}
+
+const uploadFile = async () => {
   if (!(document.getElementById("fileupload").files[0].size / 1024 / 1024 > 10)) {
     const formData = new FormData();
     timestamp = new Date(new Date().toISOString()).getTime();
     formData.append("file", document.getElementById("fileupload").files[0], timestamp + "," + document.getElementById("fileupload").files[0].name);
+    fileName.value = document.getElementById("fileupload").files[0].name;
     fetch('http://localhost:8080/api/file/upload', {
       method: 'POST',
       body: formData
@@ -71,12 +81,11 @@ const uploadFile = () => {
       .then(r => r.text())
       .then(data => {
         if (data.includes("uploaded!")) {
-          fileName.value = document.getElementById("fileupload").files[0].name;
-          fileMessage.value = `อัพโหลดไฟล์ ${fileName.value} เรียบร้อย`;
+          console.log("file uploaded successfully!");
         }
       })
   } else {
-    fileMessage.value = `ไฟล์ขนาดเกิน 10MB! กรุณาลองใหม่อีกครั้ง`;
+    console.log("something went wrong?!");
   }
 }
 
@@ -93,7 +102,7 @@ const toSend = ref("");
 const selectClinic = ref({});
 const activeIndex = ref();
 const duration = ref();
-const attachFile = ref();
+
 const numberFormat = function (number, width) {
   return new Array(+width + 1 - (number + "").length).join("0") + number;
 };
@@ -112,17 +121,8 @@ const getClinic = (clinicName) => {
 };
 const addEvent = async () => {
   toSend.value = {
-    // bookingName: name.value,
     bookingName: firstname.value.trim() + " " + lastname.value.trim(),
     bookingEmail: email.value.trim(),
-    // eventStartTime:
-    //   new Date(startTime.value)
-    //     .toISOString()
-    //     .replace(".000Z", "Z")
-    //     .split("T")[0] +
-    //   "T" +
-    //   time.value +
-    //   ":00.000+07:00",
     eventStartTime: d_tmp.value,
     eventDuration: JSON.stringify(
       props.clinic_list.filter((x) => x.eventCategoryName === clinicX.value)[0]
@@ -311,10 +311,8 @@ onBeforeMount(() => {
                   v-model="note" />
                 <label class="form-label mt-3" for="customFile">หากคุณต้องการแนบเอกสารเพิ่มเติม</label>
                 <div class="input-group" :disabled="fileEnabled">
-                  <input id="fileupload" type="file" class="form-control" />
-                  <button @click="uploadFile()" class="input-group-text">อัพโหลด</button>
+                  <input v-on:change="sizeCheck()" id="fileupload" type="file" class="form-control" />
                 </div>
-                <small>{{fileMessage}}</small>
               </div>
             </div>
           </div>
@@ -358,7 +356,7 @@ onBeforeMount(() => {
           </div>
           <div class="modal-footer justify-content-center">
             <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#resModal"
-              @click="addEvent()">
+              @click="uploadFile();addEvent();">
               ยืนยัน
             </button>
 
