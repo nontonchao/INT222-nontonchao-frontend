@@ -60,20 +60,24 @@ const fileName = ref("");
 var timestamp;
 
 const uploadFile = () => {
-  const formData = new FormData();
-  timestamp = new Date(new Date().toISOString()).getTime();
-  formData.append("file", document.getElementById("fileupload").files[0], timestamp + "," + document.getElementById("fileupload").files[0].name);
-  fetch('http://localhost:8080/api/file/upload', {
-    method: 'POST',
-    body: formData
-  })
-    .then(r => r.text())
-    .then(data => {
-      if (data.includes("uploaded!")) {
-        fileName.value = document.getElementById("fileupload").files[0].name;
-        fileMessage.value = `อัพโหลดไฟล์ ${fileName.value} เรียบร้อย`;
-      }
+  if (!(document.getElementById("fileupload").files[0].size / 1024 / 1024 > 10)) {
+    const formData = new FormData();
+    timestamp = new Date(new Date().toISOString()).getTime();
+    formData.append("file", document.getElementById("fileupload").files[0], timestamp + "," + document.getElementById("fileupload").files[0].name);
+    fetch('http://localhost:8080/api/file/upload', {
+      method: 'POST',
+      body: formData
     })
+      .then(r => r.text())
+      .then(data => {
+        if (data.includes("uploaded!")) {
+          fileName.value = document.getElementById("fileupload").files[0].name;
+          fileMessage.value = `อัพโหลดไฟล์ ${fileName.value} เรียบร้อย`;
+        }
+      })
+  } else {
+    fileMessage.value = `ไฟล์ขนาดเกิน 10MB! กรุณาลองใหม่อีกครั้ง`;
+  }
 }
 
 const eventStore = useEvents();
