@@ -33,6 +33,7 @@ export const useEventCategory = defineStore("eventCategory", () => {
         method: "PUT",
         headers: {
           "content-type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("access_token")
         },
         body: JSON.stringify(updatedEventCat),
       }
