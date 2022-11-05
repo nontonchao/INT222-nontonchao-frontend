@@ -13,6 +13,7 @@ const selectedCate = ref({
   eventCategoryName: "",
   eventDuration: "",
   eventCategoryDescription: "",
+  owners: [""]
 });
 const selectedCateNotEditable = ref({
   eventCategoryName: "",
