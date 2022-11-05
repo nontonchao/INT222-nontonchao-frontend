@@ -85,7 +85,7 @@ onBeforeMount(async () => {
             </div>
           </div>
           <div class="d-flex flex-row-reverse bd-highlight"
-            v-if="loginStore.role == 'ROLE_LECTURER' || loginStore.role == 'ROLE_ADMIN'">
+            v-if="(loginStore.role == 'ROLE_LECTURER' || loginStore.role == 'ROLE_ADMIN') && selectedCate.owners.includes(loginStore.name)">
             <button class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem"
               @click="toggleEdit = !toggleEdit">
               แก้ไข
