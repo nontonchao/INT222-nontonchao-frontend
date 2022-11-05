@@ -91,7 +91,7 @@ export const useEvents = defineStore("events", () => {
 
     if (res.status == 200) {
       statusCode.value = res.status
-      alert("event edited");
+      // alert("event edited");
     } else if (res.status == 400) {
       statusCode.value = res.status
     } else {

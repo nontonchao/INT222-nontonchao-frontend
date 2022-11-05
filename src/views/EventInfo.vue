@@ -21,13 +21,14 @@ const isPastOrOngoing = (thisEvent) => {
   const currentDateTime = new Date();
   if (
     endtime(thisEvent.eventStartTime, thisEvent.eventDuration) <
-    currentDateTime ||
+      currentDateTime ||
     (new Date(thisEvent.eventStartTime).getDate() ==
       currentDateTime.getDate() &&
       currentDateTime.getTime() >
-      new Date(thisEvent.eventStartTime).getTime() &&
+        new Date(thisEvent.eventStartTime).getTime() &&
       currentDateTime <
-      endtime(thisEvent.eventStartTime, thisEvent.eventDuration)) || loginStore.role == "ROLE_LECTURER"
+        endtime(thisEvent.eventStartTime, thisEvent.eventDuration)) ||
+    loginStore.role == "ROLE_LECTURER"
   ) {
     canEdit.value = true;
   } else {
@@ -35,25 +36,24 @@ const isPastOrOngoing = (thisEvent) => {
   }
 };
 
-
 const downloadFile = async () => {
-  fetch('http://localhost:8080/api/file/get/' + thisEvent.value.attachment, {
-    method: 'GET',
+  fetch("http://localhost:8080/api/file/get/" + thisEvent.value.attachment, {
+    method: "GET",
     headers: {
-      "Authorization": "Bearer " + localStorage.getItem("access_token")
-    }
+      Authorization: "Bearer " + localStorage.getItem("access_token"),
+    },
   })
-    .then(r => r.blob())
-    .then(data => {
+    .then((r) => r.blob())
+    .then((data) => {
       var a = document.createElement("a");
       a.href = window.URL.createObjectURL(data);
-      a.download = thisEvent.value.attachment.split(',')[1];
+      a.download = thisEvent.value.attachment.split(",")[1];
       a.click();
-    })
-}
-
+    });
+};
 
 onBeforeMount(async () => {
+  topFunc();
   eventStore.statusCode = 0;
   thisEvent.value = {
     eventCategory: {
@@ -62,12 +62,15 @@ onBeforeMount(async () => {
   };
   thisEvent.value = await eventStore.getEventById(route.params.event_id);
   isPastOrOngoing(thisEvent.value);
-
 });
 
 const removeEvent = async () => {
   await eventStore.removeEvent(thisEvent.value.id);
 };
+function topFunc() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
 </script>
 <template>
   <div>
@@ -81,8 +84,13 @@ const removeEvent = async () => {
                 แก้ไขการนัดหมายของคุณเรียบร้อยแล้ว
               </h6>
               <ul class="navbar-nav ms-auto">
-                <button type="button" class="btn-close px-5" data-bs-dismiss="modal" aria-label="Close"
-                  @click="eventStore.statusCode = 0"></button>
+                <button
+                  type="button"
+                  class="btn-close px-5"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  @click="eventStore.statusCode = 0"
+                ></button>
               </ul>
             </div>
           </nav>
@@ -93,10 +101,20 @@ const removeEvent = async () => {
       <div class="container">
         <h1 class="fw-bold mb-4 display-10" style="margin: 100px">
           <div>
-            <svg @click="router.push(`/check-event/`)" xmlns="http://www.w3.org/2000/svg" width="60" height="60"
-              fill="#0d6efd" class="bi bi-arrow-left-short" viewBox="0 0 12 17" style="cursor: pointer">
-              <path fill-rule="evenodd"
-                d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
+            <svg
+              @click="router.push(`/check-event/`)"
+              xmlns="http://www.w3.org/2000/svg"
+              width="60"
+              height="60"
+              fill="#0d6efd"
+              class="bi bi-arrow-left-short"
+              viewBox="0 0 12 17"
+              style="cursor: pointer"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
+              />
             </svg>
             ข้อมูลนัดหมาย
           </div>
@@ -104,9 +122,14 @@ const removeEvent = async () => {
         <div class="container position-relative">
           <div class="row d-flex justify-content-center">
             <div class="col-md-6 col-lg-4 col-xl-4">
-              <div class="d-flex flex-column justify-content-center align-items-start h-100">
+              <div
+                class="d-flex flex-column justify-content-center align-items-start h-100"
+              >
                 <div class="d-flex align-items-center p-3">
-                  <img src="../assets/testimg.png" class="rounded img-fluid rounded-circle float-start w-100" />
+                  <img
+                    src="../assets/testimg.png"
+                    class="rounded img-fluid rounded-circle float-start w-100"
+                  />
                 </div>
                 <div>
                   <p class="px-4 fw-bold text-primary mb-0">ชื่อ</p>
@@ -129,9 +152,9 @@ const removeEvent = async () => {
                 <p class="px-4 fw-bold text-primary mb-0">วันที่</p>
                 <p class="px-4 text-muted mb-5">
                   {{
-                  new Date(thisEvent.eventStartTime).toLocaleDateString() +
-                  " " +
-                  new Date(thisEvent.eventStartTime).toLocaleTimeString()
+                    new Date(thisEvent.eventStartTime).toLocaleDateString() +
+                    " " +
+                    new Date(thisEvent.eventStartTime).toLocaleTimeString()
                   }}
                 </p>
                 <p class="px-4 fw-bold text-primary mb-0">รายละเอียด</p>
@@ -143,11 +166,19 @@ const removeEvent = async () => {
                 </p>
                 <div v-if="thisEvent.attachment != null">
                   <div class="d-flex justify-content-start">
-                    <p class="px-4 text-muted mb-5">{{thisEvent.attachment.split(',')[1]}}</p>
-                    <button class="btn btn-primary btn-sm mx-4" type="button" style="--bs-btn-border-radius: 1rem"
-                      @click="downloadFile()">
-                      ดาวน์โหลด
-                    </button>
+                    <p class="px-4 text-muted mb-5">
+                      {{ thisEvent.attachment.split(",")[1] }}
+                    </p>
+                    <div>
+                      <button
+                        class="btn btn-primary btn-sm mx-4"
+                        type="button"
+                        style="--bs-btn-border-radius: 1rem"
+                        @click="downloadFile()"
+                      >
+                        ดาวน์โหลด
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div v-else>
@@ -159,20 +190,34 @@ const removeEvent = async () => {
             </div>
           </div>
         </div>
-        <div class=" d-flex flex-row-reverse bd-highlight">
+        <div class="d-flex flex-row-reverse bd-highlight">
           <div v-show="loginStore.isAdmin && canEdit">
-            <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
-              style="--bs-btn-border-radius: 1rem">
+            <button
+              class="btn btn-danger btn-sm"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#myModal"
+              style="--bs-btn-border-radius: 1rem"
+            >
               ลบนัดหมาย
             </button>
           </div>
           <div v-show="!canEdit">
-            <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
-              style="--bs-btn-border-radius: 1rem">
+            <button
+              class="btn btn-danger btn-sm"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#myModal"
+              style="--bs-btn-border-radius: 1rem"
+            >
               ยกเลิกนัดหมาย
             </button>
-            <button class="btn btn-primary btn-sm mx-4" type="button" style="--bs-btn-border-radius: 1rem"
-              @click="router.push(`/EditEvent/${thisEvent.id}`)">
+            <button
+              class="btn btn-primary btn-sm mx-4"
+              type="button"
+              style="--bs-btn-border-radius: 1rem"
+              @click="router.push(`/EditEvent/${thisEvent.id}`)"
+            >
               แก้ไข
             </button>
           </div>
@@ -185,12 +230,24 @@ const removeEvent = async () => {
       <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header flex-column">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-hidden="true"
+            ></button>
             <div class="icon-box">
-              <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" fill="currentColor" class="bi bi-x-lg"
-                viewBox="0 0 16 16">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="55"
+                height="55"
+                fill="currentColor"
+                class="bi bi-x-lg"
+                viewBox="0 0 16 16"
+              >
                 <path
-                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+                />
               </svg>
             </div>
 
@@ -203,14 +260,23 @@ const removeEvent = async () => {
             </p>
           </div>
           <div class="modal-footer justify-content-center">
-            <button type="button" class="btn btn-primary rounded-pill" data-bs-dismiss="modal" data-dismiss="modal"
+            <button
+              type="button"
+              class="btn btn-primary rounded-pill"
+              data-bs-dismiss="modal"
+              data-dismiss="modal"
               @click="
                 removeEvent();
                 router.push(`/check-event`);
-              ">
+              "
+            >
               ยืนยัน
             </button>
-            <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">
+            <button
+              type="button"
+              class="btn btn-danger rounded-pill"
+              data-bs-dismiss="modal"
+            >
               ยกเลิก
             </button>
           </div>
