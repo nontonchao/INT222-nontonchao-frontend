@@ -75,7 +75,8 @@ onBeforeMount(async () => {
             <div class="row row-cols-2">
               <h4 class="fw-bold">{{ selectedCate.eventCategoryName }}</h4>
               <div class="col"></div>
-              <p>อาจารย์ที่ปรึกษา: {{}}</p>
+              <p>อาจารย์ที่ปรึกษา: {{ selectedCate.owners.join(", ") }}
+              </p>
               <div class="col"></div>
               <p>ระยะเวลา: {{ selectedCate.eventDuration }}</p>
               <div class="col"></div>
