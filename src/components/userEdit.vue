@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from "vue";
-import { useEvents } from "../stores/events.js";
 import { useRouter } from "vue-router";
 import { useUsers } from "../stores/users.js";
 

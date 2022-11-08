@@ -1,5 +1,4 @@
 <script setup>
-import { onBeforeMount, onUpdated, ref } from "vue";
 import { useLogin } from "../stores/login.js";
 import { useRouter } from "vue-router";
 
