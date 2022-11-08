@@ -39,7 +39,6 @@ export const useEventCategory = defineStore("eventCategory", () => {
       }
     );
     if (res.status == 200) {
-      // alert(`${updatedEventCat.id} edit แล้ว`);
       resEditText.value = await res.json();
       console.log(resEditText.value);
       return getEventCategoryList();

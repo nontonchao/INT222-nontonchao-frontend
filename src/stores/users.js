@@ -108,8 +108,6 @@ export const useUsers = defineStore("users", () => {
         method: "PATCH",
         headers: {
           "content-type": "application/json",
-        },
-        headers: {
           "Authorization": "Bearer " + localStorage.getItem("access_token")
         },
         body: JSON.stringify(toEditUser),
