@@ -37,7 +37,7 @@ const isPastOrOngoing = (thisEvent) => {
 };
 
 const downloadFile = async () => {
-  fetch("http://localhost:8080/api/file/get/" + thisEvent.value.attachment, {
+  fetch(`${import.meta.env.VITE_BASE_URL}file/get/` + thisEvent.value.attachment, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + localStorage.getItem("access_token"),
@@ -53,7 +53,7 @@ const downloadFile = async () => {
 };
 
 const deleteFile = async () => {
-  const res = await fetch("http://localhost:8080/api/file/" + thisEvent.value.attachment, {
+  const res = await fetch(`${import.meta.env.VITE_BASE_URL}file/` + thisEvent.value.attachment, {
     method: 'DELETE',
     headers: {
       "Authorization": "Bearer " + localStorage.getItem("access_token")
