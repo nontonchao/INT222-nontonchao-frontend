@@ -39,22 +39,37 @@ function topFunc() {
   <div>
     <section class="py-4 py-xl-5" style="background: #ffffff">
       <section class="border bottom-dark" style="background: #ffffff">
-        <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
+        <nav
+          class="navbar navbar-light navbar-expand-md py-3"
+          style="margin: 2px"
+        >
           <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">คลินิกทั้งหมด</span></a>
+            <a class="navbar-brand d-flex align-items-center" href="#"
+              ><span class="fw-bold">คลินิกทั้งหมด</span></a
+            >
             <div class="collapse navbar-collapse" id="navcol-2"></div>
           </div>
         </nav>
       </section>
       <Transition>
-        <section class="border bottom-dark" id="resFile" style="background: #0071e3" v-show="edited">
+        <section
+          class="border bottom-dark"
+          id="resFile"
+          style="background: #0071e3"
+          v-show="edited"
+        >
           <nav class="navbar navbar-light" style="margin: 2px">
             <div class="px-5 container align-items-center">
               <h6 class="fw-bold px-5 mt-2" style="color: #ffffff">
                 แก้ไขข้อมูลเกี่ยวกับคลินิกของคุณเรียบร้อยแล้ว
               </h6>
               <ul class="navbar-nav ms-auto">
-                <button type="button" class="btn-close px-5" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button
+                  type="button"
+                  class="btn-close px-5"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
               </ul>
             </div>
           </nav>
@@ -70,18 +85,33 @@ function topFunc() {
         </div>
       </div>
 
-      <section class="position-relative py-4 py-xl-5" style="cursor: pointer" v-show="!toggleEdit">
+      <section
+        class="position-relative py-4 py-xl-5"
+        style="cursor: pointer"
+        v-show="!toggleEdit"
+      >
         <div class="container py-4 py-xl-5">
           <div class="row gy-4 row-cols-2 row-cols-md-5">
-            <div class="col scale" v-for="(cate, index) in cateList" :key="index" @click="
-  selectedCate = cate;
-selectedCateNotEditable = cate;
-            ">
-              <div class="text-center d-flex flex-column justify-content-center align-items-center py-4">
+            <div
+              class="col scale"
+              v-for="(cate, index) in cateList"
+              :key="index"
+              @click="
+                selectedCate = cate;
+                selectedCateNotEditable = cate;
+              "
+            >
+              <div
+                class="text-center d-flex flex-column justify-content-center align-items-center py-4"
+              >
                 <div
-                  class="bs-icon-xl bs-icon-circle bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-4 bs-icon lg">
-                  <img class="card-img-top w-auto d-block fit-cover rounded" style="height: 200px"
-                    src="../assets/testimg.png" />
+                  class="bs-icon-xl bs-icon-circle bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-4 bs-icon lg"
+                >
+                  <img
+                    class="card-img-top w-auto d-block fit-cover rounded"
+                    style="height: 200px"
+                    src="../assets/testimg.png"
+                  />
                 </div>
                 <div class="px-3 py-5">
                   <p class="fw-bold mb-0">{{ cate.eventCategoryName }}</p>
@@ -94,7 +124,10 @@ selectedCateNotEditable = cate;
       </section>
       <!-- ก่อนกดแก้ไข -->
       <section class="position-relative">
-        <div class="container position-relative" v-show="selectedCate.eventCategoryName != '' && !toggleEdit">
+        <div
+          class="container position-relative"
+          v-show="selectedCate.eventCategoryName != '' && !toggleEdit"
+        >
           <div class="row d-flex justify-content-left">
             <div class="row row-cols-2">
               <h4 class="fw-bold">{{ selectedCate.eventCategoryName }}</h4>
@@ -106,13 +139,20 @@ selectedCateNotEditable = cate;
               <p>คำอธิบาย: {{ selectedCate.eventCategoryDescription }}</p>
             </div>
           </div>
-          <div class="d-flex flex-row-reverse bd-highlight" v-if="
-            (loginStore.role == 'ROLE_LECTURER' &&
-              selectedCate.owners.includes(loginStore.name)) ||
-            loginStore.role == 'ROLE_ADMIN'
-          ">
-            <button class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem"
-              @click="toggleEdit = !toggleEdit">
+          <div
+            class="d-flex flex-row-reverse bd-highlight"
+            v-if="
+              (loginStore.role == 'ROLE_LECTURER' &&
+                selectedCate.owners.includes(loginStore.name)) ||
+              loginStore.role == 'ROLE_ADMIN'
+            "
+          >
+            <button
+              class="btn btn-danger btn-sm"
+              type="button"
+              style="--bs-btn-border-radius: 1rem"
+              @click="toggleEdit = !toggleEdit"
+            >
               แก้ไข
             </button>
           </div>
@@ -127,9 +167,17 @@ selectedCateNotEditable = cate;
       <div v-show="toggleEdit">
         <div class="row row-cols-2">
           <div class="form-floating mb-3 col">
-            <input type="text" class="form-control" required id="floatingInput" placeholder="ชื่อคลินิก" minlength="1"
-              maxlength="50" v-model="selectedCate.eventCategoryName"
-              @keyup="eventCateStore.isNotUnique(selectedCateNotEditable)" />
+            <input
+              type="text"
+              class="form-control"
+              required
+              id="floatingInput"
+              placeholder="ชื่อคลินิก"
+              minlength="1"
+              maxlength="50"
+              v-model="selectedCate.eventCategoryName"
+              @keyup="eventCateStore.isNotUnique(selectedCateNotEditable)"
+            />
             <label for="floatingInput">ชื่อคลินิก</label>
             <p v-show="eventCateStore.isNotUnique(selectedCateNotEditable)">
               *ชื่อซ้ำกับคลินิกอื่น
@@ -143,31 +191,55 @@ selectedCateNotEditable = cate;
           </div>
           <div class="col"></div>
           <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="floatingInput" required placeholder="ระยะเวลา" min="1"
-              max="480" v-model="selectedCate.eventDuration" />
+            <input
+              type="number"
+              class="form-control"
+              id="floatingInput"
+              required
+              placeholder="ระยะเวลา"
+              min="1"
+              max="480"
+              v-model="selectedCate.eventDuration"
+            />
             <label for="floatingInput">ระยะเวลา</label>
             <!-- div col เปล่าหลอก ๆ -->
           </div>
           <div class="col"></div>
           <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="คำอธิบาย" v-model="selectedCate.eventCategoryDescription"
-              id="floatingTextarea" style="height: 100px"></textarea>
+            <textarea
+              class="form-control"
+              placeholder="คำอธิบาย"
+              v-model="selectedCate.eventCategoryDescription"
+              id="floatingTextarea"
+              style="height: 100px"
+            ></textarea>
             <label for="floatingTextarea">คำอธิบาย</label>
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight" v-show="toggleEdit">
-          <button class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem"
-            @click="toggleEdit = !toggleEdit">
+          <button
+            class="btn btn-danger btn-sm"
+            type="button"
+            style="--bs-btn-border-radius: 1rem"
+            @click="toggleEdit = !toggleEdit"
+          >
             ยกเลิก
           </button>
-          <button class="btn btn-primary btn-sm mx-4" type="button" :disabled="
-            !(
-              selectedCate.eventDuration > 1 &&
-              selectedCate.eventDuration < 480 &&
-              !selectedCate.eventCategoryName.length == '' &&
-              !eventCateStore.isNotUnique(selectedCateNotEditable)
-            )
-          " style="--bs-btn-border-radius: 1rem" data-bs-toggle="modal" data-bs-target="#confirmEditCate">
+          <button
+            class="btn btn-primary btn-sm mx-4"
+            type="button"
+            :disabled="
+              !(
+                selectedCate.eventDuration > 1 &&
+                selectedCate.eventDuration < 480 &&
+                !selectedCate.eventCategoryName.length == '' &&
+                !eventCateStore.isNotUnique(selectedCateNotEditable)
+              )
+            "
+            style="--bs-btn-border-radius: 1rem"
+            data-bs-toggle="modal"
+            data-bs-target="#confirmEditCate"
+          >
             ยืนยัน
           </button>
         </div>
@@ -180,12 +252,24 @@ selectedCateNotEditable = cate;
     <div class="modal-dialog modal-confirm modal-lx modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header flex-column">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-hidden="true"
+          ></button>
           <div class="icon-box">
-            <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor" class="bi bi-exclamation"
-              viewBox="0 0 16 16">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="70"
+              height="70"
+              fill="currentColor"
+              class="bi bi-exclamation"
+              viewBox="0 0 16 16"
+            >
               <path
-                d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z" />
+                d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z"
+              />
             </svg>
           </div>
 
@@ -195,17 +279,27 @@ selectedCateNotEditable = cate;
           <p>คุณต้องการจะแก้ไขข้อมูลเกี่ยวกับคลินิกนี้หรือไม่</p>
         </div>
         <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-dismiss="modal"
+          <button
+            type="button"
+            class="btn btn-primary rounded-pill"
+            data-bs-toggle="modal"
+            data-bs-dismiss="modal"
             @click="
-  eventCateStore.editEventCategory(selectedCate);
-toggleEdit = !toggleEdit;
-topFunc();
-edited = true;
-test();
-            ">
+              eventCateStore.editEventCategory(selectedCate);
+              toggleEdit = !toggleEdit;
+              topFunc();
+              edited = true;
+              test();
+            "
+          >
             ยืนยัน
           </button>
-          <button type="button" class="btn btn-danger rounded-pill" data-bs-toggle="modal" data-bs-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-danger rounded-pill"
+            data-bs-toggle="modal"
+            data-bs-dismiss="modal"
+          >
             ยกเลิก
           </button>
         </div>

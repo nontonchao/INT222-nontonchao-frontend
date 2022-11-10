@@ -60,8 +60,6 @@ var timestamp;
 const resFiles = ref(false);
 const sizeCheck = () => {
   if (document.getElementById("fileupload").files[0].size / 1024 / 1024 > 10) {
-    document.getElementById("fileupload").value = "";
-    fileName.value = "";
     topFunc();
     resFiles.value = true;
     setTimeout(function () {
@@ -70,6 +68,7 @@ const sizeCheck = () => {
 
     // alert('file size should be less than 10MB!');
   }
+  uploadFile();
 };
 
 const uploadFile = async () => {
@@ -97,6 +96,10 @@ const uploadFile = async () => {
   } else {
     console.log("something went wrong?!");
   }
+};
+const clearFile = () => {
+  document.getElementById("fileupload").value = "";
+  fileName.value = "";
 };
 
 const eventStore = useEvents();
@@ -408,19 +411,49 @@ function topFunc() {
                   maxlength="300"
                   v-model="note"
                 />
-                <label class="form-label mt-3" for="customFile"
-                  >หากคุณต้องการแนบเอกสารเพิ่มเติม</label
+
+                <!-- ********** -->
+                <label
+                  for="fileupload"
+                  class="form-control mt-5 file-input-area"
                 >
-               
-                <div class="input-group" :disabled="fileEnabled">
                   <input
+                    class="file-upload-input"
                     @change="sizeCheck()"
                     id="fileupload"
                     type="file"
-                    class="form-control"
                   />
+                  <div class="drag-text">
+                    <p class="form-label">
+                      คุณสามารถแนบเอกสารเพิ่มเติมได้ <br />
+                      และเอกสารประกอบต้องมีขนาดไม่เกิน 10 MB
+                    </p>
+                  </div>
+                </label>
+                <div class="row mt-3" v-if="fileName != ''">
+                  <div div class="col">
+                    <p>{{ fileName }}</p>
+                  </div>
+                  <div div class="col" @click="clearFile()">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-x-circle ee-ee"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                      />
+                      <path
+                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                      />
+                    </svg>
+                  </div>
                 </div>
-                <p class="text-muted text-end text-sm fw-light fst-italic" >เอกสารประกอบต้องมีขนาดไม่เกิน 10 MB</p>
+
+                <!-- ******************** -->
               </div>
             </div>
           </div>
@@ -617,6 +650,36 @@ function topFunc() {
 </template>
 
 <style scoped>
+.ee-ee {
+  cursor: pointer;
+}
+body {
+  font-family: sans-serif;
+  background-color: #eeeeee;
+}
+
+.file-input-area {
+  cursor: pointer;
+}
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+.drag-text {
+  text-align: center;
+}
+.drag-text p {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #636363;
+  padding: 60px 0;
+}
+
+/* ************** */
 .list-group {
   max-height: 300px;
 }
