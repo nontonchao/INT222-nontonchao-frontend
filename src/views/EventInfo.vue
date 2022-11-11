@@ -168,10 +168,7 @@ function topFunc() {
                         @click="downloadFile()">
                         ดาวน์โหลด
                       </button>
-                      <button class="btn btn-primary btn-sm mx-4" type="button" @click="deleteFile()"
-                        style="--bs-btn-border-radius: 1rem;background-color:red">
-                        ลบไฟล์
-                      </button>
+               
                     </div>
                   </div>
                 </div>

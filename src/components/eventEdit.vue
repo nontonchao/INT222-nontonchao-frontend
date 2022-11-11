@@ -311,7 +311,7 @@ const clearFile = () => {
                   </label>
                 </div>
 
-                <div class="row mt-3" v-if="props.eventz.attachment != ''">
+                <div class="row mt-3" v-if="props.eventz.attachment != null">
                   <div div class="col">
                     <p>{{ props.eventz.attachment }}</p>
                   </div>
