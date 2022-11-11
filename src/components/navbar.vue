@@ -168,6 +168,8 @@ const router = useRouter();
 <style scoped>
 .btn-admin:hover{
   border-style: none;
+  color: #b9b9b9;
+
 }
 
 .navbar .nav-item:not(:last-child) {
