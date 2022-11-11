@@ -94,7 +94,7 @@ const router = useRouter();
             </li>
             <div class="dropdown">
               <button
-                class="btn btn-opacity-0 dropdown-toggle text-white btn-admin btn-sm "
+                class="btn btn-opacity-0 dropdown-toggle text-white btn-admin btn-sm border-0"
                 type="button"
                 id="dropdownmenu"
                 data-bs-toggle="dropdown"
@@ -166,10 +166,10 @@ const router = useRouter();
 </template>
 
 <style scoped>
-/* .btn-admin{
-  opacity: 0;
+.btn-admin:hover{
+  border-style: none;
+}
 
-} */
 .navbar .nav-item:not(:last-child) {
   margin-right: 35px;
 }
