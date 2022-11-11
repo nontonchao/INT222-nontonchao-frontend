@@ -85,6 +85,7 @@ const editEvent = async () => {
   toEdit = {
     eventStartTime: d_tmp.value,
     eventNotes: eNotes.value,
+    attachment: timestamp + "," + props.eventz.attachment,
   };
   await useEvent.editEvent(props.eventz.id, toEdit);
   1;
@@ -95,6 +96,7 @@ const tryCall = () => {
   generateTimeSlot(props.eventz.eventDuration);
 };
 const resFiles = ref(false);
+
 const sizeCheck = () => {
   if (document.getElementById("fileupload").files[0].size / 1024 / 1024 > 10) {
     topFunc();
@@ -107,7 +109,35 @@ const sizeCheck = () => {
   }
   uploadFile();
 };
-
+const fileName = ref("");
+var timestamp;
+const uploadFile = async () => {
+  if (
+    !(document.getElementById("fileupload").files[0].size / 1024 / 1024 > 10)
+  ) {
+    const formData = new FormData();
+    timestamp = new Date(new Date().toISOString()).getTime();
+    formData.append(
+      "file",
+      document.getElementById("fileupload").files[0],
+      timestamp + "," + document.getElementById("fileupload").files[0].name
+    );
+    props.eventz.attachment =
+      document.getElementById("fileupload").files[0].name;
+    fetch("http://localhost:8080/api/file/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((r) => r.text())
+      .then((data) => {
+        if (data.includes("uploaded!")) {
+          console.log("file uploaded successfully!");
+        }
+      });
+  } else {
+    console.log("something went wrong?!");
+  }
+};
 const deleteFile = async () => {
   const res = await fetch(
     `${import.meta.env.VITE_BASE_URL}file/` + props.eventz.attachment,
@@ -119,7 +149,7 @@ const deleteFile = async () => {
     }
   );
   if ((await res.status) == 200) {
-    alert("Attachment deleted!");
+    clearFile();
   } else {
     alert("Error while deleting");
   }
@@ -301,6 +331,7 @@ const clearFile = () => {
                       class="file-upload-input"
                       id="fileupload"
                       type="file"
+                      @change="sizeCheck()"
                     />
                     <div class="drag-text">
                       <p class="form-label">
@@ -321,7 +352,7 @@ const clearFile = () => {
                   <div div class="col">
                     <p>{{ props.eventz.attachment }}</p>
                   </div>
-                  <div div class="col" @click="clearFile()">
+                  <div div class="col" @click="deleteFile()">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -416,7 +447,6 @@ const clearFile = () => {
               class="btn btn-primary rounded-pill"
               data-dismiss="modal"
               @click="
-                deleteFile();
                 editEvent();
                 router.push(`/Eventinfo/${props.eventz.id}`);
               "
