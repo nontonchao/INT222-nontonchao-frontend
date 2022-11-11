@@ -192,7 +192,7 @@ function topFunc() {
           <nav class="navbar navbar-light" style="margin: 2px">
             <div class="px-5 container align-items-center">
               <h6 class="fw-bold px-5 mt-2" style="color: #ffffff">
-                ไฟล์ใหญ่เกินค่าอีดอกกกกกกกกกกก
+                เอกสารของคุณมีขนาาดใหญ่เกิน 10 MB 
               </h6>
               <ul class="navbar-nav ms-auto">
                 <button type="button" class="btn-close px-5" data-bs-dismiss="modal" aria-label="Close"
