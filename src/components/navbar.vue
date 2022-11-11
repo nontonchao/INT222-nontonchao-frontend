@@ -64,16 +64,20 @@ const router = useRouter();
                 เมนูจัดการ (สำหรับแอดมิน)
               </a>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item" href="#">
-                    <router-link style="color:black !important" class="routerLink" :to="{
-                      name: 'ShowUser',
-                    }">ผู้ใช้ทั้งหมด</router-link>
-                  </a></li>
-                <li><a class="dropdown-item" href="#">
-                    <router-link style="color:black !important" class="routerLink" :to="{
-                      name: 'EditCategory',
-                    }">จัดการ Clinic</router-link>
-                  </a></li>
+                <li>
+                  <router-link style="color:black !important" class="routerLink" :to="{
+                    name: 'ShowUser',
+                  }"><a class="dropdown-item" href="#">
+                      ผู้ใช้ทั้งหมด
+                    </a></router-link>
+                </li>
+                <li>
+                  <router-link style="color:black !important" class="routerLink" :to="{
+                    name: 'EditCategory',
+                  }"><a class="dropdown-item" href="#">
+                      จัดการ Clinic
+                    </a></router-link>
+                </li>
               </ul>
             </li>
             <li class="nav-item d-none d-xs-block d-md-block">
