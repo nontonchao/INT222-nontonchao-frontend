@@ -4,9 +4,11 @@ import { useRouter } from "vue-router";
 
 const loginStore = useLogin();
 const router = useRouter();
+
 </script>
 
 <template>
+
   <div>
     <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark navbar--apple">
       <div class="container">
@@ -57,20 +59,23 @@ const router = useRouter();
               </a>
             </li>
             <li class="nav-item" v-show="loginStore.isAdmin">
-              <a class="nav-link" href="javascript:;">
-                <router-link class="routerLink" :to="{
-                  name: 'ShowUser',
-                }">ผู้ใช้ทั้งหมด (สำหรับแอดมิน)
-                </router-link>
+              <a class="nav-link dropdown-toggle" href="javascript:;" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                เมนูจัดการ (สำหรับแอดมิน)
               </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="#">
+                    <router-link style="color:black !important" class="routerLink" :to="{
+                      name: 'ShowUser',
+                    }">ผู้ใช้ทั้งหมด</router-link>
+                  </a></li>
+                <li><a class="dropdown-item" href="#">
+                    <router-link style="color:black !important" class="routerLink" :to="{
+                      name: 'EditCategory',
+                    }">จัดการ Clinic</router-link>
+                  </a></li>
+              </ul>
             </li>
-            <!-- <li class="nav-item">
-                            <a class="nav-link" href="javascript:;">
-                                <router-link class="routerLink" :to="{
-                                    name: 'EditEvent',
-                                }">EditEvent</router-link>
-                            </a>
-                        </li> -->
             <li class="nav-item d-none d-xs-block d-md-block">
               <router-link class="routerLink" :to="{
                 name: 'Login',
@@ -79,8 +84,8 @@ const router = useRouter();
                   loginStore.logout();
                   router.push(`/login`);
                 " v-if="
-                  loginStore.isLogin() == true ||
-                  loginStore.isLoggedIn == true
+  loginStore.isLogin() == true ||
+  loginStore.isLoggedIn == true
                 " class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem">
                   ออกจากระบบ
                 </button>

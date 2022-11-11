@@ -17,7 +17,7 @@ import Login from "../views/Login.vue";
 import UserInfo from "../views/UserInfo.vue";
 import EditEvent from "../views/EditEvent.vue";
 import EditUser from "../views/EditUser.vue";
-
+import EditCategory from "../views/EditCategory.vue";
 
 const history = createWebHistory('/sy1/');
 const routes = [{
@@ -49,6 +49,11 @@ const routes = [{
     path: "/event-category",
     name: "EventCategoryList",
     component: EventCategoryList,
+},
+{
+    path: "/category-edit",
+    name: "EditCategory",
+    component: EditCategory,
 },
 {
     path: "/show-user",
