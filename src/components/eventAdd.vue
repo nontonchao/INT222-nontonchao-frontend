@@ -61,15 +61,15 @@ var timestamp;
 const resFiles = ref(false);
 const sizeCheck = () => {
   if (document.getElementById("fileupload").files[0].size / 1024 / 1024 > 10) {
-    topFunc();
     resFiles.value = true;
     setTimeout(function () {
       resFiles.value = false;
     }, 2500);
-
+    topFunc();
     // alert('file size should be less than 10MB!');
+  } else {
+    fileName.value = document.getElementById("fileupload").files[0].name;
   }
-  uploadFile();
 };
 
 const uploadFile = async () => {
@@ -83,7 +83,6 @@ const uploadFile = async () => {
       document.getElementById("fileupload").files[0],
       timestamp + "," + document.getElementById("fileupload").files[0].name
     );
-    fileName.value = document.getElementById("fileupload").files[0].name;
     fetch("http://localhost:8080/api/file/upload", {
       method: "POST",
       body: formData,
@@ -100,7 +99,7 @@ const uploadFile = async () => {
 };
 const clearFile = () => {
   document.getElementById("fileupload").value = "";
-  fileName.value = "";
+  fileName.value = '';
 };
 
 const eventStore = useEvents();
@@ -192,7 +191,7 @@ function topFunc() {
           <nav class="navbar navbar-light" style="margin: 2px">
             <div class="px-5 container align-items-center">
               <h6 class="fw-bold px-5 mt-2" style="color: #ffffff">
-                เอกสารของคุณมีขนาาดใหญ่เกิน 10 MB 
+                เอกสารของคุณมีขนาดใหญ่เกิน 10 MB
               </h6>
               <ul class="navbar-nav ms-auto">
                 <button type="button" class="btn-close px-5" data-bs-dismiss="modal" aria-label="Close"

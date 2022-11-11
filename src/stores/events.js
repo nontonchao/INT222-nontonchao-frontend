@@ -77,6 +77,7 @@ export const useEvents = defineStore("events", () => {
   };
 
   const editEvent = async (eventId, editEvent) => {
+    console.log(editEvent);
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL}events/${eventId}`,
       {
