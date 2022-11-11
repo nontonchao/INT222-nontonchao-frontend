@@ -1,16 +1,14 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
-import { useUsers } from "../stores/users.js";
-import { useRouter } from "vue-router";
+import { useEventCategory } from "../stores/eventCategory.js";
 import { useLogin } from '../stores/login.js';
 
-const users = ref([]);
-const userStore = useUsers();
-const router = useRouter();
+const category = ref([]);
+const categoryStore = useEventCategory();
 const loginStore = useLogin();
 
 onBeforeMount(async () => {
-    users.value = await userStore.fetchUsers();
+    category.value = await categoryStore.getEventCategoryOwners();
 });
 
 </script>
@@ -21,8 +19,8 @@ onBeforeMount(async () => {
             <section class="border bottom-dark" style="background: #ffffff">
                 <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
                     <div class="container">
-                        <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">จัดการ
-                                Category</span></a>
+                        <a class="navbar-brand d-flex align-items-center" href="#"><span
+                                class="fw-bold">จัดการคลินิก</span></a>
                     </div>
                 </nav>
             </section>
@@ -30,7 +28,26 @@ onBeforeMount(async () => {
                 <div>
                     <!-- category manage -->
                     <div v-if="loginStore.isAdmin">
-                        <h1>จัดการจ้า</h1>
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Clinic Name</th>
+                                        <th scope="col">Owner Name</th>
+                                        <th scope="col">Remove?</th>
+                                    </tr>
+                                </thead>
+                                <tbody v-for="l in category">
+                                    <tr>
+                                        <th scope="row">{{ l.id }}</th>
+                                        <td>{{ l.eventCategory.eventCategoryName }}</td>
+                                        <td>{{ l.user.name }}</td>
+                                        <td><button>remove</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div v-else>
                         ไม่มีสิทธิ์เข้าถึงหน้านี้

@@ -26,6 +26,19 @@ export const useEventCategory = defineStore("eventCategory", () => {
     }
   };
 
+  const getEventCategoryOwners = async () => {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}events-category/getOwners`, {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("access_token")
+      }
+    });
+    if (res.status == 200) {
+      return res.json();
+    } else {
+      console.log("error while fetching");
+    }
+
+  }
   const editEventCategory = async (updatedEventCat) => {
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL}events-category/${updatedEventCat.id}`,
@@ -61,6 +74,7 @@ export const useEventCategory = defineStore("eventCategory", () => {
   return {
     getEventCategoryList,
     editEventCategory,
+    getEventCategoryOwners,
     resEditText,
     eventCategoryList,
     isNotUnique,
