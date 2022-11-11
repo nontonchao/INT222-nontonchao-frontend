@@ -83,7 +83,7 @@ const uploadFile = async () => {
       document.getElementById("fileupload").files[0],
       timestamp + "," + document.getElementById("fileupload").files[0].name
     );
-    fetch("http://localhost:8080/api/file/upload", {
+    fetch(`${import.meta.env.VITE_BASE_URL}file/upload`, {
       method: "POST",
       body: formData,
     })
