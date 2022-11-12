@@ -12,9 +12,6 @@ const userStore = useUsers();
 const loginStore = useLogin();
 const selected_clinic = ref();
 const selected_user = ref();
-const selected_clinic_index = ref();
-const selected_user_index = ref();
-
 
 function ale(u) {
     alert(u);
