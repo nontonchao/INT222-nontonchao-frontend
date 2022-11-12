@@ -15,6 +15,10 @@ const selected_user = ref();
 const selected_clinic_index = ref();
 const selected_user_index = ref();
 
+
+function ale(u) {
+    alert(u);
+}
 onBeforeMount(async () => {
     owner_list.value = await categoryStore.getEventCategoryOwners();
     users.value = await userStore.fetchUsers();
@@ -35,14 +39,15 @@ const add = async (c, u) => {
     if (c != undefined && u != undefined) {
         const status = await categoryStore.addEventCategoryOwners(c, u);
         if (status === 201) {
-            owner_list.value.push({
-                eventCategory: {
-                    eventCategoryName: category.value[selected_clinic_index.value].eventCategoryName
-                },
-                user: {
-                    name: users.value[selected_user_index.value].name
-                }
-            });
+            // owner_list.value.push({
+            //     eventCategory: {
+            //         eventCategoryName: category.value[selected_clinic_index.value].eventCategoryName
+            //     },
+            //     user: {
+            //         name: users.value[selected_user_index.value].name
+            //     }
+            // });
+            owner_list.value = await categoryStore.getEventCategoryOwners();
             alert('added successfully!');
         } else {
             alert('error while adding');
@@ -51,7 +56,6 @@ const add = async (c, u) => {
         alert('select first!');
     }
 }
-
 </script>
 
 <template>
@@ -74,15 +78,13 @@ const add = async (c, u) => {
                             <!-- add -->
                             <select v-model="selected_clinic" class="form-select form-select-sm">
                                 <option disabled value="">คลินิก</option>
-                                <option v-for="(e, index) in category" :key="index" :value="e.id"
-                                    @click="selected_clinic_index = index">
+                                <option v-for="(e, index) in category" :key="index" :value="e.id">
                                     {{ e.eventCategoryName }}
                                 </option>
                             </select>
                             <select v-model="selected_user" class="form-select form-select-sm">
                                 <option disabled value="">ผู้ใช้</option>
-                                <option v-for="(e, index) in users" :key="index" :value="e.id"
-                                    @click="selected_user_index = index">
+                                <option v-for="(e, index) in users" :key="index" :value="e.id">
                                     {{ e.name }}
                                 </option>
                             </select>
