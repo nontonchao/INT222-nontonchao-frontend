@@ -59,12 +59,17 @@ export const useEventCategory = defineStore("eventCategory", () => {
 
   const addEventCategoryOwners = async (e, u) => {
     const res = await fetch(
-      `${import.meta.env.VITE_BASE_URL}events-category/owner/${e}/${u}`,
+      `${import.meta.env.VITE_BASE_URL}events-category/owner`,
       {
         method: "POST",
         headers: {
-          "Authorization": "Bearer " + localStorage.getItem("access_token")
-        }
+          "Authorization": "Bearer " + localStorage.getItem("access_token"),
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          "eventCategory_id": e,
+          "user_id": u
+        })
       }
     );
     if (res.status === 201) {

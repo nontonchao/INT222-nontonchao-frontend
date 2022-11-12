@@ -196,8 +196,7 @@ onMounted(async () => {
                 ลงชื่อเข้าใช้ก่อนแล้วค่อยกลับมานะ!
               </figcaption>
             </figure>
-            <button class="btn btn-danger fs-5 me-2 py-2 px-4" type="button" style="
-                margin: -57px 0px;
+            <button class="btn btn-danger fs-5 me-2 py-2 px-4" type="button" style="margin: -57px 0px;
                 --bs-primary-rgb: 220, 53, 69;
                 padding: 0px 24px;
               ">
@@ -208,8 +207,8 @@ onMounted(async () => {
         </div>
         <div v-else>
           <div v-if="eventList.length <= 0">
-            <div class="text-center p-4 p-lg-5">
-              <h1 class="fw-bold mb-4 display-5" style="margin: 125px">
+            <div v-if="loginStore.role !== 'ROLE_LECTURER'" class="text-center p-4 p-lg-5">
+              <h1 class=" fw-bold mb-4 display-5" style="margin: 125px">
                 No Scheduled Events
               </h1>
               <figure style="margin: 0px; padding: 45px">
@@ -222,14 +221,28 @@ onMounted(async () => {
                   จองนัดหมายแล้วไปกันเลย!
                 </figcaption>
               </figure>
-              <button class="btn btn-danger fs-5 me-2 py-2 px-4" type="button" style="
-                  margin: -57px 0px;
+              <button class="btn btn-danger fs-5 me-2 py-2 px-4" type="button" style="margin: -57px 0px;
                   --bs-primary-rgb: 220, 53, 69;
                   padding: 0px 24px;
                 ">
                 <router-link :to="{ name: 'AddEvent' }" style="text-decoration: none; color: #ffffff">จองนัดหมายเลย
                 </router-link>
               </button>
+            </div>
+            <div v-else class="text-center p-4 p-lg-5">
+              <h1 class=" fw-bold mb-4 display-5" style="margin: 125px">
+                No Scheduled Events
+              </h1>
+              <figure style="margin: 0px; padding: 45px">
+                <blockquote class="blockquote">
+                  <p class="mb-0 display-6">
+                    คลินิกของคุณยังใครจองนัดหมายเลย!
+                  </p>
+                </blockquote>
+                <figcaption class="text-muted" style="font-size: 20px">
+                  ยินดีด้วยนะ จะได้ไม่ต้องเหนื่อย :)
+                </figcaption>
+              </figure>
             </div>
           </div>
           <div v-else>
