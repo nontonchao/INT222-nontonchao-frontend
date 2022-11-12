@@ -13,9 +13,6 @@ const loginStore = useLogin();
 const selected_clinic = ref();
 const selected_user = ref();
 
-function ale(u) {
-    alert(u);
-}
 onBeforeMount(async () => {
     owner_list.value = await categoryStore.getEventCategoryOwners();
     users.value = await userStore.fetchUsers();
