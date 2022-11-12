@@ -56,7 +56,8 @@ const router = useRouter();
                 }">เกี่ยวกับเรา</router-link>
               </a>
             </li>
-            <div class="dropdown">
+
+            <div v-if="loginStore.role === 'ROLE_ADMIN'" class="dropdown">
               <button class="btn btn-opacity-0 dropdown-toggle text-white btn-admin btn-sm border-0" type="button"
                 id="dropdownmenu" data-bs-toggle="dropdown" aria-expanded="false">
                 เมนูจัดการ (สำหรับแอดมิน)
@@ -74,7 +75,6 @@ const router = useRouter();
                   </a></router-link>
               </div>
             </div>
-
             <li class="nav-item d-none d-xs-block d-md-block">
               <router-link class="routerLink" :to="{
                 name: 'Login',
@@ -83,8 +83,8 @@ const router = useRouter();
                   loginStore.logout();
                   router.push(`/login`);
                 " v-if="
-                  loginStore.isLogin() == true ||
-                  loginStore.isLoggedIn == true
+  loginStore.isLogin() == true ||
+  loginStore.isLoggedIn == true
                 " class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem">
                   ออกจากระบบ
                 </button>
