@@ -236,8 +236,8 @@ onMounted(async () => {
             <div class="text-center text-white-50 bg-danger border rounded border-0 p-3 my-5">
               <div class="row row-cols-2 row-cols-md-4">
                 <div @click="
-                  status = 'ทั้งหมด';
-                filterEvent(search);
+  status = 'ทั้งหมด';
+filterEvent(search);
                 " style="cursor: pointer">
                   <div class="col">
                     <div class="p-3">
@@ -249,8 +249,8 @@ onMounted(async () => {
                   </div>
                 </div>
                 <div @click="
-                  status = 'กำลังจะมาถึง';
-                filterEvent(search);
+  status = 'กำลังจะมาถึง';
+filterEvent(search);
                 " style="cursor: pointer">
                   <div class="col">
                     <div class="p-3">
@@ -262,8 +262,8 @@ onMounted(async () => {
                   </div>
                 </div>
                 <div @click="
-                  status = 'กำลังดำเนินอยู่';
-                filterEvent(search);
+  status = 'กำลังดำเนินอยู่';
+filterEvent(search);
                 " style="cursor: pointer">
                   <div class="col">
                     <div class="p-3">
@@ -275,8 +275,8 @@ onMounted(async () => {
                   </div>
                 </div>
                 <div @click="
-                  status = 'ที่ผ่านมา';
-                filterEvent(search);
+  status = 'ที่ผ่านมา';
+filterEvent(search);
                 " style="cursor: pointer">
                   <div class="col">
                     <div class="p-3">

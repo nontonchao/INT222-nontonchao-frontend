@@ -27,7 +27,7 @@ export const useEventCategory = defineStore("eventCategory", () => {
   };
 
   const getEventCategoryOwners = async () => {
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}events-category/getOwners`, {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}events-category/owner`, {
       headers: {
         "Authorization": "Bearer " + localStorage.getItem("access_token")
       }
@@ -37,8 +37,44 @@ export const useEventCategory = defineStore("eventCategory", () => {
     } else {
       console.log("error while fetching");
     }
-
   }
+
+  const removeEventCategoryOwners = async (e, u) => {
+    const res = await fetch(
+      `${import.meta.env.VITE_BASE_URL}events-category/owner/${e}/${u}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("access_token")
+        }
+      }
+    );
+    if (res.status === 200) {
+      return res.status;
+    } else {
+      console.log('error while delete');
+      return res.status;
+    }
+  }
+
+  const addEventCategoryOwners = async (e, u) => {
+    const res = await fetch(
+      `${import.meta.env.VITE_BASE_URL}events-category/owner/${e}/${u}`,
+      {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("access_token")
+        }
+      }
+    );
+    if (res.status === 201) {
+      return res.status;
+    } else {
+      console.log('error while adding');
+      return res.status;
+    }
+  }
+
   const editEventCategory = async (updatedEventCat) => {
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL}events-category/${updatedEventCat.id}`,
@@ -75,6 +111,8 @@ export const useEventCategory = defineStore("eventCategory", () => {
     getEventCategoryList,
     editEventCategory,
     getEventCategoryOwners,
+    removeEventCategoryOwners,
+    addEventCategoryOwners,
     resEditText,
     eventCategoryList,
     isNotUnique,
