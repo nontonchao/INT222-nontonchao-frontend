@@ -2,6 +2,10 @@
 import { onBeforeMount, ref } from "vue";
 import { useEventCategory } from "../stores/eventCategory.js";
 import { useLogin } from "../stores/login.js";
+import { useUsers } from "../stores/users.js";
+const users = ref([]);
+const userStore = useUsers();
+const selected_user = ref([]);
 
 const loginStore = useLogin();
 const eventCateStore = useEventCategory();
@@ -22,6 +26,7 @@ const edited = ref(false);
 
 onBeforeMount(async () => {
   await eventCateStore.getEventCategoryList();
+  users.value = await userStore.fetchUsers();
   cateList.value = eventCateStore.eventCategoryList;
 });
 function test() {
@@ -29,6 +34,29 @@ function test() {
     edited.value = false;
   }, 2500);
 }
+const add = async (c, u) => {
+  console.log(selected_user.value, selectedCate.value.id);
+  if (c != undefined && u != undefined) {
+    const status = await categoryStore.addEventCategoryOwners(c, u);
+    if (status === 201) {
+      // owner_list.value.push({
+      //     eventCategory: {
+      //         eventCategoryName: category.value[selected_clinic_index.value].eventCategoryName
+      //     },
+      //     user: {
+      //         name: users.value[selected_user_index.value].name
+      //     }
+      // });
+      owner_list.value = await categoryStore.getEventCategoryOwners();
+      alert("added successfully!");
+    } else {
+      alert("error while adding");
+    }
+  } else {
+    alert("select first!");
+  }
+};
+
 function topFunc() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
@@ -183,10 +211,11 @@ function topFunc() {
               *ชื่อซ้ำกับคลินิกอื่น
             </p>
           </div>
+
           <!-- div col เปล่าหลอก ๆ -->
           <div class="col"></div>
           <div class="form-floating mb-3">
-            <p>อาจารย์ที่ปรึกษา: {{}}</p>
+            <p>อาจารย์ที่ปรึกษา: </p>
             <!-- div col เปล่าหลอก ๆ -->
           </div>
           <div class="col"></div>
@@ -215,6 +244,28 @@ function topFunc() {
             ></textarea>
             <label for="floatingTextarea">คำอธิบาย</label>
           </div>
+          <!-- ****************for admin*********************** -->
+          <div class="col"></div>
+          <div class="form-floating mb-3 mt-3">
+            <p>เพิ่มอาจารย์ที่ปรึกษา</p>
+            <div
+              class="form-check"
+              v-for="(e, index) in users"
+              :key="index"
+              :value="e.id"
+            >
+              <input
+                v-model="selected_user"
+                class="form-check-input"
+                type="checkbox"
+                :value="e.id"
+                id="flexCheckIndeterminate"
+              />
+              <label class="form-check-label" for="flexCheckIndeterminate">
+                {{ e.name }}
+              </label>
+            </div>
+          </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight" v-show="toggleEdit">
           <button
@@ -226,6 +277,7 @@ function topFunc() {
             ยกเลิก
           </button>
           <button
+            @click="add(selectedCate.id, selected_user)"
             class="btn btn-primary btn-sm mx-4"
             type="button"
             :disabled="
