@@ -6,6 +6,20 @@ export const useUsers = defineStore("users", () => {
   const resStatus = ref(0);
   const statusMessage = ref("");
 
+  const fetchLecturers = async () => {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}users/lecturers`, {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("access_token")
+      },
+    });
+    if (res.status == 200) {
+      users.value = await res.json();
+    } else {
+      console.log("error while fetching");
+    }
+    return users.value;
+  }
   const fetchUsers = async () => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}users`, {
       method: "GET",
@@ -137,6 +151,7 @@ export const useUsers = defineStore("users", () => {
 
   return {
     fetchUsers,
+    fetchLecturers,
     userRegister,
     getUserById,
     validateName,

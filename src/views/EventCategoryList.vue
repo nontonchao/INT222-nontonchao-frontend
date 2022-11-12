@@ -27,7 +27,7 @@ const edited = ref(false);
 onBeforeMount(async () => {
   await eventCateStore.getEventCategoryList();
   if (loginStore.role === 'ROLE_ADMIN') {
-    users.value = await userStore.fetchUsers();
+    users.value = await userStore.fetchLecturers();
   }
   cateList.value = eventCateStore.eventCategoryList;
 });
