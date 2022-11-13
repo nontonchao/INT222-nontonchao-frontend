@@ -30,6 +30,10 @@ const ValidateEmail = (mail) => {
     ? (emailErr.value = 1)
     : (emailErr.value = 2);
 };
+const onEnter = () => {
+  document.getElementById("loginBtn").click()
+}
+
 </script>
 
 <template>
@@ -129,6 +133,7 @@ const ValidateEmail = (mail) => {
                       <div class="mb-5">
                         <input
                           v-model="password"
+                          v-on:keyup.enter="onEnter()"
                           class="form-control"
                           type="password"
                           id="password"
@@ -139,6 +144,7 @@ const ValidateEmail = (mail) => {
                       <div class="text-center ">
                         <button
                           @click="login(), (loginStore.resToken = 0)"
+                          id="loginBtn"
                           class="btn btn-danger btn-sm mx-4"
                           type="button"
                           style="--bs-btn-border-radius: 1rem"
