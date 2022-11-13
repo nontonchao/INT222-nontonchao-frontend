@@ -360,13 +360,15 @@ const clearFile = () => {
                   "
                 >
                   <div div class="col">
-                    <p>
+                    <!-- <p>
                       {{
                         fileName.includes(",")
                           ? fileName.split(",")[1]
                           : fileName
                       }}
-                    </p>
+                    </p> -->
+                    <p v-if="props.eventz.attachment.includes(',')">{{eventz.attachment.split(",")[1]}}</p>
+                    <p v-else>{{fileName}}</p>
                     <!-- <p>{{ props.eventz.attachment.split(',')[1] }}</p> -->
                   </div>
                   <div div class="col" @click="deleteFile()">
