@@ -1,10 +1,13 @@
 <script setup>
-
+import PO from "../assets/members/PO.jpg";
+import Ny from "../assets/members/dev024.jpg";
+import Mint from "../assets/members/dev031.jpg";
+import Poom from "../assets/members/dev071.jpg";
 const members = [
   {
     nname: "Khun",
     name: "Siam Yamsaengsung ",
-    imagePath: "/members/PO.jpg",
+    imagePath: PO,
     desc: "The best our advisor in this world.",
     git: "https://github.com/siam-yam",
     fb: "https://www.facebook.com/siamyam",
@@ -13,7 +16,7 @@ const members = [
   {
     nname: "Ny",
     name: "Chokjaroen Tanjaroenrat ",
-    imagePath: "/members/dev024.jpg",
+    imagePath: Ny,
     desc: "63130500024",
     git: "https://github.com/itsmeny",
     fb: "https://www.facebook.com/cjrtp",
@@ -22,7 +25,7 @@ const members = [
   {
     nname: "Mint",
     name: "Nattakan Thaweewatthanaprayun ",
-    imagePath: "/members/dev031.jpg",
+    imagePath: Mint,
     desc: `63130500031`,
     git: "https://github.com/dknxsmph",
     fb: "https://www.facebook.com/dknsxmph",
@@ -31,7 +34,7 @@ const members = [
   {
     nname: "Poom",
     name: "Nitipoom Suttachai ",
-    imagePath: "/members/dev071.jpg",
+    imagePath: Poom,
     desc: `63130500071`,
     git: "https://github.com/Nitipoom1456",
     fb: "https://www.facebook.com/Nitipoom.Sutachai",
