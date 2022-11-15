@@ -146,11 +146,11 @@ selectedCateNotEditable = cate;
               <div class="col"></div>
               <p>คำอธิบาย: {{ selectedCate.eventCategoryDescription }}</p>
               <div class="col"></div>
-              <div class="">
+              <div>
                 <p>
                   ติดต่ออาจารย์ที่ปรึกษาผ่านช่องทางอีเมล:
-                <div v-for="lec in selectedCate.owners">
-                  <a :href="'mailto: ' + lec.email">
+                <div v-for="lec in selectedCate.owners" class="mt-2">
+                  <a :href="'mailto: ' + lec.email" style=" text-decoration: none !important; padding-top: 10px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                       class="bi bi-envelope-at ee-ee " viewBox="0 0 16 16">
                       <path
