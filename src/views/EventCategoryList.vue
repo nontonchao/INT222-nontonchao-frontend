@@ -28,8 +28,8 @@ onBeforeMount(async () => {
   await eventCateStore.getEventCategoryList();
   if (loginStore.role === 'ROLE_ADMIN') {
     users.value = await userStore.fetchLecturers();
-    cateList.value = eventCateStore.eventCategoryList;
   }
+  cateList.value = eventCateStore.eventCategoryList;
 });
 
 function test() {
@@ -110,9 +110,9 @@ function listUser() {
         <div class="container py-4 py-xl-5">
           <div class="row gy-4 row-cols-2 row-cols-md-5">
             <div class="col scale" v-for="(cate, index) in cateList" :key="index" @click="
-              selectedCate = cate;
-            listUser();
-            selectedCateNotEditable = cate;
+  selectedCate = cate;
+listUser();
+selectedCateNotEditable = cate;
             ">
               <div class="text-center d-flex flex-column justify-content-center align-items-center py-4">
                 <div
