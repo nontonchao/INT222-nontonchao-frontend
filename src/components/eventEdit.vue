@@ -122,6 +122,8 @@ const sizeCheck = () => {
   //uploadFile();
 };
 const fileName = ref(props.eventz.attachment);
+console.log(props.eventz.attachment)
+console.log(fileName.value)
 
 const uploadFile = async () => {
   if (fileName.value != null) {
@@ -162,6 +164,10 @@ const deleteFile = async () => {
   //   alert("Error while deleting");
   // }
 };
+
+const checkFileName = () => {
+  return props.eventz.attachment.includes(",")
+}
 
 const clearFile = () => {
   props.eventz.attachment = "";
@@ -360,15 +366,15 @@ const clearFile = () => {
                   "
                 >
                   <div div class="col">
-                    <!-- <p>
+                    <p>
                       {{
                         fileName.includes(",")
-                          ? fileName.split(",")[1]
+                          ? fileName.split(",")[1] //work in local well
                           : fileName
                       }}
-                    </p> -->
-                    <p v-if="props.eventz.attachment.includes(',')">{{eventz.attachment.split(",")[1]}}</p>
-                    <p v-else>{{fileName}}</p>
+                    </p>
+                    <!-- <p v-if="checkFileName()">{{eventz.attachment.split(",")[1]}}</p>
+                    <p v-else>{{fileName}}</p> -->
                     <!-- <p>{{ props.eventz.attachment.split(',')[1] }}</p> -->
                   </div>
                   <div div class="col" @click="deleteFile()">

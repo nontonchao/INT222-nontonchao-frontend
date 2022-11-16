@@ -25,12 +25,13 @@ const toggleEdit = ref(false);
 const edited = ref(false);
 
 onBeforeMount(async () => {
+
   await eventCateStore.getEventCategoryList();
   if (loginStore.role === 'ROLE_ADMIN') {
     users.value = await userStore.fetchLecturers();
   }
   cateList.value = eventCateStore.eventCategoryList;
-});
+ });
 
 function test() {
   setTimeout(function () {
@@ -62,11 +63,11 @@ function topFunc() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
-
 function listUser() {
   selected_user.value = [];
   selectedCate.value.owners.forEach((element) => {
     selected_user.value.push(element.user_id);
+    
   });
 }
 </script>
@@ -185,6 +186,7 @@ selectedCateNotEditable = cate;
 
       <!-- หลังกดแก้ไข -->
       <div v-show="toggleEdit">
+ 
         <div class="row row-cols-2">
           <div class="form-floating mb-3 col">
             <input type="text" class="form-control" required id="floatingInput" placeholder="ชื่อคลินิก" minlength="1"
@@ -197,7 +199,14 @@ selectedCateNotEditable = cate;
           </div>
 
           <!-- div col เปล่าหลอก ๆ -->
-          <div class="col"></div>
+          <div class="d-flex flex-row-reverse  justify-content-center"><body>
+            
+  <label class="toggle m-2">
+    <input type="checkbox">
+    <span class="slider"></span>
+    <span class="labels"  data-off="ปิด" data-on="เปิด"></span>
+  </label><p class=" m-2"> สถานะของคลินิก: </p>
+</body></div>
           <div class="form-floating mb-3">
             <p>อาจารย์ที่ปรึกษา:</p>
             <!-- div col เปล่าหลอก ๆ -->
@@ -287,6 +296,94 @@ test();
 </template>
 
 <style scoped>
+/* css for Status switch */
+      .toggle {
+      --width: 80px;
+      --height: calc(var(--width) / 3);
+
+      position: relative;
+      display: inline-block;
+      width: var(--width);
+      height: var(--height);
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+      border-radius: var(--height);
+      cursor: pointer;
+    }
+
+    .toggle input {
+      display: none;
+    }
+
+    .toggle .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: var(--height);
+      background-color: #ccc;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .toggle .slider::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(var(--height));
+      height: calc(var(--height));
+      border-radius: calc(var(--height) / 2);
+      background-color: #fff;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s ease-in-out;
+    }
+
+    .toggle input:checked+.slider {
+      background-color: #0071e3;
+    }
+
+    .toggle input:checked+.slider::before {
+      transform: translateX(calc(var(--width) - var(--height)));
+    }
+
+    .toggle .labels {
+      position: absolute;
+      top: 2px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-size: 15px;      
+      transition: all 0.4s ease-in-out;
+    }
+
+    .toggle .labels::after {
+      content: attr(data-off);
+      position: absolute;
+      right: 5px;
+      color: #4d4d4d;
+      opacity: 1;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+      transition: all 0.4s ease-in-out;
+    }
+
+    .toggle .labels::before {
+      content: attr(data-on);
+      position: absolute;
+      left: 5px;
+      color: #ffffff;
+      opacity: 0;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
+      transition: all 0.4s ease-in-out;
+    }
+
+    .toggle input:checked~.labels::after {
+      opacity: 0;
+    }
+
+    .toggle input:checked~.labels::before {
+      opacity: 1;
+    }
+/* css for Status switch */
 .ee-ee {
   cursor: pointer;
 }
