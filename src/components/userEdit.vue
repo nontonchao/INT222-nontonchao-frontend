@@ -14,8 +14,8 @@ const props = defineProps({
   },
 });
 
-const firstname = ref("");
-const lastname = ref("");
+const firstname = ref(props.userz.name.split(' ')[0]);
+const lastname = ref(props.userz.name.split(' ')[1]);
 const role_ = ref("นักศึกษา");
 const emailStatus = ref(2);
 
