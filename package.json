@@ -9,8 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@microsoft/microsoft-graph-client": "^3.0.4",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.0",
+    "msal": "^1.4.17",
     "pinia": "^2.0.19",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"

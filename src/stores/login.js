@@ -2,7 +2,7 @@ import { defineStore, acceptHMRUpdate } from "pinia";
 import { ref } from 'vue'
 import { useUsers } from "./users";
 import { useRouter } from 'vue-router';
-
+import { UserAgentApplication } from "msal";
 
 export const useLogin = defineStore("login", () => {
   const router = useRouter();
@@ -108,7 +108,46 @@ export const useLogin = defineStore("login", () => {
     }
   };
 
+
+  //
+  const msalConfig = {
+    auth: {
+      clientId: "141563fd-49ce-4440-8b9c-2200fc5ac3d3",
+      authority: "https://login.microsoftonline.com/6f4432dc-20d2-441d-b1db-ac3380ba633d",
+      redirectURI: "http://localhost:5173/sy1/login"
+    },
+    cache: {
+      cacheLocation: "localStorage", // This configures where your cache will be stored
+      storeAuthStateInCookie: true,
+      popUp: true // Set this to "true" if you are having issues on IE11 or Edge
+    }
+  };
+  var requestObj = {
+    scopes: ["user.read"]
+  };
+
+  var myMSALObj = new UserAgentApplication(msalConfig);
+
+  var oauth_login = async () => {
+    var authResult = await myMSALObj.loginPopup(requestObj);
+    return authResult.account;
+  };
+
+  var getAccount = async () => {
+    var account = await myMSALObj.getAccount();
+    console.log(account.idToken.roles);
+    return account;
+  };
+
+  var logoff = () => {
+    myMSALObj.logout();
+  };
+  //
+
   return {
+    oauth_login,
+    getAccount,
+    logoff,
     login,
     logout,
     isLogin,

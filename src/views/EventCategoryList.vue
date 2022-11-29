@@ -14,6 +14,7 @@ const selectedCate = ref({
   eventCategoryName: "",
   eventDuration: "",
   eventCategoryDescription: "",
+  eventCategoryStatus: 1,
   owners: [""],
 });
 const selectedCateNotEditable = ref({
@@ -197,19 +198,15 @@ selectedCateNotEditable = cate;
               *ชื่อซ้ำกับคลินิกอื่น
             </p>
           </div>
-
           <!-- div col เปล่าหลอก ๆ -->
           <div class="d-flex flex-row-reverse  justify-content-center">
-
-            <body>
-
-              <label class="toggle m-2">
-                <input type="checkbox">
-                <span class="slider"></span>
-                <span class="labels" data-off="ปิด" data-on="เปิด"></span>
-              </label>
-              <p class=" m-2"> สถานะของคลินิก: </p>
-            </body>
+            <label class="toggle m-2">
+              <input type="checkbox" :checked="selectedCate.eventCategoryStatus == 1"
+                @click="selectedCate.eventCategoryStatus = selectedCate.eventCategoryStatus == 1 ? 0 : 1">
+              <span class="slider"></span>
+              <span class="labels" data-off="ปิด" data-on="เปิด"></span>
+            </label>
+            <p class=" m-2"> สถานะของคลินิก: </p>
           </div>
           <div class="form-floating mb-3">
             <p>อาจารย์ที่ปรึกษา:</p>
