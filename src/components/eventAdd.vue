@@ -207,15 +207,20 @@ function topFunc() {
           <div
             class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center"
             style="margin: 60px">
-            <div style="max-width: 350px">
+            <div style="max-width: 900px">
               <h2 class="text-uppercase fw-bold">จองนัดหมาย</h2>
               <p class="my-3">
-                คุณสามารถจองนัดหมายตามขั้นตอนดังนี้<br />1.
-                เลือกคลินิกที่ต้องการ<br />2. กรอกข้อมูลผู้นัดหมาย<br />3.
-                เลือกวันและเวลาที่สะดวก<br />4.
+                คุณสามารถจองนัดหมายตามขั้นตอนดังนี้<br />
+                1. เข้าสู่ระบบ OASIP <small style="color:gray"
+                  v-if="(loginStore.isLoggedIn == false)">(ดูเหมือนว่าคุณจะยังไม่ได้เข้าสู่ระบบเลยนะ?
+                  <small style="color:red;"> *คุณจะไม่สามารถจองนัดหมายได้</small>)</small>
+                <br />2.
+                เลือกคลินิกที่ต้องการ<br />3. กรอกข้อมูลผู้นัดหมาย<br />4.
+                เลือกวันและเวลาที่สะดวก<br />5.
                 ยินดีด้วยการนัดหมายของคุณสำเร็จแล้ว!
               </p>
             </div>
+
           </div>
         </div>
       </div>
@@ -239,7 +244,7 @@ checkTimeSlot(startTime, ecId);
           </div>
           <div class="col-md-6 d-md-flex align-items-md-center">
             <div style="max-width: 350px">
-              <h2 class="text-uppercase fw-bold">ขั้นตอนที่ 1</h2>
+              <h2 class="text-uppercase fw-bold">ขั้นตอนที่ 2</h2>
               <p class="my-3">เลือกคลินิกที่ต้องการได้เลย :)</p>
             </div>
           </div>
@@ -250,7 +255,7 @@ checkTimeSlot(startTime, ecId);
           <div
             class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center">
             <div style="max-width: 350px">
-              <h2 class="text-uppercase fw-bold">ขั้นตอนที่ 2</h2>
+              <h2 class="text-uppercase fw-bold">ขั้นตอนที่ 3</h2>
               <p class="my-3">บอกเราหน่อยว่าใครกำลังนัดหมาย :)</p>
             </div>
           </div>
@@ -359,14 +364,15 @@ d_tmp = new Date(x.split('-')[0].trim()).toISOString();
           </div>
           <div class="col-md-6 d-md-flex align-items-md-center">
             <div style="max-width: 350px">
-              <h2 class="text-uppercase fw-bold">ขั้นตอนที่ 3</h2>
+              <h2 class="text-uppercase fw-bold">ขั้นตอนที่ 4</h2>
               <p class="my-3">สะดวกเข้าคลินิกวันไหนล่ะ :D</p>
             </div>
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight px-5">
           <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
-            style="--bs-btn-border-radius: 1rem" :disabled="!(time != 0 && startTime != 0)">
+            style="--bs-btn-border-radius: 1rem"
+            :disabled="!(time != 0 && startTime != 0 && loginStore.isLoggedIn != false)">
             ยืนยันการจอง
           </button>
         </div>
