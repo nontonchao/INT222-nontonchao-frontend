@@ -114,7 +114,7 @@ export const useLogin = defineStore("login", () => {
     auth: {
       clientId: "141563fd-49ce-4440-8b9c-2200fc5ac3d3",
       authority: "https://login.microsoftonline.com/6f4432dc-20d2-441d-b1db-ac3380ba633d",
-      redirectURI: "http://localhost:5173/sy1/login"
+      redirectURI: "https://intproj21.sit.kmutt.ac.th/sy1/login"
     },
     cache: {
       cacheLocation: "localStorage", // This configures where your cache will be stored
