@@ -29,7 +29,7 @@ const isPastOrOngoing = (thisEvent) => {
         new Date(thisEvent.eventStartTime).getTime() &&
       currentDateTime <
         endtime(thisEvent.eventStartTime, thisEvent.eventDuration)) ||
-    loginStore.role == "ROLE_LECTURER"
+    loginStore.roles == "ROLE_LECTURER"
   ) {
     canEdit.value = true;
   } else {

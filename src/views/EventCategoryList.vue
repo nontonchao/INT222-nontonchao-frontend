@@ -28,7 +28,7 @@ const edited = ref(false);
 onBeforeMount(async () => {
 
   await eventCateStore.getEventCategoryList();
-  if (loginStore.role === 'ROLE_ADMIN') {
+  if (loginStore.roles === 'ROLE_ADMIN') {
     users.value = await userStore.fetchLecturers();
   }
   cateList.value = eventCateStore.eventCategoryList;
@@ -41,7 +41,7 @@ function test() {
 }
 
 const editCategory = async () => {
-  if (loginStore.role === "ROLE_ADMIN") {
+  if (loginStore.roles === "ROLE_ADMIN") {
     add(selectedCate.value.id, selected_user.value);
     eventCateStore.editEventCategory(selectedCate.value);
   } else {
@@ -167,11 +167,11 @@ selectedCateNotEditable = cate;
             </div>
           </div>
           <div class="d-flex flex-row-reverse bd-highlight" v-if="
-            (loginStore.role == 'ROLE_LECTURER' &&
+            (loginStore.roles == 'ROLE_LECTURER' &&
               JSON.stringify(selectedCate.owners).includes(
                 loginStore.name
               )) ||
-            loginStore.role == 'ROLE_ADMIN'
+            loginStore.roles == 'ROLE_ADMIN'
           ">
             <button class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem"
               @click="toggleEdit = !toggleEdit">
@@ -227,7 +227,7 @@ selectedCateNotEditable = cate;
           </div>
           <!-- ****************for admin*********************** -->
           <div class="col"></div>
-          <div class="form-floating mb-3 mt-3" v-if="loginStore.role == 'ROLE_ADMIN'">
+          <div class="form-floating mb-3 mt-3" v-if="loginStore.roles == 'ROLE_ADMIN'">
             <p>เพิ่มอาจารย์ที่ปรึกษา</p>
             <div class="form-check" v-for="(e, index) in users" :key="index" :value="e.id">
               <input class="form-check-input" type="checkbox" :value="e.id" :id="'flexCheckIndeterminate' + index"

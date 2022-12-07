@@ -95,7 +95,7 @@ onBeforeMount(async () => {
         </div>
         <div class="modal-footer justify-content-center">
           <button type="button" class="btn btn-primary rounded-pill" data-bs-dismiss="modal"
-            @click="userStore.deleteUser(thisUser.id);router.go(-1)">
+            @click="userStore.deleteUser(thisUser.id); router.go(-1)">
             ยืนยัน
           </button>
           <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">

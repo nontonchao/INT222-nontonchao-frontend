@@ -25,7 +25,7 @@ const router = useRouter();
                 </svg>
                 <small v-show="loginStore.isLoggedIn == true" style="padding: 1.5em">
                   {{ loginStore.name.split(" ")[0].toUpperCase() }} |
-                  {{ loginStore.role.split("_")[1] }}</small>
+                  {{ loginStore.roles.split("_")[1] }}</small>
               </a>
             </li>
             <li class="nav-item">
@@ -57,7 +57,7 @@ const router = useRouter();
               </a>
             </li>
 
-            <div v-if="loginStore.role === 'ROLE_ADMIN'" class="dropdown">
+            <div v-if="loginStore.roles === 'ROLE_ADMIN'" class="dropdown">
               <button class="btn btn-opacity-0 dropdown-toggle text-white btn-admin btn-sm border-0" type="button"
                 id="dropdownmenu" data-bs-toggle="dropdown" aria-expanded="false">
                 เมนูจัดการ (สำหรับแอดมิน)

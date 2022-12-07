@@ -31,7 +31,7 @@ const name = loginStore.name;
               padding: 0px 24px;
               --bs-btn-border-radius: 1rem;
             "
-            :disabled="loginStore.role == 'ROLE_LECTURER'"
+            :disabled="loginStore.roles == 'ROLE_LECTURER'"
           >
             <router-link
               :to="{ name: 'AddEvent' }"

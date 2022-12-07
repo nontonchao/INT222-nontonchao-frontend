@@ -13,7 +13,7 @@ export const useLogin = defineStore("login", () => {
   const isLoggedIn = ref(false);
   const name = ref("");
   const email = ref("");
-  const role = ref("");
+  const roles = ref("");
   const resToken = ref()
 
   const parseJwt = (token) => {
@@ -32,7 +32,7 @@ export const useLogin = defineStore("login", () => {
     isLoggedIn.value = false;
     name.value = "";
     email.value = "";
-    role.value = "";
+    roles.value = "";
     router.push(`/login`)
     //location.reload();
   };
@@ -40,12 +40,12 @@ export const useLogin = defineStore("login", () => {
   const isLogin = () => {
     if (localStorage.getItem("name") != null && localStorage.getItem("access_token") != null) {
       refresh();
-      if ((parseJwt(localStorage.getItem("access_token"))).role == "ROLE_ADMIN") { // check role from localstorage token
+      if ((parseJwt(localStorage.getItem("access_token"))).roles == "ROLE_ADMIN") { // check role from localstorage token
         isAdmin.value = true;
       };
       name.value = (parseJwt(localStorage.getItem("access_token")).name);
       email.value = (parseJwt(localStorage.getItem("access_token")).sub);
-      role.value = (parseJwt(localStorage.getItem("access_token")).role);
+      roles.value = (parseJwt(localStorage.getItem("access_token")).roles);
       isLoggedIn.value = true;
       return true;
     } else {
@@ -95,7 +95,7 @@ export const useLogin = defineStore("login", () => {
       resStatus.value = 200
       token_obj.value = await res.json();
       isLoggedIn.value = true;
-      if ((parseJwt(token_obj.value.token)).role === "ROLE_ADMIN") {
+      if ((parseJwt(token_obj.value.token)).roles === "ROLE_ADMIN") {
         isAdmin.value = true;
         isLoggedIn.value = true;
       }
@@ -114,7 +114,7 @@ export const useLogin = defineStore("login", () => {
     auth: {
       clientId: "141563fd-49ce-4440-8b9c-2200fc5ac3d3",
       authority: "https://login.microsoftonline.com/6f4432dc-20d2-441d-b1db-ac3380ba633d",
-      redirectURI: "https://intproj21.sit.kmutt.ac.th/sy1/login"
+      redirectURI: "http://127.0.0.1:5173/sy1/login"
     },
     cache: {
       cacheLocation: "localStorage", // This configures where your cache will be stored
@@ -155,7 +155,7 @@ export const useLogin = defineStore("login", () => {
     isLoggedIn,
     name,
     email,
-    role,
+    roles,
     isAdmin,
     resStatus,
     resToken,
