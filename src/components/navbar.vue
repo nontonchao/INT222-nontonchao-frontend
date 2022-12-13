@@ -25,7 +25,7 @@ const router = useRouter();
                 </svg>
                 <small v-show="loginStore.isLoggedIn == true" style="padding: 1.5em">
                   {{ loginStore.name.split(" ")[0].toUpperCase() }} |
-                  {{ loginStore.roles.split("_")[1] }}</small>
+                  {{ loginStore.roles.split('_')[1] }}</small>
               </a>
             </li>
             <li class="nav-item">

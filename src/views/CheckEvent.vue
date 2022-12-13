@@ -236,7 +236,7 @@ onMounted(async () => {
               <figure style="margin: 0px; padding: 45px">
                 <blockquote class="blockquote">
                   <p class="mb-0 display-6">
-                    คลินิกของคุณยังใครจองนัดหมายเลย!
+                    คลินิกของคุณยังไม่มีใครจองนัดหมายเลย!
                   </p>
                 </blockquote>
                 <figcaption class="text-muted" style="font-size: 20px">

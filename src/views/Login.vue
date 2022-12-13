@@ -202,6 +202,7 @@ router.push(`/`);
 .ee-ee {
   cursor: pointer;
 }
+
 body {
   font-family: "Varela Round", sans-serif;
 }

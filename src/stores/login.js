@@ -5,12 +5,14 @@ import { useRouter } from 'vue-router';
 import { UserAgentApplication } from "msal";
 
 export const useLogin = defineStore("login", () => {
+
   const router = useRouter();
   const resStatus = ref(0);
   const token_obj = ref("");
   const userStore = useUsers();
   const isAdmin = ref(false);
   const isLoggedIn = ref(false);
+  const isMs = ref(localStorage.getItem("isMs") || false);
   const name = ref("");
   const email = ref("");
   const roles = ref("");
@@ -26,6 +28,9 @@ export const useLogin = defineStore("login", () => {
   }
 
   const logout = () => {
+    if (isMs.value == true) {
+      logoff();
+    }
     localStorage.clear(); // clear localstorage
     userStore.logout();
     isAdmin.value = false;
@@ -38,18 +43,38 @@ export const useLogin = defineStore("login", () => {
   };
 
   const isLogin = () => {
-    if (localStorage.getItem("name") != null && localStorage.getItem("access_token") != null) {
-      refresh();
-      if ((parseJwt(localStorage.getItem("access_token"))).roles == "ROLE_ADMIN") { // check role from localstorage token
-        isAdmin.value = true;
-      };
-      name.value = (parseJwt(localStorage.getItem("access_token")).name);
-      email.value = (parseJwt(localStorage.getItem("access_token")).sub);
-      roles.value = (parseJwt(localStorage.getItem("access_token")).roles);
-      isLoggedIn.value = true;
-      return true;
+    if (localStorage.getItem("isMs") != null) {
+      if (localStorage.getItem("isMs")) {
+        isMs.value = true;
+      }
+    }
+    if (isMs.value == false) {
+      if (localStorage.getItem("name") != null && localStorage.getItem("access_token") != null) {
+        refresh();
+        if ((parseJwt(localStorage.getItem("access_token"))).roles == "ROLE_ADMIN") { // check role from localstorage token
+          isAdmin.value = true;
+        };
+        name.value = (parseJwt(localStorage.getItem("access_token")).name);
+        email.value = (parseJwt(localStorage.getItem("access_token")).sub);
+        roles.value = (parseJwt(localStorage.getItem("access_token")).roles);
+        isLoggedIn.value = true;
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      return false;
+      if (localStorage.getItem("name") != null && localStorage.getItem("access_token") != null) {
+        if ((parseJwt(localStorage.getItem("access_token"))).roles[0] == "ADMIN") { // check role from localstorage token
+          isAdmin.value = true;
+        };
+        name.value = (parseJwt(localStorage.getItem("access_token")).name);
+        email.value = (parseJwt(localStorage.getItem("access_token")).preferred_username);
+        roles.value = "ROLE_" + (parseJwt(localStorage.getItem("access_token")).roles[0]);
+        isLoggedIn.value = true;
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
@@ -98,8 +123,8 @@ export const useLogin = defineStore("login", () => {
       if ((parseJwt(token_obj.value.token)).roles === "ROLE_ADMIN") {
         isAdmin.value = true;
         isLoggedIn.value = true;
+        isLogin();
       }
-
     } else if (res.status == 401) {
       resStatus.value = 401
 
@@ -114,7 +139,7 @@ export const useLogin = defineStore("login", () => {
     auth: {
       clientId: "141563fd-49ce-4440-8b9c-2200fc5ac3d3",
       authority: "https://login.microsoftonline.com/6f4432dc-20d2-441d-b1db-ac3380ba633d",
-      redirectURI: "http://127.0.0.1:5173/sy1/login"
+      redirectURI: "http://localhost:5173/sy1/login"
     },
     cache: {
       cacheLocation: "localStorage", // This configures where your cache will be stored
@@ -128,21 +153,37 @@ export const useLogin = defineStore("login", () => {
 
   var myMSALObj = new UserAgentApplication(msalConfig);
 
+  const getMsToken = () => {
+    Object.keys(localStorage).forEach(e => {
+      if (e.includes('idtoken')) {
+        localStorage.setItem("access_token", localStorage.getItem(e))
+        localStorage.setItem("isMs", true);
+        localStorage.setItem("name", parseJwt(localStorage.getItem(e)).name);
+      }
+    })
+    if ((parseJwt(localStorage.getItem("access_token"))).roles[0] == "ADMIN") { // check role from localstorage token
+      isAdmin.value = true;
+    };
+    router.push(`/`);
+  }
+
   var oauth_login = async () => {
     var authResult = await myMSALObj.loginPopup(requestObj);
+    isLoggedIn.value = true;
+    isMs.value = true;
+    getMsToken();
     return authResult.account;
   };
 
   var getAccount = async () => {
     var account = await myMSALObj.getAccount();
-    console.log(account.idToken.roles);
     return account;
   };
 
   var logoff = () => {
     myMSALObj.logout();
   };
-  //
+
 
   return {
     oauth_login,
@@ -152,6 +193,7 @@ export const useLogin = defineStore("login", () => {
     logout,
     isLogin,
     parseJwt,
+    getAccount,
     isLoggedIn,
     name,
     email,
@@ -160,6 +202,7 @@ export const useLogin = defineStore("login", () => {
     resStatus,
     resToken,
     token_obj,
+    isMs,
   };
 });
 
