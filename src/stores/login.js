@@ -64,12 +64,16 @@ export const useLogin = defineStore("login", () => {
       }
     } else {
       if (localStorage.getItem("name") != null && localStorage.getItem("access_token") != null) {
-        if ((parseJwt(localStorage.getItem("access_token"))).roles[0] == "ADMIN") { // check role from localstorage token
-          isAdmin.value = true;
-        };
+        if (parseJwt(localStorage.getItem("access_token")).hasOwnProperty('roles') == false) {
+          roles.value = "ROLE_GUEST";
+        } else {
+          if ((parseJwt(localStorage.getItem("access_token"))).roles[0] == "ADMIN") { // check role from localstorage token
+            isAdmin.value = true;
+          };
+          roles.value = "ROLE_" + (parseJwt(localStorage.getItem("access_token")).roles[0]);
+        }
         name.value = (parseJwt(localStorage.getItem("access_token")).name);
         email.value = (parseJwt(localStorage.getItem("access_token")).preferred_username);
-        roles.value = "ROLE_" + (parseJwt(localStorage.getItem("access_token")).roles[0]);
         isLoggedIn.value = true;
         return true;
       } else {
