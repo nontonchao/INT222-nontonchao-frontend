@@ -223,12 +223,13 @@ selectedCateNotEditable = cate;
           <div class="form-floating mb-3">
             <textarea class="form-control" placeholder="คำอธิบาย" v-model="selectedCate.eventCategoryDescription"
               id="floatingTextarea" style="height: 100px"></textarea>
-            <label for="floatingTextarea">คำอธิบาย</label>
+            <label for="floatingTextarea">คำ อธิบาย</label>
           </div>
           <!-- ****************for admin*********************** -->
           <div class="col"></div>
           <div class="form-floating mb-3 mt-3" v-if="loginStore.roles == 'ROLE_ADMIN'">
             <p>เพิ่มอาจารย์ที่ปรึกษา</p>
+            <small style="color:red;">อาจารย์ที่ปรึกษาจะต้องมีอย่างน้อย 1 คน</small>
             <div class="form-check" v-for="(e, index) in users" :key="index" :value="e.id">
               <input class="form-check-input" type="checkbox" :value="e.id" :id="'flexCheckIndeterminate' + index"
                 v-model="selected_user" />
