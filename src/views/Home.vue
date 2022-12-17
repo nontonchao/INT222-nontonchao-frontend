@@ -61,9 +61,7 @@ const name = loginStore.name;
               </div>
               <div class="px-3">
                 <h4>จองการนัดหมาย</h4>
-                <router-link :to="{
-                  name: 'AddEvent',
-                }">จองตอนนี้ &gt;</router-link>
+             
                 <p style="
                     padding: 35px;
                     padding-top: 35px;
@@ -91,9 +89,7 @@ const name = loginStore.name;
               </div>
               <div class="px-3">
                 <h4>ตรวจสอบนัดหมาย</h4>
-                <router-link :to="{
-                  name: 'CheckEvent',
-                }">ตรวจสอบตอนนี้ &gt;</router-link>
+               
                 <p style="
                     padding: 35px;
                     padding-top: 35px;
@@ -120,9 +116,7 @@ const name = loginStore.name;
               </div>
               <div class="px-3">
                 <h4>แก้ไขนัดหมาย</h4>
-                <router-link :to="{
-                  name: 'CheckEvent',
-                }">แก้ไขตอนนี้ &gt;</router-link>
+        
                 <p style="
                     padding: 35px;
                     padding-top: 35px;
@@ -151,9 +145,7 @@ const name = loginStore.name;
               </div>
               <div class="px-3">
                 <h4>ยกเลิกนัดหมาย</h4>
-                <router-link :to="{
-                  name: 'CheckEvent',
-                }">ยกเลิกตอนนี้ &gt;</router-link>
+ 
 
                 <p style="
                     padding: 35px;
@@ -181,7 +173,6 @@ const name = loginStore.name;
               </div>
               <div class="px-3">
                 <h4>RealTime</h4>
-                <a href="#">รวดเร็วและทันท่วงที</a>
                 <p style="
                     padding: 35px;
                     padding-top: 35px;
@@ -207,9 +198,7 @@ const name = loginStore.name;
               </div>
               <div class="px-3">
                 <h4>แก้ไขหมวดหมู่</h4>
-                <router-link :to="{
-                  name: 'EventCategoryList',
-                }">แก้ไขตอนนี้ &gt;</router-link>
+            
                 <p style="
                     --bs-primary: #dc3545;
                     --bs-primary-rgb: 220, 53, 69;

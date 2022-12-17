@@ -21,6 +21,21 @@ onBeforeMount(async () => {
         <nav class="navbar navbar-light navbar-expand-md py-3" style="margin: 2px">
           <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">ผู้ใช้ทั้งหมด</span></a>
+        
+            <div class="collapse navbar-collapse" id="navcol-2" v-if="loginStore.roles == 'ROLE_ADMIN'">
+              <ul class="navbar-nav ms-auto">              
+                <li class="nav-item">
+                  <router-link
+                    class="nav-link"
+                    :to="{
+                      name: 'AddUser',
+                    }"
+                  >
+                    สร้าง OASIP ID 
+                  </router-link>
+                </li>
+              </ul>
+            </div>
           </div>
         </nav>
       </section>
@@ -70,7 +85,7 @@ onBeforeMount(async () => {
             </div>
           </div>
           <div v-else>
-            ไม่มีสิทธิ์เข้าถึงหน้านี้
+            คุณไม่มีสิทธิ์เข้าถึงหน้านี้
           </div>
           <!-- eventList -->
         </div>
