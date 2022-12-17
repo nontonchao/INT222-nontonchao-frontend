@@ -82,7 +82,7 @@ const validatePass = () => {
                   <router-link class="nav-link" :to="{
                     name: 'AddUser',
                   }">
-                    สร้าง OASIP ID ของคุณ
+                    สร้าง OASIP 
                   </router-link>
                 </li>
               </ul>
@@ -94,7 +94,7 @@ const validatePass = () => {
         <div class="row mb-5 p-4 p-lg-5">
           <div>
             <div class="col-md-8 col-xl-6 text-center mx-auto pt-3">
-              <h2 class="fw-bold">สร้าง OASIP ID ของคุณ</h2>
+              <h2 class="fw-bold">สร้าง OASIP </h2>
               <p class="w-lg-50">
                 OASIP ID
                 คือบัญชีเดียวเท่านั้นที่คุณต้องการสำหรับการใช้บริการทุกอย่างจาก
