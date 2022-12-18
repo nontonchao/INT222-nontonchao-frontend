@@ -169,7 +169,7 @@ selectedCateNotEditable = cate;
           <div class="d-flex flex-row-reverse bd-highlight" v-if="
             (loginStore.roles == 'ROLE_LECTURER' &&
               JSON.stringify(selectedCate.owners).includes(
-                loginStore.name
+                loginStore.email
               )) ||
             loginStore.roles == 'ROLE_ADMIN'
           ">
