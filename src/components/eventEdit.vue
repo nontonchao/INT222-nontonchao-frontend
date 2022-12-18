@@ -2,12 +2,7 @@
 import { ref, onBeforeMount } from "vue";
 import { useEvents } from "../stores/events.js";
 import { useRouter } from "vue-router";
-const router = useRouter();
-const useEvent = useEvents();
-const startTime = ref("");
-const time = ref("");
-const activeIndex = ref("");
-const eNotes = ref(props.eventz.eventNotes);
+
 const props = defineProps({
   eventz: {
     type: Object,
@@ -16,6 +11,13 @@ const props = defineProps({
   },
 });
 let toEdit = props.eventz;
+const router = useRouter();
+const useEvent = useEvents();
+const startTime = ref("");
+const time = ref("");
+const activeIndex = ref("");
+const eNotes = ref(props.eventz.eventNotes);
+
 
 const numberFormat = function (number, width) {
   return new Array(+width + 1 - (number + "").length).join("0") + number;
@@ -94,7 +96,7 @@ var timestamp;
 const editEvent = async () => {
   toEdit = {
     eventStartTime: d_tmp.value,
-    eventNotes: eNotes.value,
+    eventNotes: props.eventz.eventNotes,
     attachment:
       fileName.value != null && fileName.value.length > 0
         ? fileName.value == props.eventz.attachment
@@ -126,15 +128,10 @@ const sizeCheck = () => {
     //alert('file size should be less than 10MB!');
   } else {
     fileName.value = document.getElementById("fileupload").files[0].name;
-    console.log(props.eventz.attachment);
-    console.log(document.getElementById("fileupload").files[0].name);
-    console.log(fileName.value);
   }
   //uploadFile();
 };
 const fileName = ref(props.eventz.attachment);
-console.log(props.eventz.attachment)
-console.log(fileName.value)
 
 const uploadFile = async () => {
   if (fileName.value != null) {
@@ -186,8 +183,6 @@ const clearFile = () => {
 };
 
 onBeforeMount(() => {
-  console.log(props.eventz.attachment);
-  console.log(fileName.value);
   startTime.value = props.eventz.eventStartTime.split('T')[0];
   d_tmp.value = props.eventz.eventStartTime;
   tryCall();
@@ -308,7 +303,7 @@ d_tmp = new Date(x.split('-')[0].trim()).toISOString();
               </div>
               <div class="col m-5">
                 <textarea rows="4" class="form-control mt-3 mb-3" placeholder="อยากบอกอะไรกับที่ปรึกษาไหม?"
-                  maxlength="300" v-model="eNotes" />
+                  maxlength="300" v-model="eventz.eventNotes" />
                 <div class="input-group">
                   <label for="fileupload" class="form-control mt-5 file-input-area">
                     <input class="file-upload-input" id="fileupload" type="file" @change="sizeCheck()" />
@@ -334,6 +329,7 @@ d_tmp = new Date(x.split('-')[0].trim()).toISOString();
                             : fileName
                       }}
                     </p>
+                    <!-- prod ver -->
                     <!-- <p v-if="fileName">{{fileName}}</p>
                     <p v-else>{{eventz.attachment.split(',')[1]}}</p> -->
                     <!-- <p>{{ props.eventz.attachment.split(',')[1] }}</p> -->

@@ -71,13 +71,13 @@ const validatePass = () => {
             <a class="navbar-brand d-flex align-items-center" href="#"><span class="fw-bold">OASIP ID</span></a>
             <div class="collapse navbar-collapse" id="navcol-2">
               <ul class="navbar-nav ms-auto">
-                <li class="nav-item px-4">
+                <!-- <li v-show="useLogin.roles!=='ROLE_ADMIN'" class="nav-item px-4">
                   <router-link class="nav-link" :to="{
                     name: 'Login',
                   }">
                     ลงชื่อเข้าใช้
                   </router-link>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <router-link class="nav-link" :to="{
                     name: 'AddUser',

@@ -47,6 +47,7 @@ const editCategory = async () => {
   } else {
     eventCateStore.editEventCategory(selectedCate.value);
   }
+  location.reload()
 };
 const add = async (c, u) => {
   if (c != undefined && u != undefined) {
