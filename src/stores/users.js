@@ -39,6 +39,7 @@ export const useUsers = defineStore("users", () => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}users/create`, {
       method: "POST",
       headers: {
+        "Authorization": "Bearer " + localStorage.getItem("access_token"),
         "content-type": "application/json",
       },
       body: JSON.stringify(new_user),
