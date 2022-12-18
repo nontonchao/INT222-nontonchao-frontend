@@ -43,42 +43,18 @@ export const useLogin = defineStore("login", () => {
   };
 
   const isLogin = () => {
-    if (localStorage.getItem("isMs") != null) {
-      if (localStorage.getItem("isMs")) {
-        isMs.value = true;
-      }
-    }
-    if (isMs.value == false) {
-      if (localStorage.getItem("name") != null && localStorage.getItem("access_token") != null) {
-        refresh();
-        if ((parseJwt(localStorage.getItem("access_token"))).roles == "ROLE_ADMIN") { // check role from localstorage token
-          isAdmin.value = true;
-        };
-        name.value = (parseJwt(localStorage.getItem("access_token")).name);
-        email.value = (parseJwt(localStorage.getItem("access_token")).sub);
-        roles.value = (parseJwt(localStorage.getItem("access_token")).roles);
-        isLoggedIn.value = true;
-        return true;
-      } else {
-        return false;
-      }
+    if (localStorage.getItem("name") != null && localStorage.getItem("access_token") != null) {
+      refresh();
+      if ((parseJwt(localStorage.getItem("access_token"))).roles == "ROLE_ADMIN") { // check role from localstorage token
+        isAdmin.value = true;
+      };
+      name.value = (parseJwt(localStorage.getItem("access_token")).name);
+      email.value = (parseJwt(localStorage.getItem("access_token")).sub);
+      roles.value = (parseJwt(localStorage.getItem("access_token")).roles);
+      isLoggedIn.value = true;
+      return true;
     } else {
-      if (localStorage.getItem("name") != null && localStorage.getItem("access_token") != null) {
-        if (parseJwt(localStorage.getItem("access_token")).hasOwnProperty('roles') == false) {
-          roles.value = "ROLE_GUEST";
-        } else {
-          if ((parseJwt(localStorage.getItem("access_token"))).roles[0] == "ADMIN") { // check role from localstorage token
-            isAdmin.value = true;
-          };
-          roles.value = "ROLE_" + (parseJwt(localStorage.getItem("access_token")).roles[0]);
-        }
-        name.value = (parseJwt(localStorage.getItem("access_token")).name);
-        email.value = (parseJwt(localStorage.getItem("access_token")).preferred_username);
-        isLoggedIn.value = true;
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
   }
 
@@ -106,6 +82,39 @@ export const useLogin = defineStore("login", () => {
         // set new refreshed token
         localStorage.setItem("access_token", (JSON.parse(response).token));
       }
+    }
+  }
+
+  const loginMs = async () => {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL
+      }login/ms`, {
+      method: 'POST',
+      headers: {
+        "content-type": "text/plain"
+      },
+      body: localStorage.getItem("msal.141563fd-49ce-4440-8b9c-2200fc5ac3d3.idtoken")
+    });
+    if (res.status == 200) {
+      resStatus.value = 200;
+      token_obj.value = await res.json();
+      isLoggedIn.value = true;
+      if ((parseJwt(token_obj.value.token)).roles === "ROLE_ADMIN") {
+        isAdmin.value = true;
+        isLoggedIn.value = true;
+        isLogin();
+      }
+      localStorage.clear();
+      localStorage.setItem("isMs", true);
+      localStorage.setItem("access_token", token_obj.value.token);
+      localStorage.setItem("refresh_token", token_obj.value.refresh_token);
+      name.value = parseJwt(token_obj.value.token).name;
+      roles.value = parseJwt(token_obj.value.token).roles;
+      localStorage.setItem("name", name.value);
+    } else if (res.status == 401) {
+      resStatus.value = 401
+
+    } else if (res.status == 404) {
+      resStatus.value = 404
     }
   }
 
@@ -146,9 +155,9 @@ export const useLogin = defineStore("login", () => {
       redirectURI: "http://localhost:5173/sy1/login"
     },
     cache: {
-      cacheLocation: "localStorage", // This configures where your cache will be stored
+      cacheLocation: "localStorage",
       storeAuthStateInCookie: true,
-      popUp: true // Set this to "true" if you are having issues on IE11 or Edge
+      popUp: true
     }
   };
   var requestObj = {
@@ -157,25 +166,11 @@ export const useLogin = defineStore("login", () => {
 
   var myMSALObj = new UserAgentApplication(msalConfig);
 
-  const getMsToken = () => {
-    Object.keys(localStorage).forEach(e => {
-      if (e.includes('idtoken')) {
-        localStorage.setItem("access_token", localStorage.getItem(e))
-        localStorage.setItem("isMs", true);
-        localStorage.setItem("name", parseJwt(localStorage.getItem(e)).name);
-      }
-    })
-    if ((parseJwt(localStorage.getItem("access_token"))).roles[0] == "ADMIN") { // check role from localstorage token
-      isAdmin.value = true;
-    };
-    router.push(`/`);
-  }
-
   var oauth_login = async () => {
     var authResult = await myMSALObj.loginPopup(requestObj);
     isLoggedIn.value = true;
     isMs.value = true;
-    getMsToken();
+    await loginMs();
     return authResult.account;
   };
 
