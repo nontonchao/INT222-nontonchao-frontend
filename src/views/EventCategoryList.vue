@@ -44,7 +44,7 @@ function test() {
 
 const editCategory = async () => {
   if (loginStore.roles === "ROLE_ADMIN") {
-    add(selectedCate.value.id, selected_user.value);
+    add(selectedCate.value.id, list_edit.value);
     eventCateStore.editEventCategory(selectedCate.value);
   } else {
     eventCateStore.editEventCategory(selectedCate.value);
@@ -67,15 +67,27 @@ function topFunc() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
+
+const list_edit = ref([]);
+
 function listUser() {
   selected_user.value = [];
+  list_edit.value = [];
   var tmp = [];
   selectedCate.value.owners.forEach((element) => {
     tmp.push(element.name);
+    list_edit.value.push(element.user_id);
     selected_user.value.push(element.user_id);
   });
   cateOwners.value = tmp;
 
+}
+
+function arrayEquals(a, b) {
+  return Array.isArray(a) &&
+    Array.isArray(b) &&
+    a.length === b.length &&
+    a.every((val, index) => val === b[index]);
 }
 </script>
 
@@ -236,7 +248,7 @@ selectedCateNotEditable = cate;
             <small style="color:red;">อาจารย์ที่ปรึกษาจะต้องมีอย่างน้อย 1 คน</small>
             <div class="form-check" v-for="(e, index) in users" :key="index" :value="e.id">
               <input class="form-check-input" type="checkbox" :value="e.id" :id="'flexCheckIndeterminate' + index"
-                v-model="selected_user" />
+                v-model="list_edit" />
               <label class="form-check-label" for="flexCheckIndeterminate">
                 {{ e.name }}
               </label>
@@ -245,7 +257,7 @@ selectedCateNotEditable = cate;
         </div>
         <div class="d-flex flex-row-reverse bd-highlight" v-show="toggleEdit">
           <button class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem"
-            @click="toggleEdit = !toggleEdit">
+            @click="toggleEdit = !toggleEdit; list_edit = selected_user">
             ยกเลิก
           </button>
           <button class="btn btn-primary btn-sm mx-4" type="button" :disabled="
@@ -254,7 +266,7 @@ selectedCateNotEditable = cate;
               selectedCate.eventDuration < 480 &&
               !selectedCate.eventCategoryName.length == '' &&
               !eventCateStore.isNotUnique(selectedCateNotEditable)
-              && !selected_user.length < 1)
+              && !list_edit.length < 1 && !(arrayEquals(selected_user, list_edit)))
           " style="--bs-btn-border-radius: 1rem" data-bs-toggle="modal" data-bs-target="#confirmEditCate">
             ยืนยัน
           </button>
