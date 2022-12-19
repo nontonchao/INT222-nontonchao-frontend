@@ -55,7 +55,9 @@ export const useUsers = defineStore("users", () => {
 
   const emailCheck = async (email) => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}users/check?email=${email}`, {
-      method: "GET",
+      method: "GET", headers: {
+        "Authorization": "Bearer " + localStorage.getItem("access_token")
+      }
     });
     if (res.status == 200) {
       resStatus.value = res.status;
