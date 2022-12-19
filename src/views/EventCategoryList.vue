@@ -10,6 +10,8 @@ const selected_user = ref([]);
 const loginStore = useLogin();
 const eventCateStore = useEventCategory();
 const cateList = ref([]);
+const cateOwners = ref([]);
+
 const selectedCate = ref({
   eventCategoryName: "",
   eventDuration: "",
@@ -67,10 +69,13 @@ function topFunc() {
 }
 function listUser() {
   selected_user.value = [];
+  var tmp = [];
   selectedCate.value.owners.forEach((element) => {
+    tmp.push(element.name);
     selected_user.value.push(element.user_id);
-
   });
+  cateOwners.value = tmp;
+
 }
 </script>
 
@@ -140,9 +145,7 @@ selectedCateNotEditable = cate;
               <h4 class="fw-bold">{{ selectedCate.eventCategoryName }}</h4>
               <div class="col"></div>
               <p>
-                อาจารย์ที่ปรึกษา:
-                <span v-for="lec in selectedCate.owners" :key="lec.user_id">{{ lec.name + " " }}
-                </span>
+                อาจารย์ที่ปรึกษา: {{ cateOwners.join(', ') }}
               </p>
               <div class="col"></div>
               <p>ระยะเวลา: {{ selectedCate.eventDuration }}</p>
