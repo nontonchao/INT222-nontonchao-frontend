@@ -83,12 +83,6 @@ function listUser() {
 
 }
 
-function arrayEquals(a, b) {
-  return Array.isArray(a) &&
-    Array.isArray(b) &&
-    a.length === b.length &&
-    a.every((val, index) => val === b[index]);
-}
 </script>
 
 <template>
@@ -266,7 +260,7 @@ selectedCateNotEditable = cate;
               selectedCate.eventDuration < 480 &&
               !selectedCate.eventCategoryName.length == '' &&
               !eventCateStore.isNotUnique(selectedCateNotEditable)
-              && !list_edit.length < 1 && !(arrayEquals(selected_user, list_edit)))
+              && !list_edit.length < 1)
           " style="--bs-btn-border-radius: 1rem" data-bs-toggle="modal" data-bs-target="#confirmEditCate">
             ยืนยัน
           </button>
