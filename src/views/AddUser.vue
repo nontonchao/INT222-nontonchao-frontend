@@ -2,6 +2,9 @@
 import { ref } from "vue";
 import { useUsers } from "../stores/users.js";
 import { useRouter } from "vue-router";
+import { useLogin } from "../stores/login.js";
+
+const loginStore = useLogin();
 const userStore = useUsers();
 const router = useRouter();
 const firstname = ref("");
@@ -90,123 +93,126 @@ const validatePass = () => {
           </div>
         </nav>
       </section>
+
       <section class="container py-4 py-xl-5">
-        <div class="row mb-5 p-4 p-lg-5">
-          <div>
-            <div class="col-md-8 col-xl-6 text-center mx-auto pt-3">
-              <h2 class="fw-bold">สร้าง OASIP </h2>
-              <p class="w-lg-50">
-                OASIP ID
-                คือบัญชีเดียวเท่านั้นที่คุณต้องการสำหรับการใช้บริการทุกอย่างจาก
-                OASIP<br />
+        <div v-if="loginStore.roles == 'ROLE_ADMIN'">
+          <div class="row mb-5 p-4 p-lg-5">
+            <div>
+              <div class="col-md-8 col-xl-6 text-center mx-auto pt-3">
+                <h2 class="fw-bold">สร้าง OASIP </h2>
+                <p class="w-lg-50">
+                  OASIP ID
+                  คือบัญชีเดียวเท่านั้นที่คุณต้องการสำหรับการใช้บริการทุกอย่างจาก
+                  OASIP<br />
+                </p>
+              </div>
+            </div>
+            <div class="col-md-8 col-xl-6 mx-auto pt-3">
+              <p class="text-left">
+                คุณสามารถสร้าง OASIP ID ของคุณตามขั้นตอนดังนี้<br />
+                1.ใส่ข้อมูลส่วนตัวของคุณ<br />
+                2.ทำการตรวจสอบอีเมล<br />
+                3.ตั้งรหัสผ่านเพื่อความปลอดภัยของคุณ<br />
+                4.ยินดีด้วยการสร้าง OASIP ID ของคุณสำเร็จแล้ว!
               </p>
             </div>
-          </div>
-          <div class="col-md-8 col-xl-6 mx-auto pt-3">
-            <p class="text-left">
-              คุณสามารถสร้าง OASIP ID ของคุณตามขั้นตอนดังนี้<br />
-              1.ใส่ข้อมูลส่วนตัวของคุณ<br />
-              2.ทำการตรวจสอบอีเมล<br />
-              3.ตั้งรหัสผ่านเพื่อความปลอดภัยของคุณ<br />
-              4.ยินดีด้วยการสร้าง OASIP ID ของคุณสำเร็จแล้ว!
-            </p>
-          </div>
-          <div class="position-relative py-4 py-xl-1">
-            <div class="container position-relative">
-              <div class="row d-flex justify-content-center">
-                <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-7">
-                  <div class="card mb-5 border-0">
-                    <div class="card-body p-sm-5">
-                      <p>คุณเป็นใคร ?</p>
-                      <div class="mb-4">
-                        <select v-model="role_" class="form-select form-select mt-1">
-                          <option selected>นักศึกษา</option>
-                          <option>อาจารย์</option>
-                          <option>แอดมิน</option>
-                        </select>
-                      </div>
-                      <div>
+            <div class="position-relative py-4 py-xl-1">
+              <div class="container position-relative">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-7">
+                    <div class="card mb-5 border-0">
+                      <div class="card-body p-sm-5">
+                        <p>คุณเป็นใคร ?</p>
+                        <div class="mb-4">
+                          <select v-model="role_" class="form-select form-select mt-1">
+                            <option selected>นักศึกษา</option>
+                            <option>อาจารย์</option>
+                            <option>แอดมิน</option>
+                          </select>
+                        </div>
+                        <div>
+                          <div class="row mb-3">
+                            <div class="col-md-6">
+                              <input v-model="firstname" class="form-control" required type="text" id="fname"
+                                name="name" minlength="1" maxlength="50" placeholder="ชื่อ" />
+                            </div>
+                            <div class="col-md-6">
+                              <input v-model="lastname" class="form-control" required type="text" id="lname"
+                                name="lastname" minlength="1" maxlength="50" placeholder="นามสกุล" />
+                            </div>
+                          </div>
+                        </div>
                         <div class="row mb-3">
-                          <div class="col-md-6">
-                            <input v-model="firstname" class="form-control" required type="text" id="fname" name="name"
-                              minlength="1" maxlength="50" placeholder="ชื่อ" />
+                          <div class="col-md-11">
+                            <input v-model="email_" class="form-control" required type="email" id="email-2" name="email"
+                              minlength="1" maxlength="50" placeholder="อีเมล" @change="validateEmail(email_)"
+                              @keyup="userStore.isEmailNotUnique(email_)" :disabled="
+                                userStore.resStatus == 200 &&
+                                email_ != 0 &&
+                                validateEmail(email_)
+                              " />
                           </div>
-                          <div class="col-md-6">
-                            <input v-model="lastname" class="form-control" required type="text" id="lname"
-                              name="lastname" minlength="1" maxlength="50" placeholder="นามสกุล" />
+                          <div class="col">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                              class="bi bi-check2-circle color:" viewBox="0 0 16 16" style="cursor: pointer"
+                              @click="emailCheck()" data-bs-toggle="modal" data-bs-target="#myModal400">
+                              <path
+                                d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                              <path
+                                d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+                            </svg>
                           </div>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <div class="col-md-11">
-                          <input v-model="email_" class="form-control" required type="email" id="email-2" name="email"
-                            minlength="1" maxlength="50" placeholder="อีเมล" @change="validateEmail(email_)"
-                            @keyup="userStore.isEmailNotUnique(email_)" :disabled="
-                              userStore.resStatus == 200 &&
-                              email_ != 0 &&
-                              validateEmail(email_)
-                            " />
-                        </div>
-                        <div class="col">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                            class="bi bi-check2-circle color:" viewBox="0 0 16 16" style="cursor: pointer"
-                            @click="emailCheck()" data-bs-toggle="modal" data-bs-target="#myModal400">
-                            <path
-                              d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
-                            <path
-                              d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
-                          </svg>
-                        </div>
 
-                        <p class="text-danger text-end fs-6" v-if="emailStatus == 0">
-                          *กรุณาใส่อีเมลให้ถูกต้อง
-                        </p>
-                        <p class="text-danger text-end fs-6" v-if="userStore.resStatus == 400">
-                          *อีเมลนี้ถูกใช้ไปแล้ว
-                        </p>
-                      </div>
-
-                      <hr />
-                      <div v-show="
-                        firstname != 0 &&
-                        lastname != 0 &&
-                        userStore.resStatus == 200 &&
-                        email_ != 0 &&
-                        validateEmail(email_)
-                      ">
-                        <div class="mt-5 mb-3">
-                          <input class="form-control" v-model="passwordX" type="password" id="password" name="password"
-                            minlength="8" maxlength="14" required placeholder="รหัสผ่านต้องมีความยาว 8-14 ตัวอักษร"
-                            @change="validatePass()" />
-                        </div>
-
-                        <div class="mb-5">
-                          <input class="form-control" v-model="ConfirmPassword" type="password" id="Cpassword"
-                            name="Cpassword" minlength="8" maxlength="14" required placeholder="ยืนยันรหัสผ่าน"
-                            @change="validatePass()" />
-                          <p v-show="
-                            !passwordX == 0 &&
-                            !ConfirmPassword == 0 &&
-                            !validatePass()
-                          " class="text-danger text-end fs-6">
-                            *รหัสผ่านไม่ถูกต้อง
+                          <p class="text-danger text-end fs-6" v-if="emailStatus == 0">
+                            *กรุณาใส่อีเมลให้ถูกต้อง
+                          </p>
+                          <p class="text-danger text-end fs-6" v-if="userStore.resStatus == 400">
+                            *อีเมลนี้ถูกใช้ไปแล้ว
                           </p>
                         </div>
 
-                        <div class="text-center">
-                          <button class="btn btn-danger btn-sm mx-4" type="button" data-bs-toggle="modal"
-                            data-bs-target="#myModal" style="--bs-btn-border-radius: 1rem" :disabled="
-                              !(
-                                firstname != 0 &&
-                                lastname != 0 &&
-                                email_ != 0 &&
-                                validateEmail(email_) &&
-                                validatePass() &&
-                                !userStore.isEmailNotUnique(email_)
-                              )
-                            ">
-                            สร้าง ID
-                          </button>
+                        <hr />
+                        <div v-show="
+                          firstname != 0 &&
+                          lastname != 0 &&
+                          userStore.resStatus == 200 &&
+                          email_ != 0 &&
+                          validateEmail(email_)
+                        ">
+                          <div class="mt-5 mb-3">
+                            <input class="form-control" v-model="passwordX" type="password" id="password"
+                              name="password" minlength="8" maxlength="14" required
+                              placeholder="รหัสผ่านต้องมีความยาว 8-14 ตัวอักษร" @change="validatePass()" />
+                          </div>
+
+                          <div class="mb-5">
+                            <input class="form-control" v-model="ConfirmPassword" type="password" id="Cpassword"
+                              name="Cpassword" minlength="8" maxlength="14" required placeholder="ยืนยันรหัสผ่าน"
+                              @change="validatePass()" />
+                            <p v-show="
+                              !passwordX == 0 &&
+                              !ConfirmPassword == 0 &&
+                              !validatePass()
+                            " class="text-danger text-end fs-6">
+                              *รหัสผ่านไม่ถูกต้อง
+                            </p>
+                          </div>
+
+                          <div class="text-center">
+                            <button class="btn btn-danger btn-sm mx-4" type="button" data-bs-toggle="modal"
+                              data-bs-target="#myModal" style="--bs-btn-border-radius: 1rem" :disabled="
+                                !(
+                                  firstname != 0 &&
+                                  lastname != 0 &&
+                                  email_ != 0 &&
+                                  validateEmail(email_) &&
+                                  validatePass() &&
+                                  !userStore.isEmailNotUnique(email_)
+                                )
+                              ">
+                              สร้าง ID
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -216,8 +222,14 @@ const validatePass = () => {
             </div>
           </div>
         </div>
+        <div v-else>
+          คุณไม่มีสิทธิ์เข้าถึงหน้านี้
+        </div>
       </section>
+
+
     </section>
+
   </div>
 
   <!-- modal -->
