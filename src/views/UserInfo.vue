@@ -59,8 +59,8 @@ onBeforeMount(async () => {
           </div>
         </div>
         <div class="d-flex flex-row-reverse bd-highlight">
-          <button class="btn btn-danger btn-sm" type="button" style="--bs-btn-border-radius: 1rem"
-            data-bs-toggle="modal" data-bs-target="#comfirmDelete">
+          <button @click="userStore.getAssociate(thisUser.id)" class="btn btn-danger btn-sm" type="button"
+            style="--bs-btn-border-radius: 1rem" data-bs-toggle="modal" data-bs-target="#comfirmDelete">
             ยกเลิก ID นี้
           </button>
           <button class="btn btn-primary btn-sm mx-4" type="button" style="--bs-btn-border-radius: 1rem"
@@ -84,18 +84,21 @@ onBeforeMount(async () => {
                 d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
             </svg>
           </div>
-
-          <h4 class="modal-title w-100">คุณต้องการจะยกเลิกการใช้ ID นี้ ?</h4>
+          <h4 v-if="userStore.removable === false" class="modal-title w-100">ไม่สามารถยกเลิก ID นี้ได้</h4>
+          <h4 v-else class="modal-title w-100">คุณต้องการจะยกเลิกการใช้ ID นี้ ?</h4>
         </div>
         <div class="modal-body">
-          <p>
-            หากคุณยกเลิกนัดหมายแล้วคุณจะไม่สามารถกู้คืนข้อมูลได้<br />
-            คุณต้องการที่จะยกเลิกนัดหมายใช่หรือไม่
+          <p v-if="userStore.removable === false">
+            เนื่องจากผู้ใช้นี้เป็นเจ้าของ Category: {{ userStore.associate_list.join(', ') }}
+          </p>
+          <p v-else>
+            หากคุณยกเลิก ID นี้แล้วคุณจะไม่สามารถกู้คืนข้อมูลได้<br />
+            คุณต้องการที่จะยกเลิก ID นี้ใช่หรือไม่
           </p>
         </div>
         <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-primary rounded-pill" data-bs-dismiss="modal"
-            @click="userStore.deleteUser(thisUser.id); router.go(-1)">
+          <button v-if="userStore.removable === true" type=" button" class="btn btn-primary rounded-pill"
+            data-bs-dismiss="modal" @click="userStore.deleteUser(thisUser.id); router.go(-1)">
             ยืนยัน
           </button>
           <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">

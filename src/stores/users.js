@@ -6,6 +6,9 @@ export const useUsers = defineStore("users", () => {
   const resStatus = ref(0);
   const statusMessage = ref("");
 
+  const removable = ref(true);
+  const associate_list = ref([]);
+
   const fetchLecturers = async () => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}users/lecturers`, {
       method: "GET",
@@ -118,6 +121,23 @@ export const useUsers = defineStore("users", () => {
     }
   };
 
+  const getAssociate = async (id) => {
+    removable.value = true;
+    associate_list.value = [];
+    const res = await fetch(
+      `${import.meta.env.VITE_BASE_URL}users/check/${id}`, {
+      method: 'GET',
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("access_token")
+      }
+    });
+    const result = await res.json();
+    associate_list.value = result;
+    if (associate_list.value.length > 0) {
+      removable.value = false;
+    }
+  }
+
   const editUser = async (id, toEditUser) => {
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL}users/${id}`,
@@ -161,6 +181,9 @@ export const useUsers = defineStore("users", () => {
     validateEmail,
     deleteUser,
     editUser,
+    getAssociate,
+    removable,
+    associate_list,
     resStatus,
     isEmailNotUnique,
     emailCheck,
