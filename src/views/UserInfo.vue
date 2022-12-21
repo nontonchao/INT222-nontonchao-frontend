@@ -89,11 +89,18 @@ onBeforeMount(async () => {
         </div>
         <div class="modal-body">
           <p v-if="userStore.removable === false">
-            เนื่องจากผู้ใช้นี้เป็นเจ้าของ Category: {{ userStore.associate_list.join(', ') }}
+            ผู้ใช้นี้เป็นเจ้าของคลินิก<br> {{ userStore.owning_list.join(', ') }}
+            และเนื่องจากผู้ใช้นี้เป็นเจ้าของเพียงคนเดียวในคลินิก<br> {{ userStore.associate_list.join(', ') }}<br>
+            จึงไม่สามารถลบ ID ได้
           </p>
           <p v-else>
-            หากคุณยกเลิก ID นี้แล้วคุณจะไม่สามารถกู้คืนข้อมูลได้<br />
-            คุณต้องการที่จะยกเลิก ID นี้ใช่หรือไม่
+            <br>
+          <p v-if="userStore.owning_list.length > 0">
+            ผู้ใช้นี้เป็นเจ้าของคลินิก: {{ userStore.owning_list.join(', ') }}
+          </p>
+          หากคุณยกเลิก ID นี้แล้วคุณจะไม่สามารถกู้คืนข้อมูลได้<br />
+          คุณต้องการที่จะยกเลิก ID นี้ใช่หรือไม่
+          <br>
           </p>
         </div>
         <div class="modal-footer justify-content-center">

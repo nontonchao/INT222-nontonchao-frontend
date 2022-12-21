@@ -8,6 +8,7 @@ export const useUsers = defineStore("users", () => {
 
   const removable = ref(true);
   const associate_list = ref([]);
+  const owning_list = ref([]);
 
   const fetchLecturers = async () => {
     const res = await fetch(`${import.meta.env.VITE_BASE_URL}users/lecturers`, {
@@ -124,6 +125,7 @@ export const useUsers = defineStore("users", () => {
   const getAssociate = async (id) => {
     removable.value = true;
     associate_list.value = [];
+    owning_list.value = [];
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL}users/check/${id}`, {
       method: 'GET',
@@ -132,7 +134,9 @@ export const useUsers = defineStore("users", () => {
       }
     });
     const result = await res.json();
-    associate_list.value = result;
+    associate_list.value = result.last;
+    owning_list.value = result.owning;
+    console.log(owning_list.value);
     if (associate_list.value.length > 0) {
       removable.value = false;
     }
@@ -182,6 +186,7 @@ export const useUsers = defineStore("users", () => {
     deleteUser,
     editUser,
     getAssociate,
+    owning_list,
     removable,
     associate_list,
     resStatus,
